@@ -54,10 +54,6 @@
             android:exported="false" />
 
         <activity
-            android:name="com.example.sadaguessgame.activities.ContinueGameActivity"
-            android:exported="false" />
-
-        <activity
             android:name=".activities.PrivacyPolicyActivity"
             android:exported="false" />
 

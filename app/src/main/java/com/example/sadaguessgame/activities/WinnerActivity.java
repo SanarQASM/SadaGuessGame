@@ -12,79 +12,95 @@ import com.google.android.material.button.MaterialButton;
 public class WinnerActivity extends BaseActivity {
 
     private GameState currentGame;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.winner_activity);
-        // GameState instance
+
         currentGame = ScoreStorage.getInstance(this).getCurrentGame();
-        // Views
+        if (currentGame == null) { finish(); return; }
+
+        bindViews();
+        setupButtons();
+    }
+
+    private void bindViews() {
         TextView groupWinnerName = findViewById(R.id.groupWinnerName);
         TextView groupOneName = findViewById(R.id.groupOneName);
         TextView groupTwoName = findViewById(R.id.groupTwoName);
         TextView groupOneScore = findViewById(R.id.groupOneScore);
         TextView groupTwoScore = findViewById(R.id.groupTwoScore);
 
-        MaterialButton btnHomePage = findViewById(R.id.btnHomePage);
-        MaterialButton btnPlayAgain = findViewById(R.id.btnPlayAgain);
-
-        if (currentGame == null) {
-            finish();
-            return;
-        }
-        // Set group names
         groupOneName.setText(currentGame.groupAName);
         groupTwoName.setText(currentGame.groupBName);
 
-        // Calculate total scores
-        int totalScoreA = currentGame.scoresA.stream().mapToInt(Integer::intValue).sum();
-        int totalScoreB = currentGame.scoresB.stream().mapToInt(Integer::intValue).sum();
+        // Use helper methods from GameState
+        int totalA = currentGame.getTotalScoreA();
+        int totalB = currentGame.getTotalScoreB();
 
-        groupOneScore.setText(String.valueOf(totalScoreA));
-        groupTwoScore.setText(String.valueOf(totalScoreB));
+        groupOneScore.setText(String.valueOf(totalA));
+        groupTwoScore.setText(String.valueOf(totalB));
 
-        // Determine winner
-        if (totalScoreA > totalScoreB) {
+        if (totalA > totalB) {
             groupWinnerName.setText(currentGame.groupAName);
-
             playSound(R.raw.winner_sound);
-        } else if (totalScoreB > totalScoreA) {
-            playSound(R.raw.winner_sound);
+        } else if (totalB > totalA) {
             groupWinnerName.setText(currentGame.groupBName);
+            playSound(R.raw.winner_sound);
         } else {
-            playSound(R.raw.draw_sound);
             groupWinnerName.setText(R.string.draw);
+            playSound(R.raw.draw_sound);
         }
+    }
 
-        // Button listeners
-        btnHomePage.setOnClickListener(v -> {
-            ScoreStorage.getInstance(this).saveFinishedGame(currentGame);
-            Intent intent = new Intent(WinnerActivity.this, MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+    private void setupButtons() {
+        MaterialButton btnHome = findViewById(R.id.btnHomePage);
+        MaterialButton btnPlayAgain = findViewById(R.id.btnPlayAgain);
+
+        btnHome.setOnClickListener(v -> {
+            saveAndNavigate(MainActivity.class);
             finish();
         });
 
         btnPlayAgain.setOnClickListener(v -> {
-            ScoreStorage.getInstance(this).saveFinishedGame(currentGame);
-            Intent intent = new Intent(WinnerActivity.this, CreateNewGameActivity.class);
-            startActivity(intent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            saveAndNavigate(CreateNewGameActivity.class);
             finish();
         });
     }
 
-    private void playSound(int winnerSound) {
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, winnerSound);
-        mediaPlayer.start();
-        mediaPlayer.setOnCompletionListener(MediaPlayer::release);
+    private void saveAndNavigate(Class<?> dest) {
+        ScoreStorage.getInstance(this).saveFinishedGame(currentGame);
+        Intent intent = new Intent(this, dest);
+        if (dest == MainActivity.class) {
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
+
+    private void playSound(int resId) {
+        stopSound();
+        mediaPlayer = MediaPlayer.create(this, resId);
+        if (mediaPlayer != null) {
+            mediaPlayer.start();
+            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
+        }
+    }
+
+    private void stopSound() {
+        if (mediaPlayer != null) {
+            if (mediaPlayer.isPlaying()) mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Final save on destroy
+        stopSound();
         if (currentGame != null) {
             ScoreStorage.getInstance(this).saveFinishedGame(currentGame);
         }

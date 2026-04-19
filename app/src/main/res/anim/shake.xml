@@ -1,6 +1,9 @@
-<translate xmlns:android="http://schemas.android.com/apk/res/android"
-    android:duration="150"
-    android:fromXDelta="-5"
-    android:toXDelta="5"
-    android:repeatCount="3"
-    android:repeatMode="reverse"/>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <translate
+        android:duration="80"
+        android:fromXDelta="-8dp"
+        android:toXDelta="8dp"
+        android:repeatCount="5"
+        android:repeatMode="reverse"
+        android:interpolator="@android:anim/cycle_interpolator"/>
+</set>

@@ -119,7 +119,7 @@ public class RecentlyFragment extends BaseFragment {
     private void showDeleteAllConfirmation() {
         List<GameState> games = scoreStorage.getAllGames();
         if (games == null || games.isEmpty()) {
-            Toast.makeText(requireContext(), "No games to delete", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), R.string.no_games_to_delete, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -137,7 +137,7 @@ public class RecentlyFragment extends BaseFragment {
             Toast.makeText(requireContext(), R.string.game_deleted, Toast.LENGTH_SHORT).show();
             loadAllGames(); // Refresh the list
         } else {
-            Toast.makeText(requireContext(), "Failed to delete game", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), R.string.failed_to_delete_game, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -147,7 +147,7 @@ public class RecentlyFragment extends BaseFragment {
             Toast.makeText(requireContext(), R.string.all_game_deleted, Toast.LENGTH_SHORT).show();
             loadAllGames(); // Refresh the list
         } else {
-            Toast.makeText(requireContext(), "Failed to delete games", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), R.string.failed_to_delete_all, Toast.LENGTH_SHORT).show();
         }
     }
 

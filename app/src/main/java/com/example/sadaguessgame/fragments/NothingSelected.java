@@ -1,4 +1,4 @@
-package com.example.sadaguessgame.activities;
+package com.example.sadaguessgame.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.sadaguessgame.R;
+import com.example.sadaguessgame.activities.CreateNewGameActivity;
 import com.google.android.material.button.MaterialButton;
 
 public class NothingSelected extends Fragment {

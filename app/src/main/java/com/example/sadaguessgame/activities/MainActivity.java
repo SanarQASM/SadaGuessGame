@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 
 import com.example.sadaguessgame.fragments.HomeFragment;
+import com.example.sadaguessgame.fragments.NothingSelected;
 import com.example.sadaguessgame.fragments.RecentlyFragment;
 import com.example.sadaguessgame.fragments.SettingFragment;
 import com.example.sadaguessgame.R;

@@ -7,109 +7,115 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-
+import android.widget.TextView;
+import androidx.annotation.NonNull;
 import com.example.sadaguessgame.R;
 import com.example.sadaguessgame.activities.GameScoreActivity;
 import com.example.sadaguessgame.data.GameState;
 import com.example.sadaguessgame.data.ScoreStorage;
 import com.google.android.material.button.MaterialButton;
-
-import java.util.List;
 import java.util.Objects;
 
 public class TimeUpDialog {
 
     private final Dialog dialog;
     private final Context context;
-    private GameState currentGame;
 
-    public TimeUpDialog(Context context) {
+    public TimeUpDialog(@NonNull Context context) {
         this.context = context;
-        this.currentGame = ScoreStorage.getInstance(context).getCurrentGame();
 
-        // Initialize dialog
         dialog = new Dialog(context);
         dialog.setContentView(R.layout.time_up_dialog);
-        dialog.setCancelable(false); // user cannot dismiss with back button
-        dialog.setCanceledOnTouchOutside(false); // we handle outside touches ourselves
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
 
-        // Make the window background transparent
         if (dialog.getWindow() != null) {
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
 
+        updateGroupText();
         setupButtons();
         setupOutsideShake();
+    }
+
+    /** Fix: dynamically set the correct group question text */
+    private void updateGroupText() {
+        GameState game = ScoreStorage.getInstance(context).getCurrentGame();
+        if (game == null) return;
+
+        TextView dialogText = dialog.findViewById(R.id.dialogText);
+        if (dialogText != null) {
+            dialogText.setText(
+                    game.groupTurn == GameState.GROUP_A
+                            ? R.string.group_turn_found_A
+                            : R.string.group_turn_found_B
+            );
+        }
     }
 
     private void setupButtons() {
         MaterialButton btnYes = dialog.findViewById(R.id.btn_yes);
         MaterialButton btnNo = dialog.findViewById(R.id.btn_no);
 
-        // Yes → open score dialog
         btnYes.setOnClickListener(v -> {
             dismiss();
-            ScoreDialog scoreDialog = new ScoreDialog(context);
-            scoreDialog.show();
+            new ScoreDialog(context)
+                    .setOnScoreSavedListener(() -> {
+                        context.startActivity(new Intent(context, GameScoreActivity.class));
+                    })
+                    .show();
         });
 
-        // No → open score activity
         btnNo.setOnClickListener(v -> {
-            if (currentGame.groupTurn == 0) {
-                List<Integer> scoresA = currentGame.scoresA; // get existing scores
-                scoresA.add(0); // add new score
-                currentGame.scoresA = scoresA; // save updated list
-            } else {
-                List<Integer> scoresB = currentGame.scoresB; // get existing scores
-                scoresB.add(0); // add new score
-                currentGame.scoresB = scoresB; // save updated list
-            }
-            ScoreStorage.getInstance(context).saveCurrentGame(currentGame);
-            Intent intent = new Intent(context, GameScoreActivity.class);
-            context.startActivity(intent);
+            addZeroScore();
+            navigateToScoreActivity();
             dismiss();
         });
+    }
+
+    private void addZeroScore() {
+        GameState game = ScoreStorage.getInstance(context).getCurrentGame();
+        if (game == null) return;
+
+        if (game.groupTurn == GameState.GROUP_A) {
+            game.scoresA.add(0);
+        } else {
+            game.scoresB.add(0);
+        }
+        ScoreStorage.getInstance(context).saveCurrentGame(game);
+    }
+
+    private void navigateToScoreActivity() {
+        context.startActivity(new Intent(context, GameScoreActivity.class));
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private void setupOutsideShake() {
         dialog.setOnShowListener(d -> {
-            // Get the decor view (entire window) and root content layout
             View decorView = Objects.requireNonNull(dialog.getWindow()).getDecorView();
-            View content = dialog.findViewById(R.id.dialog_root); // make sure your ConstraintLayout root has this ID
+            View content = dialog.findViewById(R.id.dialog_root);
+            if (content == null) return;
 
             decorView.setOnTouchListener((v, event) -> {
-                // Detect touch outside the dialog content
                 int[] location = new int[2];
                 content.getLocationOnScreen(location);
 
                 float x = event.getRawX();
                 float y = event.getRawY();
 
-                if (x < location[0] || x > location[0] + content.getWidth() ||
-                        y < location[1] || y > location[1] + content.getHeight()) {
+                boolean outsideX = x < location[0] || x > location[0] + content.getWidth();
+                boolean outsideY = y < location[1] || y > location[1] + content.getHeight();
 
-                    // Shake animation
-                    Animation shake = AnimationUtils.loadAnimation(context, R.anim.shake);
-                    content.startAnimation(shake);
-
-                    return true; // consume outside touch
+                if (outsideX || outsideY) {
+                    content.startAnimation(AnimationUtils.loadAnimation(context, R.anim.shake));
+                    return true;
                 }
-
-                return false; // let clicks inside content work normally
+                return false;
             });
         });
     }
 
-    // Show the dialog
-    public void show() {
-        dialog.show();
-    }
-
-    // Dismiss the dialog
-    public void dismiss() {
-        dialog.dismiss();
-    }
+    public void show() { dialog.show(); }
+    public void dismiss() { dialog.dismiss(); }
 }

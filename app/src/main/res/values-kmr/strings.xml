@@ -165,4 +165,10 @@ SadaGuess چ پێزانینێن کەسی یێن بکارهێنەری کوم نا
         <item>چەوانیا یاریێ: فێری یاسایێن یاریێ ببە.\n مودێ تاری: گوهورین د ناڤبەرا تێما رووناک و تاری.\n زمان: زمانێ ئەپی بگوهرە (ئینگلیزی، سۆرانی، بادینی).\n پاراستنا پێزانینان: ببینە کا پێزانینێن تە دێ چەوا هێنە پاراستن.</item>
     </string-array>
 
+
+    <string name="no_games_to_delete">هیچ یارییەک نییە بۆ سڕینەوە</string>
+    <string name="failed_to_delete_game">سڕینەوەی یارییەکە سەرکەوتوو نەبوو</string>
+    <string name="failed_to_delete_all">سڕینەوەی یارییەکان سەرکەوتوو نەبوو</string>
+    <string name="content_desc_delete_game">ڤێ یاریێ ژێببە</string>
+
 </resources>

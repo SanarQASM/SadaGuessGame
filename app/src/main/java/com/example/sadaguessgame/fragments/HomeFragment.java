@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 
-import com.example.sadaguessgame.activities.ContinueGameActivity;
+import com.example.sadaguessgame.activities.CardsActivity;
 import com.example.sadaguessgame.activities.CreateNewGameActivity;
 import com.example.sadaguessgame.activities.DiceActivity;
 import com.example.sadaguessgame.R;
@@ -93,8 +93,9 @@ public class HomeFragment extends BaseFragment {
 
         continueGameContainer.setOnClickListener(v -> {
             if (hasPreviousGame) {
-                Intent intent = new Intent(requireContext(), ContinueGameActivity.class);
-                startActivity(intent);
+                // Navigate directly — no need for ContinueGameActivity
+                startActivity(new Intent(requireContext(), CardsActivity.class));
+                requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 

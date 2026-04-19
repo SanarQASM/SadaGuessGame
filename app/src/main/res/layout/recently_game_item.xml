@@ -120,7 +120,9 @@
         android:layout_height="@dimen/back_button_size"
         android:layout_gravity="end|center_vertical"
         android:layout_margin="@dimen/primary_size_layout"
-        android:contentDescription="@string/home_page"
+        android:contentDescription="@string/content_desc_delete_game"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="8dp"
         android:src="@drawable/delete" />
 
 </LinearLayout>

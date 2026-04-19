@@ -168,4 +168,10 @@ If you have any questions about this policy, please contact the developer.
         <item>How to Play: Learn the game rules and how to play.\n Dark Mode: Switch between light and dark themes.\n Language: Change the app language (English, Sorani, Badini).\n Privacy Policy: View how your data is handled.</item>
     </string-array>
 
+
+    <string name="no_games_to_delete">No games to delete</string>
+    <string name="failed_to_delete_game">Failed to delete game</string>
+    <string name="failed_to_delete_all">Failed to delete games</string>
+    <string name="content_desc_delete_game">Delete this game</string>
+
 </resources>

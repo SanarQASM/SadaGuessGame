@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -146,21 +145,8 @@ public class SettingFragment extends BaseFragment {
 
         prefs.edit().putString("language", langCode).apply();
 
-        Locale locale = new Locale(langCode);
-        Locale.setDefault(locale);
-
-        Configuration config = new Configuration();
-        config.setLocale(locale);
-
-        requireContext().getResources().updateConfiguration(
-                config,
-                requireContext().getResources().getDisplayMetrics()
-        );
-
-        // Restart activity to apply language everywhere
-        Intent intent = requireActivity().getIntent();
-        requireActivity().finish();
-        startActivity(intent);
+        // Restart the entire activity to apply locale change correctly
+        requireActivity().recreate();
     }
 
     // --------------------------------------------------
