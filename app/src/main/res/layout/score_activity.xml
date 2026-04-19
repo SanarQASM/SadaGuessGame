@@ -30,7 +30,7 @@
         android:contentDescription="scroll"
         android:fillViewport="true"
         android:layout_marginTop="60dp"
-        android:layout_marginBottom="@dimen/very_vig_size_layout"
+        android:layout_marginBottom="@dimen/very_big_size_layout"
         app:layout_constraintTop_toBottomOf="@id/gameTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,14 +41,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/seconary_size_layout"
+            android:padding="@dimen/secondary_size_layout"
             android:stretchColumns="*">
 
             <!-- Header Row -->
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/seconary_size_layout">
+                android:padding="@dimen/secondary_size_layout">
 
                 <!-- Round Header -->
                 <TextView
@@ -127,7 +127,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnEndGame"
         style="@style/PrimaryButtonStyle"
-        android:layout_marginStart="@dimen/seconary_size_layout"
+        android:layout_marginStart="@dimen/secondary_size_layout"
         android:text="@string/txt_end_game"
         app:layout_constraintTop_toBottomOf="@id/startTimer"
         app:layout_constraintStart_toStartOf="parent" />

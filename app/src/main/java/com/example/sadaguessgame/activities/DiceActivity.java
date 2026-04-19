@@ -201,25 +201,20 @@ public class DiceActivity extends BaseActivity {
 
 
 
+    private int rollSingleDie() {
+        return new Random().nextInt(6) + 1;
+    }
+
     private int rollWithProbability() {
-        Random random = new Random();
-
-        // Roll normally: 1-6
-        int diceNumber = random.nextInt(6) + 1;
-
-        // Check if we should "double" it based on selectedProbability
-        int chance = random.nextInt(100); // 0-99
-        if (chance < selectedProbability && selectedDiceCount == 2) {
-            // Double the number
-            diceNumber *= 2;
-
-            // But max value cannot exceed 6 (or 12 if you want to show double)
-            if (diceNumber > 6) {
-                diceNumber = new Random().nextInt(6) + 1;
+        int result = rollSingleDie();
+        if (selectedDiceCount == 2 && selectedProbability > 0) {
+            int chance = new Random().nextInt(100);
+            if (chance < selectedProbability) {
+                // Force a matching pair — both dice show the same value
+                return result; // caller stores this for BOTH dice
             }
         }
-
-        return diceNumber;
+        return result;
     }
 
 

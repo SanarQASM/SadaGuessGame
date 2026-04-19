@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_marginStart="@dimen/seconary_size_layout"
+                android:layout_marginStart="@dimen/secondary_size_layout"
                 android:gravity="start|center">
 
                 <TextView
@@ -70,7 +70,7 @@
             android:text="@string/no_recently_game"
             android:textColor="@color/primary_text"
             android:textSize="@dimen/primary_size"
-            android:layout_marginTop="@dimen/seconary_size_layout"
+            android:layout_marginTop="@dimen/secondary_size_layout"
             app:layout_constraintTop_toBottomOf="@id/logo_name_container"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -103,7 +103,7 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="@dimen/card_width"
-                android:layout_height="@dimen/card_higth"
+                android:layout_height="@dimen/card_height"
                 android:layout_margin="10dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/no_recently_game"

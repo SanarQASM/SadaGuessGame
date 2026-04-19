@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginStart="@dimen/seconary_size_layout"
+            android:layout_marginStart="@dimen/secondary_size_layout"
             android:gravity="start|center">
 
             <TextView
@@ -67,7 +67,7 @@
         android:text="@string/txt_all_recently_game"
         android:textColor="@color/primary_text"
         android:textSize="@dimen/primary_size"
-        android:layout_marginTop="@dimen/seconary_size_layout"
+        android:layout_marginTop="@dimen/secondary_size_layout"
         app:layout_constraintTop_toBottomOf="@id/logo_name_container"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -114,7 +114,7 @@
         android:id="@+id/delete_all"
         style="@style/PrimaryButtonStyle"
         android:text="@string/txt_delete_all"
-        android:layout_marginBottom="@dimen/very_vig_size_layout"
+        android:layout_marginBottom="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

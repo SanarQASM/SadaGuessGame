@@ -173,5 +173,8 @@ If you have any questions about this policy, please contact the developer.
     <string name="failed_to_delete_game">Failed to delete game</string>
     <string name="failed_to_delete_all">Failed to delete games</string>
     <string name="content_desc_delete_game">Delete this game</string>
+    <string name="app_version_prefix">Version</string>
+    <string name="no_score_yet">0</string>
+    <string name="score_added_format">+%1$d</string>
 
 </resources>

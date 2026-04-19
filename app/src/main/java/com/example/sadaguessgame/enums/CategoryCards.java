@@ -3,6 +3,8 @@ package com.example.sadaguessgame.enums;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import com.example.sadaguessgame.R;
+
 public enum CategoryCards {
     ANIMAL("animal"),
     PEOPLE("people"),
@@ -61,5 +63,19 @@ public enum CategoryCards {
             }
         }
         return null;
+    }
+    public int getBackImageRes() {
+        switch (this) {
+            case ANIMAL:     return R.drawable.animal;
+            case BEHAVIOR:   return R.drawable.behavior;
+            case CHALLENGE:  return R.drawable.challenge;
+            case EQUIPMENT:  return R.drawable.equipment;
+            case FOOD:       return R.drawable.food;
+            case GENERAL:    return R.drawable.general;
+            case OCCUPATION: return R.drawable.occupation;
+            case PEOPLE:     return R.drawable.people;
+            case PLACE:      return R.drawable.place;
+            default:         return 0;
+        }
     }
 }

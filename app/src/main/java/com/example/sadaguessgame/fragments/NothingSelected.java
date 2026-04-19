@@ -14,7 +14,7 @@ import com.example.sadaguessgame.R;
 import com.example.sadaguessgame.activities.CreateNewGameActivity;
 import com.google.android.material.button.MaterialButton;
 
-public class NothingSelected extends Fragment {
+public class NothingSelected extends BaseFragment {
 
     public NothingSelected() {}
 

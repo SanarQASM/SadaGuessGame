@@ -10,9 +10,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.example.sadaguessgame.R;
 import com.example.sadaguessgame.dialog.TimeUpDialog;
+import com.example.sadaguessgame.enums.CategoryCards;
 import com.example.sadaguessgame.helper.FileSelectingRandom;
 import com.example.sadaguessgame.data.GameState;
-import com.example.sadaguessgame.helper.GetCardBackImage;
 import com.example.sadaguessgame.data.ScoreStorage;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -29,6 +29,8 @@ public class CardsActivity extends BaseActivity {
     private TextView groupTurn, timeDisplay;
     private ProgressBar circularProgressBar;
     private MaterialButton startTimer, stopTimer, restartTimer, endTimer;
+
+    private boolean timerStopped = false;
 
     private int cardImageState = 0;
 
@@ -114,7 +116,8 @@ public class CardsActivity extends BaseActivity {
         }
 
         String category = pathParts[0];
-        int backImageRes = GetCardBackImage.getImage(category);
+        CategoryCards categoryEnum = CategoryCards.fromEnglishName(category);
+        int backImageRes = (categoryEnum != null) ? categoryEnum.getBackImageRes() : 0;
 
         if (backImageRes != 0) {
             cardImage.setImageResource(backImageRes);
@@ -224,8 +227,10 @@ public class CardsActivity extends BaseActivity {
 
     private void stopWarningSound() {
         if (warningPlayer != null) {
-            if (warningPlayer.isPlaying()) warningPlayer.stop();
-            warningPlayer.release();
+            try {
+                if (warningPlayer.isPlaying()) warningPlayer.stop();
+                warningPlayer.release();
+            } catch (IllegalStateException ignored) { }
             warningPlayer = null;
         }
     }
@@ -253,5 +258,12 @@ public class CardsActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         stopTimer();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // Stop timer if activity goes to background to prevent ghost timers
+        if (isRunning) stopTimer();
     }
 }

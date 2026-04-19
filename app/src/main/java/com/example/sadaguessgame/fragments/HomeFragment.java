@@ -3,6 +3,7 @@ package com.example.sadaguessgame.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +61,8 @@ public class HomeFragment extends BaseFragment {
 
         textSwitcher.setFactory(() -> {
             TextView textView = new TextView(requireContext());
-            textView.setTextSize(26);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                    getResources().getDimension(R.dimen.secondary_size));
             textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary_button_color));
             textView.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.secondary_font));
             textView.setGravity(Gravity.START);
@@ -122,14 +124,14 @@ public class HomeFragment extends BaseFragment {
         return view;
     }
 
-    // Optional: dynamically update continue button state
     @Override
     public void onResume() {
         super.onResume();
+        // FIXED: always read fresh — never use onCreate-cached value
+        unfinishedGame = ScoreStorage.getInstance(requireContext()).getLastUnfinishedGame();
         hasPreviousGame = unfinishedGame != null;
         enablePreviousGameButton(hasPreviousGame);
     }
-
     private void enablePreviousGameButton(boolean hasPreviousGame) {
         if (hasPreviousGame) {
             continueGameContainer.setEnabled(true);

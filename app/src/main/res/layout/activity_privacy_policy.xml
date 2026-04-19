@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/third_size_layout"
-        android:paddingBottom="@dimen/seconary_size_layout"
+        android:paddingBottom="@dimen/secondary_size_layout"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -57,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="2dp"
             android:background="?android:attr/listDivider"
-            android:layout_marginTop="@dimen/seconary_size_layout"
+            android:layout_marginTop="@dimen/secondary_size_layout"
             android:layout_marginStart="@dimen/third_size_layout"
             android:layout_marginEnd="@dimen/third_size_layout"
             app:layout_constraintTop_toBottomOf="@id/privacyTitle"
@@ -87,7 +87,7 @@
             android:textDirection="locale"
             android:layoutDirection="locale"
             android:padding="@dimen/third_size_layout"
-            android:paddingBottom="@dimen/seconary_size_layout">
+            android:paddingBottom="@dimen/secondary_size_layout">
 
             <!-- Introduction -->
             <TextView

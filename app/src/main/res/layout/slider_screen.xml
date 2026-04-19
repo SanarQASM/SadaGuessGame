@@ -47,11 +47,10 @@
             android:id="@+id/sliderDesc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/seconary_size_layout"
+            android:layout_margin="@dimen/secondary_size_layout"
             android:fontFamily="@font/normal_text"
             android:lineSpacingExtra="3dp"
             android:padding="15dp"
-            android:text="Create New | Continue Last Game:\nStart a new game or resume the previous.\nLearn Button:\nGuides users to learn how to use the app.\nTools Section:\nContains three tools to enhance gameplay or interact with other games."
             android:textAlignment="center"
             android:textColor="@color/primary_button_color"
             android:textSize="@dimen/sub_font_size"
@@ -59,6 +58,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/sliderTitle" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+
 import com.example.sadaguessgame.R;
 import com.google.android.material.button.MaterialButton;
 
@@ -45,6 +47,9 @@ public class ScoreBoardActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.score_game_activity);
+
+        colorGroupA = ContextCompat.getColor(this, R.color.primary_color);
+        colorGroupB = ContextCompat.getColor(this, R.color.secondary_color);
 
         frameGroupOne = findViewById(R.id.frameGroupOne);
         frameGroupTwo = findViewById(R.id.frameGroupTwo);

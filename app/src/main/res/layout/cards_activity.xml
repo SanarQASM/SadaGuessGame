@@ -56,7 +56,7 @@
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/cardImage"
                 android:layout_width="@dimen/card_width"
-                android:layout_height="@dimen/card_higth"
+                android:layout_height="@dimen/card_height"
                 android:layout_margin="10dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/cards"
@@ -171,7 +171,7 @@
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@id/groupTrun"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/seconary_size_layout">
+            android:layout_marginTop="@dimen/secondary_size_layout">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/startTimer"

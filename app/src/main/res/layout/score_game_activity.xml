@@ -66,7 +66,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/seconary_size_layout"
+                    android:layout_marginStart="@dimen/secondary_size_layout"
                     android:gravity="start|center"
                     android:orientation="vertical">
 
@@ -142,7 +142,7 @@
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/groupBColor"
                             style="@style/PrimaryButtonStyle"
-                            android:layout_marginStart="@dimen/seconary_size_layout"
+                            android:layout_marginStart="@dimen/secondary_size_layout"
                             android:text="@string/group_b_color"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/startTimer" />
@@ -260,7 +260,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:padding="16dp"
-                        android:layout_marginTop="@dimen/seconary_size_layout"
+                        android:layout_marginTop="@dimen/secondary_size_layout"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/history">
@@ -278,7 +278,7 @@
                         android:id="@+id/buttonsController"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/seconary_size_layout"
+                        android:layout_marginTop="@dimen/secondary_size_layout"
                         android:layout_marginBottom="@dimen/third_size_layout"
                         android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -294,7 +294,7 @@
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/undoButton"
                             style="@style/PrimaryButtonStyle"
-                            android:layout_marginStart="@dimen/seconary_size_layout"
+                            android:layout_marginStart="@dimen/secondary_size_layout"
                             android:text="@string/undo"/>
 
                     </LinearLayout>

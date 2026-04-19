@@ -101,8 +101,6 @@ public class WinnerActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         stopSound();
-        if (currentGame != null) {
-            ScoreStorage.getInstance(this).saveFinishedGame(currentGame);
-        }
+        // saveFinishedGame is called in saveAndNavigate() — do NOT repeat here
     }
 }

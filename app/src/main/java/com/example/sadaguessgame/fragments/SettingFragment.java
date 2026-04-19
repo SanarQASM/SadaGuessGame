@@ -154,7 +154,8 @@ public class SettingFragment extends BaseFragment {
     // --------------------------------------------------
     @SuppressLint("SetTextI18n")
     private void setupAppVersion() {
-        appVersion.setText("Version " + BuildConfig.VERSION_NAME);
+        String version = getString(R.string.app_version_prefix) + " " + BuildConfig.VERSION_NAME;
+        appVersion.setText(version);
     }
 
     // --------------------------------------------------

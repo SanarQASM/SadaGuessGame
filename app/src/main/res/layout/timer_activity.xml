@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginStart="@dimen/seconary_size_layout"
+            android:layout_marginStart="@dimen/secondary_size_layout"
             android:gravity="start|center">
 
             <TextView
@@ -90,7 +90,7 @@
                 android:layout_width="@dimen/image_get_started_size"
                 android:layout_height="@dimen/image_get_started_size"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/seconary_size_layout"
+                android:layout_marginTop="@dimen/secondary_size_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -125,8 +125,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/seconary_size_layout"
-                android:layout_marginEnd="@dimen/seconary_size_layout"
+                android:layout_marginStart="@dimen/secondary_size_layout"
+                android:layout_marginEnd="@dimen/secondary_size_layout"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:layoutDirection="ltr"
@@ -141,7 +141,7 @@
                     <NumberPicker
                         android:id="@+id/minutePicker2"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/primary_button_size_lenght"
+                        android:layout_height="@dimen/primary_button_size_length"
                         android:layoutDirection="ltr"
                         android:textDirection="ltr" />
 
@@ -161,7 +161,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingHorizontal="@dimen/seconary_size_layout"
+                    android:paddingHorizontal="@dimen/secondary_size_layout"
                     android:text=":"
                     android:textColor="@color/primary_button_color"
                     android:textSize="@dimen/buttons_size"
@@ -178,7 +178,7 @@
                     <NumberPicker
                         android:id="@+id/secondPicker2"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/primary_button_size_lenght"
+                        android:layout_height="@dimen/primary_button_size_length"
                         android:layoutDirection="ltr"
                         android:textDirection="ltr" />
 
@@ -258,8 +258,8 @@
                 android:id="@+id/colorButtonsContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/seconary_size_layout"
-                android:layout_marginBottom="@dimen/seconary_size_layout"
+                android:layout_margin="@dimen/secondary_size_layout"
+                android:layout_marginBottom="@dimen/secondary_size_layout"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/timerContainer"
