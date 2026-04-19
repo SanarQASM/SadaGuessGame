@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_linear_app_background_primary">
+
+    <!-- Card Container -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/winnerCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="16dp"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_linear_app_background_secondary">
+
+            <!-- FIXED HEADER - Won't scroll -->
+            <LinearLayout
+                android:id="@+id/logo_name_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:gravity="start|center"
+                android:orientation="horizontal"
+                android:paddingStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/back_home_activity_button"
+                    android:layout_width="@dimen/back_button_size"
+                    android:layout_height="@dimen/back_button_size"
+                    android:contentDescription="@string/home_page"
+                    android:src="@drawable/ic_back" />
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="12dp"
+                    android:background="?android:attr/listDivider" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="@dimen/image_size"
+                    android:layout_height="@dimen/image_size"
+                    android:layout_margin="10dp"
+                    android:elevation="20dp"
+                    android:outlineAmbientShadowColor="@color/black"
+                    android:outlineSpotShadowColor="@color/black"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/sada_guess_main_image"
+                    app:shapeAppearanceOverlay="@style/CircleImage" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/seconary_size_layout"
+                    android:gravity="start|center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/primary_font"
+                        android:text="@string/application_name"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/primary_size" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/third_size_layout"
+                        android:layout_marginTop="@dimen/primary_size_layout"
+                        android:fontFamily="@font/buttons_font"
+                        android:text="@string/score_title"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/sub_font_size" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- SCROLLABLE CONTENT SECTION -->
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:fillViewport="true"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/logo_name_container"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <!-- 🔹 Game Settings Title -->
+                    <TextView
+                        android:id="@+id/select_color"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:fontFamily="@font/secondary_font"
+                        android:text="@string/txt_select_color_group"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/buttons_size"
+                        android:textStyle="bold"
+                        android:gravity="start"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/colorButtonsContainer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/third_size_layout"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/select_color">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/groupAColor"
+                            style="@style/PrimaryButtonStyle"
+                            android:text="@string/group_a_color"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/groupBColor"
+                            style="@style/PrimaryButtonStyle"
+                            android:layout_marginStart="@dimen/seconary_size_layout"
+                            android:text="@string/group_b_color"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/startTimer" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/scoreBoardContiner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/third_size_layout"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/colorButtonsContainer">
+
+                        <!-- Group 1 -->
+                        <FrameLayout
+                            android:id="@+id/frameGroupOne"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/game_icon_width"
+                            android:layout_marginBottom="@dimen/third_size_layout"
+                            android:background="@drawable/button_background"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="16dp">
+
+                                <TextView
+                                    android:id="@+id/tvGroupOneName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/buttons_font"
+                                    android:text="@string/group_a_color"
+                                    android:textColor="@color/primary_color"
+                                    android:textSize="@dimen/secondary_size"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvGroupOneScore"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/buttons_font"
+                                    android:text="0"
+                                    android:textColor="@color/primary_color"
+                                    android:textSize="@dimen/secondary_size"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </FrameLayout>
+
+                        <!-- Group 2 -->
+                        <FrameLayout
+                            android:id="@+id/frameGroupTwo"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/game_icon_width"
+                            android:background="@drawable/button_background"
+                            android:clickable="true"
+                            android:focusable="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:padding="16dp">
+
+                                <TextView
+                                    android:id="@+id/tvGroupTwoName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/buttons_font"
+                                    android:text="@string/group_a_color"
+                                    android:textColor="@color/primary_color"
+                                    android:textSize="@dimen/secondary_size"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvGroupTwoScore"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/buttons_font"
+                                    android:text="0"
+                                    android:textColor="@color/primary_color"
+                                    android:textSize="@dimen/secondary_size"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <!-- 🔹 History Title -->
+                    <TextView
+                        android:id="@+id/history"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="16dp"
+                        android:fontFamily="@font/secondary_font"
+                        android:text="@string/history"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/buttons_size"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/scoreBoardContiner" />
+
+                    <LinearLayout
+                        android:id="@+id/historyContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="16dp"
+                        android:layout_marginTop="@dimen/seconary_size_layout"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/history">
+
+                        <!-- History Container -->
+                        <LinearLayout
+                            android:id="@+id/historyContainerLinear"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/buttonsController"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/seconary_size_layout"
+                        android:layout_marginBottom="@dimen/third_size_layout"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/historyContainer">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/restartScore"
+                            style="@style/PrimaryButtonStyle"
+                            android:text="@string/txt_restart"/>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/undoButton"
+                            style="@style/PrimaryButtonStyle"
+                            android:layout_marginStart="@dimen/seconary_size_layout"
+                            android:text="@string/undo"/>
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>

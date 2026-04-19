@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_linear_app_background_primary">
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/logo"
+        android:layout_width="@dimen/image_get_started_size"
+        android:layout_height="@dimen/image_get_started_size"
+        android:layout_centerInParent="true"
+        android:elevation="20dp"
+        android:outlineAmbientShadowColor="@color/black"
+        android:outlineSpotShadowColor="@color/black"
+        android:scaleType="centerCrop"
+        android:src="@drawable/sada_guess_main_image"
+        app:shapeAppearanceOverlay="@style/CircleImage"
+        tools:targetApi="28" />
+
+    <TextView
+        android:id="@+id/app_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:fontFamily="@font/primary_font"
+        android:text="@string/application_name"
+        android:textColor="@color/primary_button_color"
+        android:textSize="@dimen/primary_size"
+        android:textStyle="normal" />
+
+
+
+</RelativeLayout>

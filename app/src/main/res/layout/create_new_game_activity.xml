@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:descendantFocusability="afterDescendants"
+    tools:context=".activities.CreateNewGameActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_linear_app_background_secondary"
+        android:paddingBottom="14dp">
+
+        <!-- 🔹 Header Container -->
+        <LinearLayout
+            android:id="@+id/logo_name_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/seconary_size_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/back_home_activity_button"
+                android:layout_width="@dimen/back_button_size"
+                android:layout_height="@dimen/back_button_size"
+                android:contentDescription="@string/home_page"
+                android:src="@drawable/ic_back" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="12dp"
+                android:background="?android:attr/listDivider" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="@dimen/image_size"
+                android:layout_height="@dimen/image_size"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sada_guess_main_image"
+                app:shapeAppearanceOverlay="@style/CircleImage" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="@font/primary_font"
+                android:text="@string/application_name"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/primary_size" />
+        </LinearLayout>
+
+        <!-- 🔹 Game Settings Title -->
+        <TextView
+            android:id="@+id/game_setting"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/seconary_size_layout"
+            android:fontFamily="@font/secondary_font"
+            android:text="@string/txt_game_setting"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/secondary_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/logo_name_container" />
+
+        <!-- Divider -->
+        <View
+            android:id="@+id/div_under_game_setting"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="24dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/game_setting" />
+
+        <!-- Select Category -->
+        <TextView
+            android:id="@+id/select_category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/seconary_size_layout"
+            android:fontFamily="@font/secondary_font"
+            android:text="@string/txt_select_category"
+            android:textColor="@color/primary_button_color"
+            android:textSize="@dimen/sub_font_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/div_under_game_setting" />
+
+        <!-- RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerCategory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:layout_marginHorizontal="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/select_category" />
+
+        <!-- Select Round -->
+        <LinearLayout
+            android:id="@+id/select_round"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:layoutDirection="locale"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/recyclerCategory">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/secondary_font"
+                android:text="@string/txt_select_round"
+                android:textColor="@color/primary_button_color"
+                android:gravity="start"
+                android:textSize="@dimen/sub_font_size"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/item_spinner"
+                android:layout_width="@dimen/primary_button_size_lenght"
+                android:layout_height="@dimen/primary_button_size_height"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/spinner_bg_with_arrow"
+                android:spinnerMode="dropdown"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/select_time_alternative_with_labels"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/third_size_layout"
+            android:gravity="center"
+            android:layoutDirection="locale"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/select_round">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/secondary_font"
+                android:text="@string/txt_select_time"
+                android:textColor="@color/primary_button_color"
+                android:gravity="start"
+                android:textSize="@dimen/sub_font_size"
+                android:textStyle="bold" />
+
+            <!-- Time Picker with Labels -->
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/seconary_size_layout"
+                android:layout_marginEnd="@dimen/seconary_size_layout"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layoutDirection="ltr"
+                android:textDirection="ltr">
+
+                <!-- Minute Section -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <NumberPicker
+                        android:id="@+id/minutePicker2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/primary_button_size_lenght"
+                        android:layoutDirection="ltr"
+                        android:textDirection="ltr" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/buttons_font"
+                        android:text="@string/txt_minute"
+                        android:textColor="@color/primary_button_color"
+                        android:gravity="start"
+                        android:textSize="@dimen/normal_fond_size"
+                        android:layoutDirection="ltr"
+                        android:textDirection="ltr" />
+                </LinearLayout>
+
+                <!-- Colon -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/seconary_size_layout"
+                    android:text=":"
+                    android:textColor="@color/primary_button_color"
+                    android:textSize="@dimen/buttons_size"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical" />
+
+                <!-- Second Section -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <NumberPicker
+                        android:id="@+id/secondPicker2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/primary_button_size_lenght"
+                        android:layoutDirection="ltr"
+                        android:textDirection="ltr" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/buttons_font"
+                        android:text="@string/txt_second"
+                        android:textColor="@color/primary_button_color"
+                        android:gravity="start"
+                        android:textSize="@dimen/normal_fond_size"
+                        android:layoutDirection="ltr"
+                        android:textDirection="ltr" />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearGroupNames"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/third_size_layout"
+            android:paddingStart="@dimen/third_size_layout"
+            android:paddingEnd="@dimen/third_size_layout"
+            android:layoutDirection="locale"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/select_time_alternative_with_labels">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:hintEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/groupNameOne"
+                    style="@style/AppEditTextStyle"
+                    android:hint="@string/txt_enter_first_group"
+                    android:inputType="text|textCapSentences|textMultiLine"
+                    android:imeOptions="actionNext"
+                    android:textDirection="locale"
+                    android:layoutDirection="locale"
+                    android:gravity="start" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:hintEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/groupNameTwo"
+                    style="@style/AppEditTextStyle"
+                    android:hint="@string/txt_enter_second_group"
+                    android:inputType="text|textCapSentences|textMultiLine"
+                    android:imeOptions="actionDone"
+                    android:textDirection="locale"
+                    android:layoutDirection="locale"
+                    android:gravity="start"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <!-- Next Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNext"
+            style="@style/PrimaryButtonStyle"
+            android:layout_margin="@dimen/third_size_layout"
+            android:text="@string/txt_next"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linearGroupNames" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

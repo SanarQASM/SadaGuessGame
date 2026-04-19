@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_linear_app_background_primary">
+
+    <!-- FIXED HEADER - Won't scroll -->
+    <LinearLayout
+        android:id="@+id/logo_name_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="start|center"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/back_home_activity_button"
+            android:layout_width="@dimen/back_button_size"
+            android:layout_height="@dimen/back_button_size"
+            android:contentDescription="@string/home_page"
+            android:src="@drawable/ic_back" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="12dp"
+            android:background="?android:attr/listDivider" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_margin="10dp"
+            android:elevation="20dp"
+            android:outlineAmbientShadowColor="@color/black"
+            android:outlineSpotShadowColor="@color/black"
+            android:scaleType="centerCrop"
+            android:src="@drawable/sada_guess_main_image"
+            app:shapeAppearanceOverlay="@style/CircleImage" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/seconary_size_layout"
+            android:gravity="start|center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/primary_font"
+                android:text="@string/application_name"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/primary_size" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/third_size_layout"
+                android:layout_marginTop="@dimen/primary_size_layout"
+                android:fontFamily="@font/buttons_font"
+                android:text="@string/timer_title"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/sub_font_size" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- SCROLLABLE CONTENT SECTION -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logo_name_container"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/timerAnimation"
+                android:layout_width="@dimen/image_get_started_size"
+                android:layout_height="@dimen/image_get_started_size"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/seconary_size_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/timer" />
+
+            <!-- Select Time -->
+            <LinearLayout
+                android:id="@+id/select_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:textDirection="locale"
+                android:layoutDirection="locale"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/timerAnimation">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/secondary_font"
+                    android:text="@string/txt_select_time"
+                    android:gravity="start"
+                    android:textColor="@color/primary_button_color"
+                    android:textSize="@dimen/sub_font_size"
+                    android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/seconary_size_layout"
+                android:layout_marginEnd="@dimen/seconary_size_layout"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layoutDirection="ltr"
+                android:textDirection="ltr">
+                <!-- Minute Section -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <NumberPicker
+                        android:id="@+id/minutePicker2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/primary_button_size_lenght"
+                        android:layoutDirection="ltr"
+                        android:textDirection="ltr" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/buttons_font"
+                        android:text="@string/txt_minute"
+                        android:textColor="@color/primary_button_color"
+                        android:gravity="start"
+                        android:textSize="@dimen/normal_fond_size"
+                        android:layoutDirection="ltr"
+                        android:textDirection="ltr" />
+                </LinearLayout>
+
+                <!-- Colon -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/seconary_size_layout"
+                    android:text=":"
+                    android:textColor="@color/primary_button_color"
+                    android:textSize="@dimen/buttons_size"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_vertical" />
+
+                <!-- Second Section -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <NumberPicker
+                        android:id="@+id/secondPicker2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/primary_button_size_lenght"
+                        android:layoutDirection="ltr"
+                        android:textDirection="ltr" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/buttons_font"
+                        android:text="@string/txt_second"
+                        android:textColor="@color/primary_button_color"
+                        android:gravity="start"
+                        android:textSize="@dimen/normal_fond_size"
+                        android:layoutDirection="ltr"
+                        android:textDirection="ltr" />
+                </LinearLayout>
+            </LinearLayout>
+            </LinearLayout>
+
+            <!-- Timer -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/timerContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/third_size_layout"
+                android:padding="5dp"
+                app:layout_constraintTop_toBottomOf="@id/select_time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/colorButtonsContainer">
+
+                <ProgressBar
+                    android:id="@+id/circularProgressBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="@dimen/game_icon_width"
+                    android:layout_height="@dimen/game_icon_width"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/circular_progress"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/timeDisplay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/buttons_font"
+                    android:padding="5dp"
+                    android:text=" 01 : 00 "
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/buttons_size"
+                    android:textStyle="bold"
+                    android:layoutDirection="ltr"
+                    android:textDirection="ltr"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" />
+
+                <!-- Group Turn -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/secondary_font"
+                    android:text="@string/timer_tip"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/sub_font_size"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/circularProgressBar"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_margin="10dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <!-- Control Buttons -->
+            <LinearLayout
+                android:id="@+id/colorButtonsContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/seconary_size_layout"
+                android:layout_marginBottom="@dimen/seconary_size_layout"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/timerContainer"
+                app:layout_constraintTop_toBottomOf="@id/select_time"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/startTimer"
+                    style="@style/PrimaryButtonStyle"
+                    android:text="@string/txt_start"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/stopTimer"
+                    style="@style/PrimaryButtonStyle"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/txt_stop"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/startTimer" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/restartTimer"
+                    style="@style/PrimaryButtonStyle"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/txt_restart"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/stopTimer" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

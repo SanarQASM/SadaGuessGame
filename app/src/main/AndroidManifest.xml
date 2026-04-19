@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.sadaguessgame">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <application
+        android:name=".MyApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/app_icon"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/app_icon_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SadaGuessGame">
+
+        <activity
+            android:name="com.example.sadaguessgame.ui.GetStarted"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.sadaguessgame.ui.NavigationActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.sadaguessgame.activities.MainActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.sadaguessgame.activities.CreateNewGameActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.sadaguessgame.activities.CardsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.sadaguessgame.activities.GameScoreActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.sadaguessgame.activities.WinnerActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.sadaguessgame.activities.TimerActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.sadaguessgame.activities.ScoreBoardActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.sadaguessgame.activities.DiceActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.sadaguessgame.activities.ContinueGameActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".activities.PrivacyPolicyActivity"
+            android:exported="false" />
+
+        <activity
+            android:name="com.example.sadaguessgame.activities.SplashActivity"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

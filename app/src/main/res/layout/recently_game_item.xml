@@ -1,0 +1,126 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/seconary_size_layout"
+    android:layout_marginBottom="@dimen/seconary_size_layout"
+    android:background="@android:color/transparent"
+    android:gravity="center">
+
+    <!-- Number -->
+    <TextView
+        android:id="@+id/tvIndex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1 - "
+        android:fontFamily="@font/primary_font"
+        android:textColor="@color/primary_text"
+        android:textStyle="italic"
+        android:textSize="@dimen/buttons_size"/>
+
+    <!-- Vertical Container for Groups -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
+
+        <!-- Group A -->
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="?android:attr/listDivider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/groupAName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/group_a_color"
+                android:fontFamily="@font/secondary_font"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold"
+                android:textSize="@dimen/sub_font_size"
+                android:layout_marginStart="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" --> "
+                android:fontFamily="@font/primary_font"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold|italic"
+                android:textSize="@dimen/sub_font_size"
+                android:layout_marginStart="@dimen/primary_size_layout"
+                android:layout_marginEnd="@dimen/primary_size_layout"/>
+
+            <TextView
+                android:id="@+id/groupAScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/score_title"
+                android:fontFamily="@font/subtext_font"
+                android:textColor="@color/primary_text"
+                android:textStyle="italic"
+                android:textSize="@dimen/sub_font_size"
+                android:layout_marginStart="@dimen/primary_size_layout"/>
+        </LinearLayout>
+
+        <!-- Group B -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/primary_size_layout">
+
+            <TextView
+                android:id="@+id/groupBName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/group_b_color"
+                android:fontFamily="@font/secondary_font"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold"
+                android:textSize="@dimen/sub_font_size"
+                android:layout_marginStart="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" --> "
+                android:fontFamily="@font/primary_font"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold|italic"
+                android:textSize="@dimen/sub_font_size"
+                android:layout_marginStart="@dimen/primary_size_layout"
+                android:layout_marginEnd="@dimen/primary_size_layout"/>
+
+            <TextView
+                android:id="@+id/groupBScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/score_title"
+                android:fontFamily="@font/subtext_font"
+                android:textColor="@color/primary_text"
+                android:textStyle="italic"
+                android:textSize="@dimen/sub_font_size"
+                android:layout_marginStart="@dimen/primary_size_layout"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/delete_game"
+        android:layout_width="@dimen/back_button_size"
+        android:layout_height="@dimen/back_button_size"
+        android:layout_gravity="end|center_vertical"
+        android:layout_margin="@dimen/primary_size_layout"
+        android:contentDescription="@string/home_page"
+        android:src="@drawable/delete" />
+
+</LinearLayout>

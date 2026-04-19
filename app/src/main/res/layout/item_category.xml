@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/categoryContainerLayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:padding="5dp"
+    android:layout_margin="2dp"
+    android:background="@drawable/bg_category_unselected">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="@dimen/category_width_size"
+        android:layout_height="@dimen/category_height_size"
+        app:cardCornerRadius="10dp">
+
+        <ImageView
+            android:id="@+id/cardCategory"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="Challenge"
+            android:src="@drawable/cards"
+            android:scaleType="centerCrop"/>
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <TextView
+        android:id="@+id/txtCardCategory"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="challenge"
+        android:gravity="center"
+        android:textSize="@dimen/normal_fond_size"
+        android:fontFamily="@font/normal_text"
+        android:textColor="@color/secondary_color"
+        android:textStyle="bold"
+        android:paddingTop="2dp"/>
+</LinearLayout>
+

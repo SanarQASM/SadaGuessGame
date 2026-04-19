@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_linear_app_background_primary"
+        android:padding="16dp">
+
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/cardsTitle"
+            android:layout_width="205dp"
+            android:layout_height="47dp"
+            android:layout_marginTop="@dimen/primary_size_layout"
+            android:fontFamily="@font/primary_font"
+            android:text="@string/cards_page_title"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/primary_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Divider -->
+        <View
+            android:id="@+id/div_under_title"
+            android:layout_width="250dp"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintTop_toBottomOf="@id/cardsTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="3dp" />
+
+        <!-- Card Container -->
+        <LinearLayout
+            android:id="@+id/cards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:background="@drawable/button_background"
+            android:elevation="20dp"
+            android:orientation="vertical"
+            android:outlineAmbientShadowColor="@color/black"
+            android:outlineSpotShadowColor="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/div_under_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="20dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/cardImage"
+                android:layout_width="@dimen/card_width"
+                android:layout_height="@dimen/card_higth"
+                android:layout_margin="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/cards"
+                app:shapeAppearanceOverlay="@style/RoundedCard" />
+
+            <TextView
+                android:id="@+id/cardName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/subtext_font"
+                android:text="@string/card_word"
+                android:textColor="@color/primary_color"
+                android:textSize="@dimen/sub_font_size"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="5dp"
+                android:gravity="center" />
+        </LinearLayout>
+
+
+        <!-- Tip Text -->
+        <TextView
+            android:id="@+id/warningTip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/subtext_font"
+            android:text="@string/txt_tip"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/buttons_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/cards"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp" />
+
+        <!-- Group Turn -->
+        <TextView
+            android:id="@+id/groupTrun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/secondary_font"
+            android:text="@string/group_turn_A"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/sub_font_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/warningTip"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp" />
+
+        <!-- Timer -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/timerContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            app:layout_constraintTop_toBottomOf="@id/groupTrun"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/colorButtonsContainer"
+            android:layout_marginTop="5dp">
+
+            <ProgressBar
+                android:id="@+id/circularProgressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="@dimen/game_icon_width"
+                android:layout_height="@dimen/game_icon_width"
+                android:indeterminate="false"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/circular_progress"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.493" />
+
+            <!-- Group Turn -->
+            <TextView
+                android:id="@+id/timeDisplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/buttons_font"
+                android:textDirection="ltr"
+                android:padding="5dp"
+                android:text=" 01 : 00 "
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/buttons_size"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/secondary_font"
+                android:text="@string/timer_tip"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/sub_font_size"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/circularProgressBar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="10dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Control Buttons -->
+        <LinearLayout
+            android:id="@+id/colorButtonsContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/groupTrun"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/seconary_size_layout">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/startTimer"
+                style="@style/PrimaryButtonStyle"
+                android:text="@string/txt_start"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/stopTimer"
+                style="@style/PrimaryButtonStyle"
+                android:layout_marginTop="5dp"
+                android:text="@string/txt_stop"
+                app:layout_constraintTop_toBottomOf="@id/startTimer"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/restartTimer"
+                style="@style/PrimaryButtonStyle"
+                android:layout_marginTop="5dp"
+                android:text="@string/txt_restart"
+                app:layout_constraintTop_toBottomOf="@id/stopTimer"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/endTimer"
+                style="@style/PrimaryButtonStyle"
+                android:layout_marginTop="5dp"
+                android:text="@string/txt_end"
+                app:layout_constraintTop_toBottomOf="@id/restartTimer"
+                app:layout_constraintStart_toStartOf="parent" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/sliderImage"
+            android:layout_width="292dp"
+            android:layout_height="281dp"
+            android:layout_marginTop="100dp"
+            android:elevation="20dp"
+            android:outlineAmbientShadowColor="@color/black"
+            android:outlineSpotShadowColor="@color/black"
+            android:scaleType="centerCrop"
+            android:src="@drawable/home_page_tip"
+            app:shapeAppearanceOverlay="@style/CircleImage"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:targetApi="28" />
+
+        <TextView
+            android:id="@+id/sliderTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/primary_font"
+            android:text="@string/wel_title"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/secondary_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/sliderImage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/sliderDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/seconary_size_layout"
+            android:fontFamily="@font/normal_text"
+            android:lineSpacingExtra="3dp"
+            android:padding="15dp"
+            android:text="Create New | Continue Last Game:\nStart a new game or resume the previous.\nLearn Button:\nGuides users to learn how to use the app.\nTools Section:\nContains three tools to enhance gameplay or interact with other games."
+            android:textAlignment="center"
+            android:textColor="@color/primary_button_color"
+            android:textSize="@dimen/sub_font_size"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sliderTitle" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

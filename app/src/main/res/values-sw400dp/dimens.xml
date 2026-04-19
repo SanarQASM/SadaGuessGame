@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- HomeFragment TextSwitcher text size -->
+    <dimen name="primary_size">32sp</dimen>
+    <dimen name="secondary_size">26sp</dimen>
+    <dimen name="buttons_size">22sp</dimen>
+    <dimen name="sub_font_size">18sp</dimen>
+    <dimen name="normal_fond_size">12sp</dimen>
+    <dimen name="back_button_size">40dp</dimen>
+
+    <dimen name="primary_button_size_lenght">150dp</dimen>
+    <dimen name="primary_button_size_height">50dp</dimen>
+    <dimen name="progress_bar_size">210dp</dimen>
+
+    <dimen name="image_get_started_size">300dp</dimen>
+    <dimen name="card_width">250dp</dimen>
+    <dimen name="card_higth">350dp</dimen>
+    <dimen name="game_icon_width">160dp</dimen>
+    <dimen name="game_icon_higth">210dp</dimen>
+    <dimen name="tool_icon_width">100dp</dimen>
+    <dimen name="tool_icon_higth">130dp</dimen>
+
+    <dimen name="text_input_lenght">250dp</dimen>
+
+    <dimen name="image_size">80dp</dimen>
+    <dimen name="small_size_layout">3dp</dimen>
+    <dimen name="primary_size_layout">5dp</dimen>
+    <dimen name="seconary_size_layout">10dp</dimen>
+    <dimen name="third_size_layout">15dp</dimen>
+    <dimen name="fourth_size_layout">20dp</dimen>
+    <dimen name="fifth_size_layout">25dp</dimen>
+    <dimen name="big_size_layout">50dp</dimen>
+    <dimen name="very_vig_size_layout">70dp</dimen>
+
+    <dimen name="category_width_size">60dp</dimen>
+    <dimen name="category_height_size">80dp</dimen>
+</resources>

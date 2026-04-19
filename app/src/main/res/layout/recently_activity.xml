@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_linear_app_background_primary">
+
+    <!-- 🔹 Header Container - FIXED -->
+    <LinearLayout
+        android:id="@+id/logo_name_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="start|center"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingEnd="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:layout_width="@dimen/image_size"
+            android:layout_height="@dimen/image_size"
+            android:layout_margin="10dp"
+            android:elevation="20dp"
+            android:outlineAmbientShadowColor="@color/black"
+            android:outlineSpotShadowColor="@color/black"
+            android:scaleType="centerCrop"
+            android:src="@drawable/sada_guess_main_image"
+            app:shapeAppearanceOverlay="@style/CircleImage" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="@dimen/seconary_size_layout"
+            android:gravity="start|center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/primary_font"
+                android:text="@string/application_name"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/primary_size" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/third_size_layout"
+                android:layout_marginTop="@dimen/primary_size_layout"
+                android:fontFamily="@font/buttons_font"
+                android:text="@string/recently_page"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/sub_font_size" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Title - FIXED -->
+    <TextView
+        android:id="@+id/recentlyTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/primary_font"
+        android:text="@string/txt_all_recently_game"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/primary_size"
+        android:layout_marginTop="@dimen/seconary_size_layout"
+        app:layout_constraintTop_toBottomOf="@id/logo_name_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Divider - FIXED -->
+    <View
+        android:id="@+id/div_under_title"
+        android:layout_width="250dp"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        android:layout_marginTop="3dp"
+        app:layout_constraintTop_toBottomOf="@id/recentlyTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- ScrollView - SCROLLABLE CONTENT ONLY -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:layout_marginBottom="@dimen/primary_size_layout"
+        android:contentDescription="@string/score_title"
+        android:layout_marginTop="@dimen/primary_size_layout"
+        app:layout_constraintTop_toBottomOf="@id/div_under_title"
+        app:layout_constraintBottom_toTopOf="@id/delete_all"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/scoreContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/primary_size_layout">
+
+            <!-- Score items will be added here dynamically -->
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/delete_all"
+        style="@style/PrimaryButtonStyle"
+        android:text="@string/txt_delete_all"
+        android:layout_marginBottom="@dimen/very_vig_size_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

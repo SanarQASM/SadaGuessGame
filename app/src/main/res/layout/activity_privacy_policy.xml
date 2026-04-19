@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_linear_app_background_secondary">
+
+    <!-- Header Container -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/headerContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/third_size_layout"
+        android:paddingBottom="@dimen/seconary_size_layout"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Back Button -->
+        <ImageView
+            android:id="@+id/back_home_activity_button"
+            android:layout_width="@dimen/back_button_size"
+            android:layout_height="@dimen/back_button_size"
+            android:contentDescription="@string/home_page"
+            android:src="@drawable/ic_back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:layout_marginStart="@dimen/third_size_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/privacyTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/privacy_policy"
+            android:textColor="@color/primary_text"
+            android:fontFamily="@font/primary_font"
+            android:textSize="@dimen/primary_size"
+            android:gravity="center"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/back_home_activity_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="@dimen/third_size_layout"
+            android:layout_marginEnd="@dimen/back_button_size"/>
+
+        <!-- Divider -->
+        <View
+            android:id="@+id/privacyDivider"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider"
+            android:layout_marginTop="@dimen/seconary_size_layout"
+            android:layout_marginStart="@dimen/third_size_layout"
+            android:layout_marginEnd="@dimen/third_size_layout"
+            app:layout_constraintTop_toBottomOf="@id/privacyTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Scrollable Content -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:scrollbars="vertical"
+        android:fadeScrollbars="false"
+        app:layout_constraintTop_toBottomOf="@id/headerContainer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:textDirection="locale"
+            android:layoutDirection="locale"
+            android:padding="@dimen/third_size_layout"
+            android:paddingBottom="@dimen/seconary_size_layout">
+
+            <!-- Introduction -->
+            <TextView
+                android:id="@+id/privacyIntro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/privacy_intro"
+                android:textColor="@color/primary_text"
+                android:fontFamily="@font/subtext_font"
+                android:textSize="@dimen/sub_font_size"
+                android:lineSpacingMultiplier="1.2"/>
+
+            <!-- Data Collection Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/third_size_layout">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/privacy_data_title"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_text"
+                    android:fontFamily="@font/buttons_font"
+                    android:textSize="@dimen/buttons_size"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/privacy_data_desc"
+                    android:textColor="@color/primary_text"
+                    android:fontFamily="@font/subtext_font"
+                    android:textSize="@dimen/sub_font_size"
+                    android:lineSpacingMultiplier="1.2"
+                    android:layout_marginTop="8dp"/>
+
+            </LinearLayout>
+
+            <!-- Permissions Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/third_size_layout">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/privacy_permission_title"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_text"
+                    android:fontFamily="@font/buttons_font"
+                    android:textSize="@dimen/buttons_size"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/privacy_permission_desc"
+                    android:textColor="@color/primary_text"
+                    android:fontFamily="@font/subtext_font"
+                    android:textSize="@dimen/sub_font_size"
+                    android:lineSpacingMultiplier="1.2"
+                    android:layout_marginTop="8dp"/>
+
+            </LinearLayout>
+
+            <!-- Third-party Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/third_size_layout">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/privacy_third_party_title"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary_text"
+                    android:fontFamily="@font/buttons_font"
+                    android:textSize="@dimen/buttons_size"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/privacy_third_party_desc"
+                    android:textColor="@color/primary_text"
+                    android:fontFamily="@font/subtext_font"
+                    android:textSize="@dimen/sub_font_size"
+                    android:lineSpacingMultiplier="1.2"
+                    android:layout_marginTop="8dp"/>
+
+            </LinearLayout>
+
+            <!-- Contact Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/privacy_contact"
+                android:textColor="@color/primary_text"
+                android:fontFamily="@font/subtext_font"
+                android:textSize="@dimen/sub_font_size"
+                android:lineSpacingMultiplier="1.2"
+                android:layout_marginTop="@dimen/third_size_layout"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
