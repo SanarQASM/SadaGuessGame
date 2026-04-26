@@ -34,11 +34,10 @@ public class HomeFragment extends BaseFragment {
     private LinearLayout continueGameContainer;
     private TextSwitcher textSwitcher;
     private String[] texts;
-    private final int delay = 3000;
-    private int index = 0;
+    private static final int SWITCHER_DELAY_MS = 3000;
+    private int textIndex = 0;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private Runnable textRunnable;
-    private GameState unfinishedGame;
     private boolean hasPreviousGame;
 
     @Nullable
@@ -47,20 +46,17 @@ public class HomeFragment extends BaseFragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
-        LinearLayout newGameContainer = view.findViewById(R.id.NewGameContainer);
-        continueGameContainer = view.findViewById(R.id.ContinueGameContainer);
-        LinearLayout timerContainer = view.findViewById(R.id.Timer);
-        LinearLayout diceContainer = view.findViewById(R.id.DiceContiner);
-        LinearLayout scoreContainer = view.findViewById(R.id.scoreBoardContiner);
-        MaterialButton learnPlay = view.findViewById(R.id.learnPlay);
-        textSwitcher = view.findViewById(R.id.home_text_switcher);
+        LinearLayout newGameContainer   = view.findViewById(R.id.NewGameContainer);
+        continueGameContainer           = view.findViewById(R.id.ContinueGameContainer);
+        LinearLayout timerContainer     = view.findViewById(R.id.Timer);
+        LinearLayout diceContainer      = view.findViewById(R.id.DiceContiner);
+        LinearLayout scoreContainer     = view.findViewById(R.id.scoreBoardContiner);
+        MaterialButton learnPlay        = view.findViewById(R.id.learnPlay);
+        textSwitcher                    = view.findViewById(R.id.home_text_switcher);
         texts = getResources().getStringArray(R.array.home_texts);
 
         setupTextSwitcher();
-
-        unfinishedGame = ScoreStorage.getInstance(getActivity()).getLastUnfinishedGame();
-        hasPreviousGame = unfinishedGame != null;
-        enablePreviousGameButton(hasPreviousGame);
+        refreshContinueButton();
 
         newGameContainer.setOnClickListener(v ->
                 startActivity(new Intent(requireContext(), CreateNewGameActivity.class)));
@@ -88,6 +84,8 @@ public class HomeFragment extends BaseFragment {
     }
 
     private void setupTextSwitcher() {
+        if (textSwitcher == null || !isAdded()) return;
+
         textSwitcher.setFactory(() -> {
             TextView textView = new TextView(requireContext());
             textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
@@ -105,10 +103,10 @@ public class HomeFragment extends BaseFragment {
         textRunnable = new Runnable() {
             @Override
             public void run() {
-                if (textSwitcher == null) return;
-                textSwitcher.setText(texts[index]);
-                index = (index + 1) % texts.length;
-                handler.postDelayed(this, delay);
+                if (textSwitcher == null || !isAdded()) return;
+                textSwitcher.setText(texts[textIndex]);
+                textIndex = (textIndex + 1) % texts.length;
+                handler.postDelayed(this, SWITCHER_DELAY_MS);
             }
         };
         handler.post(textRunnable);
@@ -117,29 +115,29 @@ public class HomeFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        unfinishedGame = ScoreStorage.getInstance(requireContext()).getLastUnfinishedGame();
-        hasPreviousGame = unfinishedGame != null;
-        enablePreviousGameButton(hasPreviousGame);
+        refreshContinueButton();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // Stop the text switcher runnable to prevent memory leaks
         if (textRunnable != null) {
             handler.removeCallbacks(textRunnable);
+            textRunnable = null;
         }
+        textSwitcher = null;
     }
 
-    private void enablePreviousGameButton(boolean hasPreviousGame) {
-        if (hasPreviousGame) {
-            continueGameContainer.setEnabled(true);
-            continueGameContainer.setClickable(true);
-            continueGameContainer.setAlpha(1f);
-        } else {
-            continueGameContainer.setEnabled(false);
-            continueGameContainer.setClickable(false);
-            continueGameContainer.setAlpha(0.5f);
-        }
+    private void refreshContinueButton() {
+        if (continueGameContainer == null || !isAdded()) return;
+        GameState unfinishedGame = ScoreStorage.getInstance(requireContext()).getLastUnfinishedGame();
+        hasPreviousGame = unfinishedGame != null;
+        setContinueButtonEnabled(hasPreviousGame);
+    }
+
+    private void setContinueButtonEnabled(boolean enabled) {
+        continueGameContainer.setEnabled(enabled);
+        continueGameContainer.setClickable(enabled);
+        continueGameContainer.setAlpha(enabled ? 1f : 0.5f);
     }
 }

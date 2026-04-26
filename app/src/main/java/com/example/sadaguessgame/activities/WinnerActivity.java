@@ -13,6 +13,7 @@ public class WinnerActivity extends BaseActivity {
 
     private GameState currentGame;
     private MediaPlayer mediaPlayer;
+    private boolean isMediaPlayerReady = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +21,10 @@ public class WinnerActivity extends BaseActivity {
         setContentView(R.layout.winner_activity);
 
         currentGame = ScoreStorage.getInstance(this).getCurrentGame();
-        if (currentGame == null) { finish(); return; }
+        if (currentGame == null) {
+            finish();
+            return;
+        }
 
         bindViews();
         setupButtons();
@@ -28,15 +32,14 @@ public class WinnerActivity extends BaseActivity {
 
     private void bindViews() {
         TextView groupWinnerName = findViewById(R.id.groupWinnerName);
-        TextView groupOneName = findViewById(R.id.groupOneName);
-        TextView groupTwoName = findViewById(R.id.groupTwoName);
-        TextView groupOneScore = findViewById(R.id.groupOneScore);
-        TextView groupTwoScore = findViewById(R.id.groupTwoScore);
+        TextView groupOneName   = findViewById(R.id.groupOneName);
+        TextView groupTwoName   = findViewById(R.id.groupTwoName);
+        TextView groupOneScore  = findViewById(R.id.groupOneScore);
+        TextView groupTwoScore  = findViewById(R.id.groupTwoScore);
 
         groupOneName.setText(currentGame.groupAName);
         groupTwoName.setText(currentGame.groupBName);
 
-        // Use helper methods from GameState
         int totalA = currentGame.getTotalScoreA();
         int totalB = currentGame.getTotalScoreB();
 
@@ -56,7 +59,7 @@ public class WinnerActivity extends BaseActivity {
     }
 
     private void setupButtons() {
-        MaterialButton btnHome = findViewById(R.id.btnHomePage);
+        MaterialButton btnHome      = findViewById(R.id.btnHomePage);
         MaterialButton btnPlayAgain = findViewById(R.id.btnPlayAgain);
 
         btnHome.setOnClickListener(v -> {
@@ -82,18 +85,37 @@ public class WinnerActivity extends BaseActivity {
 
     private void playSound(int resId) {
         stopSound();
-        mediaPlayer = MediaPlayer.create(this, resId);
-        if (mediaPlayer != null) {
-            mediaPlayer.start();
-            mediaPlayer.setOnCompletionListener(MediaPlayer::release);
+        try {
+            mediaPlayer = MediaPlayer.create(this, resId);
+            if (mediaPlayer != null) {
+                isMediaPlayerReady = true;
+                mediaPlayer.setOnCompletionListener(mp -> {
+                    isMediaPlayerReady = false;
+                    mp.release();
+                    if (mediaPlayer == mp) mediaPlayer = null;
+                });
+                mediaPlayer.start();
+            }
+        } catch (Exception e) {
+            isMediaPlayerReady = false;
+            mediaPlayer = null;
         }
     }
 
     private void stopSound() {
-        if (mediaPlayer != null) {
-            if (mediaPlayer.isPlaying()) mediaPlayer.stop();
-            mediaPlayer.release();
+        if (mediaPlayer == null) return;
+        try {
+            if (isMediaPlayerReady && mediaPlayer.isPlaying()) {
+                mediaPlayer.stop();
+            }
+        } catch (IllegalStateException ignored) {
+            // MediaPlayer was in an invalid state — safe to ignore
+        } finally {
+            try {
+                mediaPlayer.release();
+            } catch (Exception ignored) { }
             mediaPlayer = null;
+            isMediaPlayerReady = false;
         }
     }
 
@@ -101,6 +123,11 @@ public class WinnerActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         stopSound();
-        // saveFinishedGame is called in saveAndNavigate() — do NOT repeat here
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        stopSound();
     }
 }

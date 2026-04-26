@@ -1,7 +1,6 @@
 package com.example.sadaguessgame.activities;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -12,11 +11,15 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.core.content.ContextCompat;
+
 import com.example.sadaguessgame.R;
 import com.google.android.material.button.MaterialButton;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class ScoreBoardActivity extends BaseActivity {
@@ -49,23 +52,24 @@ public class ScoreBoardActivity extends BaseActivity {
         colorGroupA = ContextCompat.getColor(this, R.color.primary_color);
         colorGroupB = ContextCompat.getColor(this, R.color.secondary_color);
 
-        frameGroupOne = findViewById(R.id.frameGroupOne);
-        frameGroupTwo = findViewById(R.id.frameGroupTwo);
-        tvGroupOneScore = findViewById(R.id.tvGroupOneScore);
-        tvGroupTwoScore = findViewById(R.id.tvGroupTwoScore);
-        tvGroupOneName = findViewById(R.id.tvGroupOneName);
-        tvGroupTwoName = findViewById(R.id.tvGroupTwoName);
-        historyContainerLinear = findViewById(R.id.historyContainerLinear);
+        frameGroupOne           = findViewById(R.id.frameGroupOne);
+        frameGroupTwo           = findViewById(R.id.frameGroupTwo);
+        tvGroupOneScore         = findViewById(R.id.tvGroupOneScore);
+        tvGroupTwoScore         = findViewById(R.id.tvGroupTwoScore);
+        tvGroupOneName          = findViewById(R.id.tvGroupOneName);
+        tvGroupTwoName          = findViewById(R.id.tvGroupTwoName);
+        historyContainerLinear  = findViewById(R.id.historyContainerLinear);
 
         tvGroupOneName.setText(getString(R.string.group_a_color));
         tvGroupTwoName.setText(getString(R.string.group_b_color));
 
-        MaterialButton groupAColorBtn = findViewById(R.id.groupAColor);
-        MaterialButton groupBColorBtn = findViewById(R.id.groupBColor);
+        MaterialButton groupAColorBtn  = findViewById(R.id.groupAColor);
+        MaterialButton groupBColorBtn  = findViewById(R.id.groupBColor);
         MaterialButton restartScoreBtn = findViewById(R.id.restartScore);
-        MaterialButton undoButton = findViewById(R.id.undoButton);
+        MaterialButton undoButton      = findViewById(R.id.undoButton);
 
-        findViewById(R.id.back_home_activity_button).setOnClickListener(v -> finish());
+        View backBtn = findViewById(R.id.back_home_activity_button);
+        if (backBtn != null) backBtn.setOnClickListener(v -> finish());
 
         groupAColorBtn.setOnClickListener(v -> openColorPicker(true));
         groupBColorBtn.setOnClickListener(v -> openColorPicker(false));
@@ -86,15 +90,11 @@ public class ScoreBoardActivity extends BaseActivity {
             tvGroupTwoScore.setText(String.valueOf(scoreGroupB));
         }
 
-        HistoryItem item = new HistoryItem(isGroupA, 1);
-        historyList.add(item);
+        historyList.add(new HistoryItem(isGroupA, 1));
         currentHistoryIndex = historyList.size() - 1;
         rebuildHistoryView();
     }
 
-    /**
-     * Rebuild history view showing ALL history entries, with the latest at bottom.
-     */
     @SuppressLint("SetTextI18n")
     private void rebuildHistoryView() {
         historyContainerLinear.removeAllViews();
@@ -119,7 +119,7 @@ public class ScoreBoardActivity extends BaseActivity {
 
     private void undoLastScore() {
         if (currentHistoryIndex < 0 || historyList.isEmpty()) {
-            Toast.makeText(this, getString(R.string.no_score_yet), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "0", Toast.LENGTH_SHORT).show();
             return;
         }
 

@@ -2,9 +2,13 @@
     android:shape="rectangle">
     <stroke
         android:width="2dp"
-        android:color="#B2A2D0"
+        android:color="@color/primary_color"
         android:dashWidth="8dp"
         android:dashGap="4dp"/>
-    <corners android:radius="25dp"/>
-    <solid android:color="@color/secondary_color"/>
+    <corners android:radius="28dp"/>
+    <gradient
+        android:type="linear"
+        android:startColor="@color/secondary_color"
+        android:endColor="#80B2E8F0"
+        android:angle="135"/>
 </shape>

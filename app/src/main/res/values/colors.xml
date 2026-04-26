@@ -1,10 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#000</color>
-    <color name="white">#FFF</color>
+    <!-- Base -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- App icon -->
     <color name="app_icon_background">#FBFDFC</color>
-    <color name="primary_text">#0F2137</color>
-    <color name="primary_button_color">#1D426F</color>
+
+    <!--
+        Light-mode palette
+        primary_color       = soft purple  (backgrounds, cards, secondary surfaces)
+        secondary_color     = sky blue     (accents, highlights, indicators)
+        primary_text        = deep navy    (readable on light backgrounds, ≥ 7:1 on white)
+        primary_button_color= mid navy/teal (buttons & interactive elements)
+    -->
     <color name="primary_color">#B2A2D0</color>
     <color name="secondary_color">#9CDFEA</color>
+    <color name="primary_text">#0F2137</color>
+    <color name="primary_button_color">#1D426F</color>
+
+    <!-- Semantic / status colours -->
+    <color name="error_color">#B00020</color>
+    <color name="success_color">#1B7D3A</color>
+    <color name="warning_color">#E65100</color>
+
+    <!-- Scrim for dialogs / overlays -->
+    <color name="scrim_color">#80000000</color>
+
+    <!-- Surface tones -->
+    <color name="surface_card">#F4F0FA</color>
+    <color name="surface_elevated">#ECEAF6</color>
+
+    <!-- Divider -->
+    <color name="divider_color">#1F0F2137</color>
 </resources>

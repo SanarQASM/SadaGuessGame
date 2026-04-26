@@ -1,9 +1,46 @@
 <resources>
-    <!-- Base application theme. -->
-    <style name="Base.Theme.sadaguessgame" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="android:windowIsTranslucent">true</item>
+
+    <!-- Base theme — inherit Material3 DayNight, no action bar -->
+    <style name="Base.Theme.SadaGuessGame" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Window -->
+        <item name="android:windowIsTranslucent">false</item>
         <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+
+        <!-- Status bar: translucent so gradient backgrounds show through -->
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Navigation bar -->
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+
+        <!-- Elevation overlays in dark mode (Material3) -->
+        <item name="elevationOverlayEnabled">true</item>
+        <item name="elevationOverlayColor">@color/primary_button_color</item>
+
+        <!-- Default text appearance -->
+        <item name="android:fontFamily">@font/normal_text</item>
+
+        <!-- Color scheme tokens used by Material3 components -->
+        <item name="colorPrimary">@color/primary_button_color</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/secondary_color</item>
+        <item name="colorOnSecondary">@color/primary_text</item>
+        <item name="colorSurface">@color/surface_card</item>
+        <item name="colorOnSurface">@color/primary_text</item>
+        <item name="colorError">@color/error_color</item>
+        <item name="colorOnError">@color/white</item>
+
+        <!-- Ripple -->
+        <item name="colorControlHighlight">@color/primary_button_color</item>
     </style>
 
-    <style name="Theme.SadaGuessGame" parent="Base.Theme.sadaguessgame" />
+    <style name="Theme.SadaGuessGame" parent="Base.Theme.SadaGuessGame" />
+
+    <!-- Splash: use the same theme so the background colour matches -->
+    <style name="Theme.SadaGuessGame.Splash" parent="Theme.SadaGuessGame">
+        <item name="android:windowBackground">@drawable/bg_linear_app_background_primary</item>
+    </style>
+
 </resources>

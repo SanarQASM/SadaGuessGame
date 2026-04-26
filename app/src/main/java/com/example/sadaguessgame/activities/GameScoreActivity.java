@@ -11,10 +11,12 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.sadaguessgame.R;
 import com.example.sadaguessgame.data.GameState;
 import com.example.sadaguessgame.data.ScoreStorage;
 import com.google.android.material.button.MaterialButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +33,14 @@ public class GameScoreActivity extends BaseActivity {
         setContentView(R.layout.score_activity);
 
         currentGame = ScoreStorage.getInstance(this).getCurrentGame();
-        if (currentGame == null) { finish(); return; }
+        if (currentGame == null) {
+            finish();
+            return;
+        }
+
+        // Ensure non-null score lists
+        if (currentGame.scoresA == null) currentGame.scoresA = new ArrayList<>();
+        if (currentGame.scoresB == null) currentGame.scoresB = new ArrayList<>();
 
         initViews();
         setHeaderNames();
@@ -42,25 +51,25 @@ public class GameScoreActivity extends BaseActivity {
 
     private void initViews() {
         tableLayoutScores = findViewById(R.id.tableLayoutScores);
-        scrollView = findViewById(R.id.scrollLayoutScores);
-        btnContinueGame = findViewById(R.id.btnContinueGame);
-        btnEndGame = findViewById(R.id.btnEndGame);
+        scrollView        = findViewById(R.id.scrollLayoutScores);
+        btnContinueGame   = findViewById(R.id.btnContinueGame);
+        btnEndGame        = findViewById(R.id.btnEndGame);
     }
 
     private void setHeaderNames() {
-        ((TextView) findViewById(R.id.groupAName)).setText(currentGame.groupAName);
-        ((TextView) findViewById(R.id.groupBName)).setText(currentGame.groupBName);
+        TextView tvA = findViewById(R.id.groupAName);
+        TextView tvB = findViewById(R.id.groupBName);
+        if (tvA != null) tvA.setText(currentGame.groupAName);
+        if (tvB != null) tvB.setText(currentGame.groupBName);
     }
 
     private void populateScoreTable() {
-        List<Integer> scoresA = currentGame.scoresA != null ? currentGame.scoresA : new ArrayList<>();
-        List<Integer> scoresB = currentGame.scoresB != null ? currentGame.scoresB : new ArrayList<>();
+        List<Integer> scoresA  = currentGame.scoresA;
+        List<Integer> scoresB  = currentGame.scoresB;
         int totalRounds = Math.max(scoresA.size(), scoresB.size());
 
         tableLayoutScores.removeAllViews();
 
-        // Re-add header
-        // Header row is in XML — just add data rows
         for (int i = 0; i < totalRounds; i++) {
             TableRow row = new TableRow(this);
             row.setPadding(12, 12, 12, 12);
@@ -99,18 +108,15 @@ public class GameScoreActivity extends BaseActivity {
         return tv;
     }
 
-    /**
-     * If one group can't possibly catch up, offer to end the game early.
-     */
     private void checkSkipCondition() {
         if (currentGame.canSkipRemainingRounds()) {
-            String leader = currentGame.getTotalScoreA() > currentGame.getTotalScoreB()
+            String leader = currentGame.getTotalScoreA() >= currentGame.getTotalScoreB()
                     ? currentGame.groupAName : currentGame.groupBName;
             Toast.makeText(this,
                     leader + " " + getString(R.string.winner_desc),
                     Toast.LENGTH_LONG).show();
-            // Auto-mark finished — no more rounds can change outcome
             btnContinueGame.setEnabled(false);
+            btnContinueGame.setAlpha(0.5f);
             btnEndGame.setText(R.string.txt_end_game);
         }
     }
@@ -132,11 +138,6 @@ public class GameScoreActivity extends BaseActivity {
         });
     }
 
-    /**
-     * Advances the turn correctly:
-     * GROUP_A finishes → GROUP_B's turn
-     * GROUP_B finishes → round complete → next round or game over
-     */
     private void advanceGameTurn() {
         if (currentGame == null) return;
 
@@ -158,7 +159,6 @@ public class GameScoreActivity extends BaseActivity {
             }
         }
 
-        // Check skip condition after advancing
         if (!currentGame.isFinished && currentGame.canSkipRemainingRounds()) {
             currentGame.isFinished = true;
         }
@@ -174,6 +174,7 @@ public class GameScoreActivity extends BaseActivity {
     private void navigateToWinner() {
         startActivity(new Intent(this, WinnerActivity.class));
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        finish();
     }
 
     @Override
