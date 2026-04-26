@@ -4,12 +4,17 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.TextView;
+
 import com.example.sadaguessgame.R;
 import com.example.sadaguessgame.data.GameState;
 import com.example.sadaguessgame.data.ScoreStorage;
 import com.google.android.material.button.MaterialButton;
 
-public class WinnerActivity extends BaseActivity {
+/**
+ * Shown when both groups finish the game with equal scores.
+ * Provides the same navigation options as WinnerActivity.
+ */
+public class DrawActivity extends BaseActivity {
 
     private GameState currentGame;
     private MediaPlayer mediaPlayer;
@@ -18,6 +23,7 @@ public class WinnerActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.draw_activity);
 
         currentGame = ScoreStorage.getInstance(this).getCurrentGame();
         if (currentGame == null) {
@@ -25,42 +31,21 @@ public class WinnerActivity extends BaseActivity {
             return;
         }
 
-        int totalA = currentGame.getTotalScoreA();
-        int totalB = currentGame.getTotalScoreB();
-
-        // ── FIX: Route to DrawActivity when scores are equal ──
-        if (totalA == totalB) {
-            Intent drawIntent = new Intent(this, DrawActivity.class);
-            startActivity(drawIntent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            finish();
-            return;
-        }
-
-        setContentView(R.layout.winner_activity);
-        bindViews(totalA, totalB);
+        bindViews();
         setupButtons();
+        playDrawSound();
     }
 
-    private void bindViews(int totalA, int totalB) {
-        TextView groupWinnerName = findViewById(R.id.groupWinnerName);
-        TextView groupOneName    = findViewById(R.id.groupOneName);
-        TextView groupTwoName    = findViewById(R.id.groupTwoName);
-        TextView groupOneScore   = findViewById(R.id.groupOneScore);
-        TextView groupTwoScore   = findViewById(R.id.groupTwoScore);
+    private void bindViews() {
+        TextView groupOneName  = findViewById(R.id.groupOneName);
+        TextView groupTwoName  = findViewById(R.id.groupTwoName);
+        TextView groupOneScore = findViewById(R.id.groupOneScore);
+        TextView groupTwoScore = findViewById(R.id.groupTwoScore);
 
         groupOneName.setText(currentGame.groupAName);
         groupTwoName.setText(currentGame.groupBName);
-        groupOneScore.setText(String.valueOf(totalA));
-        groupTwoScore.setText(String.valueOf(totalB));
-
-        if (totalA > totalB) {
-            groupWinnerName.setText(currentGame.groupAName);
-        } else {
-            groupWinnerName.setText(currentGame.groupBName);
-        }
-
-        playSound(R.raw.winner_sound);
+        groupOneScore.setText(String.valueOf(currentGame.getTotalScoreA()));
+        groupTwoScore.setText(String.valueOf(currentGame.getTotalScoreB()));
     }
 
     private void setupButtons() {
@@ -88,10 +73,10 @@ public class WinnerActivity extends BaseActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    private void playSound(int resId) {
+    private void playDrawSound() {
         stopSound();
         try {
-            mediaPlayer = MediaPlayer.create(this, resId);
+            mediaPlayer = MediaPlayer.create(this, R.raw.draw_sound);
             if (mediaPlayer != null) {
                 isMediaPlayerReady = true;
                 mediaPlayer.setOnCompletionListener(mp -> {
@@ -123,5 +108,5 @@ public class WinnerActivity extends BaseActivity {
     protected void onDestroy() { super.onDestroy(); stopSound(); }
 
     @Override
-    protected void onStop()    { super.onStop();    stopSound(); }
+    protected void onStop() { super.onStop(); stopSound(); }
 }

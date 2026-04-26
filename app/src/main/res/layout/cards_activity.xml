@@ -11,20 +11,47 @@
         android:background="@drawable/bg_linear_app_background_primary"
         android:padding="16dp">
 
-
-        <!-- Title -->
-        <TextView
-            android:id="@+id/cardsTitle"
-            android:layout_width="205dp"
-            android:layout_height="47dp"
-            android:layout_marginTop="@dimen/primary_size_layout"
-            android:fontFamily="@font/primary_font"
-            android:text="@string/cards_page_title"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/primary_size"
-            app:layout_constraintEnd_toEndOf="parent"
+        <!-- ── HEADER with Back Button ── -->
+        <LinearLayout
+            android:id="@+id/headerContainer"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingTop="@dimen/primary_size_layout"
+            android:paddingBottom="@dimen/primary_size_layout"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- Back Button -->
+            <ImageView
+                android:id="@+id/back_home_activity_button"
+                android:layout_width="@dimen/back_button_size"
+                android:layout_height="@dimen/back_button_size"
+                android:contentDescription="@string/back"
+                android:src="@drawable/ic_back"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="4dp" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="10dp"
+                android:background="?android:attr/listDivider" />
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/primary_font"
+                android:text="@string/cards_page_title"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/primary_size"
+                android:gravity="center" />
+
+        </LinearLayout>
 
         <!-- Divider -->
         <View
@@ -32,7 +59,7 @@
             android:layout_width="250dp"
             android:layout_height="2dp"
             android:background="?android:attr/listDivider"
-            app:layout_constraintTop_toBottomOf="@id/cardsTitle"
+            app:layout_constraintTop_toBottomOf="@id/headerContainer"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="3dp" />
@@ -51,7 +78,7 @@
             app:layout_constraintTop_toBottomOf="@id/div_under_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="16dp">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/cardImage"
@@ -74,7 +101,6 @@
                 android:layout_marginBottom="5dp"
                 android:gravity="center" />
         </LinearLayout>
-
 
         <!-- Tip Text -->
         <TextView
@@ -132,7 +158,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.493" />
 
-            <!-- Group Turn -->
             <TextView
                 android:id="@+id/timeDisplay"
                 android:layout_width="match_parent"
@@ -176,33 +201,25 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/startTimer"
                 style="@style/PrimaryButtonStyle"
-                android:text="@string/txt_start"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:text="@string/txt_start" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/stopTimer"
                 style="@style/PrimaryButtonStyle"
                 android:layout_marginTop="5dp"
-                android:text="@string/txt_stop"
-                app:layout_constraintTop_toBottomOf="@id/startTimer"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:text="@string/txt_stop" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/restartTimer"
                 style="@style/PrimaryButtonStyle"
                 android:layout_marginTop="5dp"
-                android:text="@string/txt_restart"
-                app:layout_constraintTop_toBottomOf="@id/stopTimer"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:text="@string/txt_restart" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/endTimer"
                 style="@style/PrimaryButtonStyle"
                 android:layout_marginTop="5dp"
-                android:text="@string/txt_end"
-                app:layout_constraintTop_toBottomOf="@id/restartTimer"
-                app:layout_constraintStart_toStartOf="parent" />
+                android:text="@string/txt_end" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

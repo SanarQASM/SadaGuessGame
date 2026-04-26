@@ -16,16 +16,19 @@
         <activity
             android:name="com.example.sadaguessgame.ui.GetStarted"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|layoutDirection|locale" />
 
         <activity
             android:name="com.example.sadaguessgame.ui.NavigationActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|layoutDirection|locale" />
 
         <activity
             android:name="com.example.sadaguessgame.activities.MainActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize|layoutDirection|locale" />
 
         <activity
@@ -46,6 +49,12 @@
 
         <activity
             android:name="com.example.sadaguessgame.activities.WinnerActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|layoutDirection|locale" />
+
+        <!-- NEW: Draw Activity -->
+        <activity
+            android:name="com.example.sadaguessgame.activities.DrawActivity"
             android:exported="false"
             android:configChanges="orientation|screenSize|layoutDirection|locale" />
 

@@ -176,5 +176,7 @@ If you have any questions about this policy, please contact the developer.
     <string name="app_version_prefix">Version</string>
     <string name="no_score_yet">0</string>
     <string name="score_added_format">+%1$d</string>
+    <string name="confirm_leave_game">Timer is running. Leave the game?</string>
+    <string name="draw_subtitle">Both teams scored equally — well played!</string>
 
 </resources>

@@ -169,5 +169,9 @@ SadaGuess هیچ زانیارییەکی کەسیی بەکارهێنەر کۆنا
     <string name="failed_to_delete_game">سڕینەوەی یارییەکە سەرکەوتوو نەبوو</string>
     <string name="failed_to_delete_all">سڕینەوەی یارییەکان سەرکەوتوو نەبوو</string>
     <string name="content_desc_delete_game">ئەم یارییە بسڕەوە</string>
-
+    <string name="app_version_prefix">وەشان</string>
+    <string name="no_score_yet">٠</string>
+    <string name="score_added_format">+%1$d</string>
+    <string name="confirm_leave_game">کاتی یارییەکە دەڕوات. دەتەوێت لە یارییەکە بڕۆیتە دەرەوە؟</string>
+    <string name="draw_subtitle">هەردوو تیم وەک یەک خاڵیان بەدەستهێنا — دەستخۆش!</string>
 </resources>

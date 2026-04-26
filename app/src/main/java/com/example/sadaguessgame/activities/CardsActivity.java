@@ -1,16 +1,21 @@
 package com.example.sadaguessgame.activities;
 
+import android.app.AlertDialog;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.Intent;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 
 import com.example.sadaguessgame.R;
@@ -34,6 +39,7 @@ public class CardsActivity extends BaseActivity {
     private TextView groupTurn, timeDisplay;
     private ProgressBar circularProgressBar;
     private MaterialButton startTimer, stopTimer, restartTimer, endTimer;
+    private ImageView backButton;
 
     private int cardImageState = 0; // 0 = back, 1 = front
 
@@ -56,6 +62,12 @@ public class CardsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cards_activity);
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleBackPress();
+            }
+        });
 
         currentGame = ScoreStorage.getInstance(this).getCurrentGame();
         if (currentGame == null) {
@@ -77,6 +89,7 @@ public class CardsActivity extends BaseActivity {
         timeDisplay         = findViewById(R.id.timeDisplay);
         circularProgressBar = findViewById(R.id.circularProgressBar);
         cards               = findViewById(R.id.cards);
+        backButton          = findViewById(R.id.back_home_activity_button);
 
         startTimer   = findViewById(R.id.startTimer);
         stopTimer    = findViewById(R.id.stopTimer);
@@ -162,6 +175,11 @@ public class CardsActivity extends BaseActivity {
     // ------------- BUTTONS -------------
 
     private void setupButtons() {
+        // FIX: Back button - confirm before leaving if timer running
+        if (backButton != null) {
+            backButton.setOnClickListener(v -> handleBackPress());
+        }
+
         cards.setOnClickListener(v -> {
             if (cardImageState == 0) initFrontCard();
             else initBackCard();
@@ -174,6 +192,25 @@ public class CardsActivity extends BaseActivity {
             stopTimerAction();
             showEndDialog();
         });
+    }
+
+    /**
+     * Back press handling — warn user if game is in progress.
+     */
+    private void handleBackPress() {
+        if (isRunning) {
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.back))
+                    .setMessage(getString(R.string.confirm_leave_game))
+                    .setPositiveButton(getString(R.string.yes_button), (d, w) -> {
+                        stopTimerAction();
+                        finish();
+                    })
+                    .setNegativeButton(getString(R.string.no_button), null)
+                    .show();
+        } else {
+            finish();
+        }
     }
 
     // ------------- TIMER -------------

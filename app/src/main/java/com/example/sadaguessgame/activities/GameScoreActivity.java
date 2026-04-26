@@ -38,7 +38,6 @@ public class GameScoreActivity extends BaseActivity {
             return;
         }
 
-        // Ensure non-null score lists
         if (currentGame.scoresA == null) currentGame.scoresA = new ArrayList<>();
         if (currentGame.scoresB == null) currentGame.scoresB = new ArrayList<>();
 
@@ -94,15 +93,16 @@ public class GameScoreActivity extends BaseActivity {
         TextView tv = new TextView(this);
         tv.setText(text);
         tv.setTextColor(getResources().getColor(R.color.primary_text, null));
-        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.sub_font_size));
+        tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+                getResources().getDimension(R.dimen.sub_font_size));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             tv.setTypeface(getResources().getFont(R.font.subtext_font));
         }
         int pad = (int) getResources().getDimension(R.dimen.primary_size_layout);
         tv.setPadding(pad, pad, pad, pad);
         tv.setGravity(Gravity.CENTER);
-        TableRow.LayoutParams params = new TableRow.LayoutParams(0,
-                TableRow.LayoutParams.WRAP_CONTENT, 1f);
+        TableRow.LayoutParams params = new TableRow.LayoutParams(
+                0, TableRow.LayoutParams.WRAP_CONTENT, 1f);
         params.setMargins(pad, pad, pad, pad);
         tv.setLayoutParams(params);
         return tv;
@@ -125,7 +125,7 @@ public class GameScoreActivity extends BaseActivity {
         btnContinueGame.setOnClickListener(v -> {
             advanceGameTurn();
             if (currentGame.isFinished) {
-                navigateToWinner();
+                navigateToResult();
             } else {
                 navigateToCards();
             }
@@ -134,7 +134,7 @@ public class GameScoreActivity extends BaseActivity {
         btnEndGame.setOnClickListener(v -> {
             currentGame.isFinished = true;
             ScoreStorage.getInstance(this).saveCurrentGame(currentGame);
-            navigateToWinner();
+            navigateToResult();
         });
     }
 
@@ -166,15 +166,18 @@ public class GameScoreActivity extends BaseActivity {
         ScoreStorage.getInstance(this).saveCurrentGame(currentGame);
     }
 
-    private void navigateToCards() {
-        startActivity(new Intent(this, CardsActivity.class));
-        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-    }
-
-    private void navigateToWinner() {
+    /**
+     * Navigate to WinnerActivity (which internally redirects to DrawActivity if tied).
+     */
+    private void navigateToResult() {
         startActivity(new Intent(this, WinnerActivity.class));
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
+    }
+
+    private void navigateToCards() {
+        startActivity(new Intent(this, CardsActivity.class));
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     @Override

@@ -170,5 +170,9 @@ SadaGuess چ پێزانینێن کەسی یێن بکارهێنەری کوم نا
     <string name="failed_to_delete_game">سڕینەوەی یارییەکە سەرکەوتوو نەبوو</string>
     <string name="failed_to_delete_all">سڕینەوەی یارییەکان سەرکەوتوو نەبوو</string>
     <string name="content_desc_delete_game">ڤێ یاریێ ژێببە</string>
-
+    <string name="app_version_prefix">وەشان</string>
+    <string name="no_score_yet">٠</string>
+    <string name="score_added_format">+%1$d</string>
+    <string name="confirm_leave_game">دەمژمێر کار دکەت. دێ ژ یاریێ دەرکەڤی؟</string>
+    <string name="draw_subtitle">هەردوو تیمان وەکی ئێک خال کۆمکرن — دەستخۆش!</string>
 </resources>
