@@ -1,6 +1,7 @@
 package com.example.sadaguessgame.activities;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -11,15 +12,11 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.core.content.ContextCompat;
-
 import com.example.sadaguessgame.R;
 import com.google.android.material.button.MaterialButton;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class ScoreBoardActivity extends BaseActivity {
@@ -29,17 +26,18 @@ public class ScoreBoardActivity extends BaseActivity {
     private LinearLayout historyContainerLinear;
 
     private int scoreGroupA = 0, scoreGroupB = 0;
-    private int colorGroupA = Color.RED, colorGroupB = Color.BLUE;
+    private int colorGroupA, colorGroupB;
 
-    // ✅ HISTORY DATA (not views)
     private final List<HistoryItem> historyList = new ArrayList<>();
     private int currentHistoryIndex = -1;
 
     static class HistoryItem {
         boolean isGroupA;
+        int scoreAdded;
 
-        HistoryItem(boolean isGroupA) {
+        HistoryItem(boolean isGroupA, int scoreAdded) {
             this.isGroupA = isGroupA;
+            this.scoreAdded = scoreAdded;
         }
     }
 
@@ -59,6 +57,9 @@ public class ScoreBoardActivity extends BaseActivity {
         tvGroupTwoName = findViewById(R.id.tvGroupTwoName);
         historyContainerLinear = findViewById(R.id.historyContainerLinear);
 
+        tvGroupOneName.setText(getString(R.string.group_a_color));
+        tvGroupTwoName.setText(getString(R.string.group_b_color));
+
         MaterialButton groupAColorBtn = findViewById(R.id.groupAColor);
         MaterialButton groupBColorBtn = findViewById(R.id.groupBColor);
         MaterialButton restartScoreBtn = findViewById(R.id.restartScore);
@@ -73,7 +74,7 @@ public class ScoreBoardActivity extends BaseActivity {
         frameGroupTwo.setOnClickListener(v -> addScore(false));
 
         restartScoreBtn.setOnClickListener(v -> restartScores());
-        undoButton.setOnClickListener(v -> showPreviousHistory());
+        undoButton.setOnClickListener(v -> undoLastScore());
     }
 
     private void addScore(boolean isGroupA) {
@@ -85,65 +86,57 @@ public class ScoreBoardActivity extends BaseActivity {
             tvGroupTwoScore.setText(String.valueOf(scoreGroupB));
         }
 
-        historyList.add(new HistoryItem(isGroupA));
+        HistoryItem item = new HistoryItem(isGroupA, 1);
+        historyList.add(item);
         currentHistoryIndex = historyList.size() - 1;
-        showCurrentHistory();
+        rebuildHistoryView();
     }
 
+    /**
+     * Rebuild history view showing ALL history entries, with the latest at bottom.
+     */
     @SuppressLint("SetTextI18n")
-    private void showCurrentHistory() {
+    private void rebuildHistoryView() {
         historyContainerLinear.removeAllViews();
 
-        if (historyList.isEmpty() || currentHistoryIndex < 0) {
+        for (int i = 0; i <= currentHistoryIndex; i++) {
+            HistoryItem item = historyList.get(i);
+
+            View view = LayoutInflater.from(this)
+                    .inflate(R.layout.item_score_linear, historyContainerLinear, false);
+
+            TextView tvIndex = view.findViewById(R.id.tvIndex);
+            TextView tvGroup = view.findViewById(R.id.tvGroup);
+
+            tvIndex.setText((i + 1) + " -");
+            tvGroup.setText(item.isGroupA
+                    ? getString(R.string.group_a_color)
+                    : getString(R.string.group_b_color));
+
+            historyContainerLinear.addView(view);
+        }
+    }
+
+    private void undoLastScore() {
+        if (currentHistoryIndex < 0 || historyList.isEmpty()) {
+            Toast.makeText(this, getString(R.string.no_score_yet), Toast.LENGTH_SHORT).show();
             return;
         }
 
         HistoryItem item = historyList.get(currentHistoryIndex);
 
-        View view = LayoutInflater.from(this)
-                .inflate(R.layout.item_score_linear, historyContainerLinear, false);
-
-        TextView tvIndex = view.findViewById(R.id.tvIndex);
-        TextView tvGroup = view.findViewById(R.id.tvGroup);
-
-        tvIndex.setText((currentHistoryIndex + 1) + " -");
-        tvGroup.setText(item.isGroupA
-                ? getString(R.string.group_a_color)
-                : getString(R.string.group_b_color));
-
-        historyContainerLinear.addView(view);
-    }
-
-    // ✅ Updated Undo method
-    private void showPreviousHistory() {
-        if (currentHistoryIndex >= 0 && !historyList.isEmpty()) {
-
-            // Get last history item
-            HistoryItem item = historyList.get(currentHistoryIndex);
-
-            // Undo score
-            if (item.isGroupA) {
-                scoreGroupA = Math.max(0, scoreGroupA - 1);
-                tvGroupOneScore.setText(String.valueOf(scoreGroupA));
-            } else {
-                scoreGroupB = Math.max(0, scoreGroupB - 1);
-                tvGroupTwoScore.setText(String.valueOf(scoreGroupB));
-            }
-
-            // Remove history item
-            historyList.remove(currentHistoryIndex);
-            currentHistoryIndex--;
-
-            // Update UI
-            if (currentHistoryIndex >= 0) {
-                showCurrentHistory();
-            } else {
-                historyContainerLinear.removeAllViews();
-            }
-
+        if (item.isGroupA) {
+            scoreGroupA = Math.max(0, scoreGroupA - item.scoreAdded);
+            tvGroupOneScore.setText(String.valueOf(scoreGroupA));
         } else {
-            Toast.makeText(this, "No previous history", Toast.LENGTH_SHORT).show();
+            scoreGroupB = Math.max(0, scoreGroupB - item.scoreAdded);
+            tvGroupTwoScore.setText(String.valueOf(scoreGroupB));
         }
+
+        historyList.remove(currentHistoryIndex);
+        currentHistoryIndex--;
+
+        rebuildHistoryView();
     }
 
     private void restartScores() {
@@ -151,30 +144,31 @@ public class ScoreBoardActivity extends BaseActivity {
         scoreGroupB = 0;
         tvGroupOneScore.setText("0");
         tvGroupTwoScore.setText("0");
-
         historyList.clear();
         currentHistoryIndex = -1;
         historyContainerLinear.removeAllViews();
     }
 
     private void openColorPicker(boolean isGroupA) {
-        AmbilWarnaDialog colorPicker = new AmbilWarnaDialog(this, isGroupA ? colorGroupA : colorGroupB, new AmbilWarnaDialog.OnAmbilWarnaListener() {
-            @Override
-            public void onOk(AmbilWarnaDialog dialog, int color) {
-                if (isGroupA) {
-                    colorGroupA = color;
-                    setFrameColor(frameGroupOne, colorGroupA);
-                    setTextColorForVisibility(tvGroupOneName, tvGroupOneScore, colorGroupA);
-                } else {
-                    colorGroupB = color;
-                    setFrameColor(frameGroupTwo, colorGroupB);
-                    setTextColorForVisibility(tvGroupTwoName, tvGroupTwoScore, colorGroupB);
-                }
-            }
+        AmbilWarnaDialog colorPicker = new AmbilWarnaDialog(this,
+                isGroupA ? colorGroupA : colorGroupB,
+                new AmbilWarnaDialog.OnAmbilWarnaListener() {
+                    @Override
+                    public void onOk(AmbilWarnaDialog dialog, int color) {
+                        if (isGroupA) {
+                            colorGroupA = color;
+                            setFrameColor(frameGroupOne, colorGroupA);
+                            setTextColorForVisibility(tvGroupOneName, tvGroupOneScore, colorGroupA);
+                        } else {
+                            colorGroupB = color;
+                            setFrameColor(frameGroupTwo, colorGroupB);
+                            setTextColorForVisibility(tvGroupTwoName, tvGroupTwoScore, colorGroupB);
+                        }
+                    }
 
-            @Override
-            public void onCancel(AmbilWarnaDialog dialog) { }
-        });
+                    @Override
+                    public void onCancel(AmbilWarnaDialog dialog) { }
+                });
         colorPicker.show();
     }
 
@@ -182,6 +176,8 @@ public class ScoreBoardActivity extends BaseActivity {
         Drawable bg = frame.getBackground();
         if (bg instanceof GradientDrawable) {
             ((GradientDrawable) bg.mutate()).setColor(color);
+        } else {
+            frame.setBackgroundColor(color);
         }
     }
 

@@ -39,18 +39,25 @@ public class TimeUpDialog {
         setupOutsideShake();
     }
 
-    /** Fix: dynamically set the correct group question text */
     private void updateGroupText() {
+        // Always fetch fresh to get correct current turn
         GameState game = ScoreStorage.getInstance(context).getCurrentGame();
         if (game == null) return;
 
         TextView dialogText = dialog.findViewById(R.id.dialogText);
         if (dialogText != null) {
+            // Show which group's turn it is asking if they found the card
             dialogText.setText(
                     game.groupTurn == GameState.GROUP_A
                             ? R.string.group_turn_found_A
                             : R.string.group_turn_found_B
             );
+        }
+
+        // Also update title to show group name
+        TextView dialogTitle = dialog.findViewById(R.id.dialogTitle);
+        if (dialogTitle != null) {
+            dialogTitle.setText(R.string.time_up);
         }
     }
 
@@ -58,19 +65,25 @@ public class TimeUpDialog {
         MaterialButton btnYes = dialog.findViewById(R.id.btn_yes);
         MaterialButton btnNo = dialog.findViewById(R.id.btn_no);
 
+        // YES = found the card → let user give score
         btnYes.setOnClickListener(v -> {
             dismiss();
             new ScoreDialog(context)
                     .setOnScoreSavedListener(() -> {
-                        context.startActivity(new Intent(context, GameScoreActivity.class));
+                        Intent intent = new Intent(context, GameScoreActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(intent);
                     })
                     .show();
         });
 
+        // NO = didn't find card → add 0 score automatically
         btnNo.setOnClickListener(v -> {
             addZeroScore();
-            navigateToScoreActivity();
             dismiss();
+            Intent intent = new Intent(context, GameScoreActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            context.startActivity(intent);
         });
     }
 
@@ -84,10 +97,6 @@ public class TimeUpDialog {
             game.scoresB.add(0);
         }
         ScoreStorage.getInstance(context).saveCurrentGame(game);
-    }
-
-    private void navigateToScoreActivity() {
-        context.startActivity(new Intent(context, GameScoreActivity.class));
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -117,5 +126,5 @@ public class TimeUpDialog {
     }
 
     public void show() { dialog.show(); }
-    public void dismiss() { dialog.dismiss(); }
+    public void dismiss() { if (dialog.isShowing()) dialog.dismiss(); }
 }

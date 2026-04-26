@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import java.util.Locale;
@@ -13,8 +14,6 @@ public class BaseActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "settings_prefs";
     private static final String KEY_LANGUAGE = "language";
     private static final String KEY_DARK_MODE = "dark_mode";
-    private static final String LANG_SORANI = "ku";
-    private static final String LANG_BADINI = "kmr";
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -31,16 +30,25 @@ public class BaseActivity extends AppCompatActivity {
 
     private Context applyLocale(Context context) {
         String langCode = getLangCode(context);
-        Locale locale = new Locale(langCode);
+        Locale locale = buildLocale(langCode);
         Locale.setDefault(locale);
 
         Configuration config = new Configuration(context.getResources().getConfiguration());
         config.setLocale(locale);
-
-        boolean isRtl = langCode.equals(LANG_SORANI) || langCode.equals(LANG_BADINI);
-        config.setLayoutDirection(isRtl ? locale : Locale.ENGLISH);
+        config.setLayoutDirection(locale);
 
         return context.createConfigurationContext(config);
+    }
+
+    private Locale buildLocale(String langCode) {
+        switch (langCode) {
+            case "ku":
+                return new Locale("ku");
+            case "kmr":
+                return new Locale("kmr");
+            default:
+                return new Locale("en");
+        }
     }
 
     private String getLangCode(Context context) {
@@ -65,6 +73,18 @@ public class BaseActivity extends AppCompatActivity {
 
     protected boolean isRtlLanguage() {
         String lang = getLangCode(this);
-        return lang.equals(LANG_SORANI) || lang.equals(LANG_BADINI);
+        return lang.equals("ku") || lang.equals("kmr");
+    }
+
+    /**
+     * Force RTL or LTR on the root content view after inflation.
+     * Call this in onStart() if layout direction doesn't apply correctly.
+     */
+    protected void forceLayoutDirection() {
+        View root = findViewById(android.R.id.content);
+        if (root == null) return;
+        root.setLayoutDirection(
+                isRtlLanguage() ? View.LAYOUT_DIRECTION_RTL : View.LAYOUT_DIRECTION_LTR
+        );
     }
 }

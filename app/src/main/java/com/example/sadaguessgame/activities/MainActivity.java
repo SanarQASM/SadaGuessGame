@@ -7,11 +7,13 @@ import android.widget.ImageView;
 import androidx.fragment.app.Fragment;
 
 import com.example.sadaguessgame.fragments.HomeFragment;
-import com.example.sadaguessgame.fragments.NothingSelected;
 import com.example.sadaguessgame.fragments.RecentlyFragment;
 import com.example.sadaguessgame.fragments.SettingFragment;
 import com.example.sadaguessgame.R;
+import com.example.sadaguessgame.data.GameState;
 import com.example.sadaguessgame.data.ScoreStorage;
+
+import java.util.List;
 
 public class MainActivity extends BaseActivity {
 
@@ -19,7 +21,6 @@ public class MainActivity extends BaseActivity {
     private FrameLayout frHome, frRecently, frSetting;
     private ImageView icHome, icRecently, icSetting;
     private ImageView[] allIcons;
-    private ScoreStorage scoreStorage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +47,31 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupTabs() {
-        // Set listeners for all containers
-        if (frHome != null) frHome.setOnClickListener(v -> selectTab(v, icHome, new HomeFragment()));
-        if (frRecently != null) frRecently.setOnClickListener(v -> {
-            scoreStorage = ScoreStorage.getInstance(this);
-            if(!scoreStorage.getAllGames().isEmpty()){
-                selectTab(v, icRecently, new RecentlyFragment());
-            }
-            else selectTab(v, icRecently, new NothingSelected());
+        if (frHome != null) {
+            frHome.setOnClickListener(v -> selectTab(v, icHome, new HomeFragment()));
+        }
 
-        });
-        if (frSetting != null) frSetting.setOnClickListener(v -> selectTab(v, icSetting, new SettingFragment()));
+        if (frRecently != null) {
+            frRecently.setOnClickListener(v -> {
+                // Show recently fragment if there are any games (finished OR unfinished)
+                ScoreStorage storage = ScoreStorage.getInstance(this);
+                List<GameState> games = storage.getAllGames();
+                GameState current = storage.getCurrentGame();
+                boolean hasAnyGame = (games != null && !games.isEmpty())
+                        || (current != null && !current.isFinished);
+
+                if (hasAnyGame) {
+                    selectTab(v, icRecently, new RecentlyFragment());
+                } else {
+                    // Show empty recently state
+                    selectTab(v, icRecently, new RecentlyFragment());
+                }
+            });
+        }
+
+        if (frSetting != null) {
+            frSetting.setOnClickListener(v -> selectTab(v, icSetting, new SettingFragment()));
+        }
     }
 
     private void setDefaultTab() {
@@ -75,12 +90,12 @@ public class MainActivity extends BaseActivity {
         for (ImageView icon : allIcons) {
             if (icon != null) {
                 icon.setSelected(false);
-                icon.setAlpha(0.7f); // Dim inactive icons
+                icon.setAlpha(0.7f);
             }
         }
         if (selectedIcon != null) {
             selectedIcon.setSelected(true);
-            selectedIcon.setAlpha(1.0f); // Brighten active icon
+            selectedIcon.setAlpha(1.0f);
         }
     }
 

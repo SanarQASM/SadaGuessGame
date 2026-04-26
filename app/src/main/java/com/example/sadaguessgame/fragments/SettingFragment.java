@@ -17,14 +17,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.sadaguessgame.R;
+import com.example.sadaguessgame.activities.MainActivity;
 import com.example.sadaguessgame.activities.PrivacyPolicyActivity;
 import com.example.sadaguessgame.ui.NavigationActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
-
-import java.util.Locale;
-
-import yuku.ambilwarna.BuildConfig;
 
 public class SettingFragment extends BaseFragment {
 
@@ -34,6 +31,7 @@ public class SettingFragment extends BaseFragment {
     private MaterialButton learnPlay, privacyPolicyBtn;
 
     private SharedPreferences prefs;
+    private boolean spinnerInitialized = false;
 
     public SettingFragment() {}
 
@@ -48,7 +46,6 @@ public class SettingFragment extends BaseFragment {
 
         prefs = requireContext().getSharedPreferences("settings_prefs", Context.MODE_PRIVATE);
 
-        // ------------------- VIEWS -------------------
         customSwitch = view.findViewById(R.id.customSwitch);
         languageSpinner = view.findViewById(R.id.languageSpinner);
         appVersion = view.findViewById(R.id.appVersion);
@@ -64,43 +61,26 @@ public class SettingFragment extends BaseFragment {
         return view;
     }
 
-    // --------------------------------------------------
-    // Learn How To Play
-    // --------------------------------------------------
     private void setupLearnPlay() {
-        learnPlay.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), NavigationActivity.class);
-            startActivity(intent);
-        });
+        learnPlay.setOnClickListener(v -> startActivity(new Intent(requireContext(), NavigationActivity.class)));
     }
 
-    // --------------------------------------------------
-    // Dark Mode
-    // --------------------------------------------------
     private void setupDarkMode() {
         boolean isDarkMode = prefs.getBoolean("dark_mode", false);
         customSwitch.setChecked(isDarkMode);
 
         AppCompatDelegate.setDefaultNightMode(
-                isDarkMode
-                        ? AppCompatDelegate.MODE_NIGHT_YES
-                        : AppCompatDelegate.MODE_NIGHT_NO
+                isDarkMode ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO
         );
 
         customSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             prefs.edit().putBoolean("dark_mode", isChecked).apply();
-
             AppCompatDelegate.setDefaultNightMode(
-                    isChecked
-                            ? AppCompatDelegate.MODE_NIGHT_YES
-                            : AppCompatDelegate.MODE_NIGHT_NO
+                    isChecked ? AppCompatDelegate.MODE_NIGHT_YES : AppCompatDelegate.MODE_NIGHT_NO
             );
         });
     }
 
-    // --------------------------------------------------
-    // Language Spinner
-    // --------------------------------------------------
     private void setupLanguageSpinner() {
         String[] languages = getResources().getStringArray(R.array.language_txt);
 
@@ -113,29 +93,27 @@ public class SettingFragment extends BaseFragment {
         languageSpinner.setAdapter(adapter);
 
         String savedLang = prefs.getString("language", "en");
-        int position = savedLang.equals("ku") ? 1 :
-                savedLang.equals("kmr") ? 2 : 0;
-
+        int position = savedLang.equals("ku") ? 1 : savedLang.equals("kmr") ? 2 : 0;
         languageSpinner.setSelection(position, false);
 
-        languageSpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(android.widget.AdapterView<?> parent, View view, int pos, long id) {
-                switch (pos) {
-                    case 0:
-                        setLanguage("en");
-                        break;
-                    case 1:
-                        setLanguage("ku");   // Sorani
-                        break;
-                    case 2:
-                        setLanguage("kmr");  // Badini / Kurmanji
-                        break;
+        languageSpinner.post(() -> {
+            spinnerInitialized = true;
+            languageSpinner.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(android.widget.AdapterView<?> parent, View view, int pos, long id) {
+                    if (!spinnerInitialized) return;
+                    String newLang;
+                    switch (pos) {
+                        case 1: newLang = "ku"; break;
+                        case 2: newLang = "kmr"; break;
+                        default: newLang = "en"; break;
+                    }
+                    setLanguage(newLang);
                 }
-            }
 
-            @Override
-            public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+                @Override
+                public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+            });
         });
     }
 
@@ -145,26 +123,26 @@ public class SettingFragment extends BaseFragment {
 
         prefs.edit().putString("language", langCode).apply();
 
-        // Restart the entire activity to apply locale change correctly
-        requireActivity().recreate();
+        // Restart the full app stack so locale applies correctly everywhere
+        Intent intent = new Intent(requireContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        requireActivity().finish();
     }
 
-    // --------------------------------------------------
-    // App Version
-    // --------------------------------------------------
     @SuppressLint("SetTextI18n")
     private void setupAppVersion() {
-        String version = getString(R.string.app_version_prefix) + " " + BuildConfig.VERSION_NAME;
-        appVersion.setText(version);
+        try {
+            String versionName = requireContext().getPackageManager()
+                    .getPackageInfo(requireContext().getPackageName(), 0).versionName;
+            appVersion.setText(getString(R.string.app_version_prefix) + " " + versionName);
+        } catch (Exception e) {
+            appVersion.setText(getString(R.string.app_version_prefix) + " 1.0");
+        }
     }
 
-    // --------------------------------------------------
-    // Privacy Policy
-    // --------------------------------------------------
     private void setupPrivacyPolicy() {
-        privacyPolicyBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), PrivacyPolicyActivity.class);
-            startActivity(intent);
-        });
+        privacyPolicyBtn.setOnClickListener(v ->
+                startActivity(new Intent(requireContext(), PrivacyPolicyActivity.class)));
     }
 }

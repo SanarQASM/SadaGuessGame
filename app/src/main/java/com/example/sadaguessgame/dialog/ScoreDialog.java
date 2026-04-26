@@ -51,15 +51,20 @@ public class ScoreDialog {
         MaterialButton btn2 = dialog.findViewById(R.id.btn_2);
         MaterialButton btn3 = dialog.findViewById(R.id.btn_3);
 
-        btn1.setOnClickListener(v -> saveAndDismiss(1));
-        btn2.setOnClickListener(v -> saveAndDismiss(2));
-        btn3.setOnClickListener(v -> saveAndDismiss(3));
+        if (btn1 != null) btn1.setOnClickListener(v -> saveAndDismiss(1));
+        if (btn2 != null) btn2.setOnClickListener(v -> saveAndDismiss(2));
+        if (btn3 != null) btn3.setOnClickListener(v -> saveAndDismiss(3));
     }
 
     private void saveAndDismiss(int score) {
+        // Always fetch fresh GameState to avoid stale data
         GameState game = ScoreStorage.getInstance(context).getCurrentGame();
-        if (game == null) { dismiss(); return; }
+        if (game == null) {
+            dismiss();
+            return;
+        }
 
+        // Add score to the CURRENT group's list
         if (game.groupTurn == GameState.GROUP_A) {
             game.scoresA.add(score);
         } else {
@@ -96,5 +101,5 @@ public class ScoreDialog {
     }
 
     public void show() { dialog.show(); }
-    public void dismiss() { dialog.dismiss(); }
+    public void dismiss() { if (dialog.isShowing()) dialog.dismiss(); }
 }

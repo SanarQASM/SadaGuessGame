@@ -15,52 +15,64 @@
 
         <activity
             android:name="com.example.sadaguessgame.ui.GetStarted"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation|screenSize|layoutDirection|locale" />
 
         <activity
             android:name="com.example.sadaguessgame.ui.NavigationActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation|screenSize|layoutDirection|locale" />
 
         <activity
             android:name="com.example.sadaguessgame.activities.MainActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation|screenSize|layoutDirection|locale" />
 
         <activity
             android:name="com.example.sadaguessgame.activities.CreateNewGameActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation|screenSize|layoutDirection|locale"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name="com.example.sadaguessgame.activities.CardsActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation|screenSize|layoutDirection|locale" />
 
         <activity
             android:name="com.example.sadaguessgame.activities.GameScoreActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation|screenSize|layoutDirection|locale" />
 
         <activity
             android:name="com.example.sadaguessgame.activities.WinnerActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation|screenSize|layoutDirection|locale" />
 
         <activity
             android:name="com.example.sadaguessgame.activities.TimerActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation|screenSize|layoutDirection|locale" />
 
         <activity
             android:name="com.example.sadaguessgame.activities.ScoreBoardActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation|screenSize|layoutDirection|locale" />
 
         <activity
             android:name="com.example.sadaguessgame.activities.DiceActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation|screenSize|layoutDirection|locale" />
 
         <activity
             android:name=".activities.PrivacyPolicyActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation|screenSize|layoutDirection|locale" />
 
         <activity
             android:name="com.example.sadaguessgame.activities.SplashActivity"
-            android:exported="true">
-
+            android:exported="true"
+            android:configChanges="orientation|screenSize|layoutDirection|locale">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

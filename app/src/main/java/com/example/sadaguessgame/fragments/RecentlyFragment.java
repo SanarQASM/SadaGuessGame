@@ -1,6 +1,7 @@
 package com.example.sadaguessgame.fragments;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.sadaguessgame.R;
+import com.example.sadaguessgame.activities.CardsActivity;
 import com.example.sadaguessgame.data.GameState;
 import com.example.sadaguessgame.data.ScoreStorage;
 import com.google.android.material.button.MaterialButton;
@@ -23,9 +25,7 @@ public class RecentlyFragment extends BaseFragment {
     private ScoreStorage scoreStorage;
     private MaterialButton btnDeleteAll;
 
-    public RecentlyFragment() {
-        // Required empty public constructor
-    }
+    public RecentlyFragment() {}
 
     @Nullable
     @Override
@@ -36,13 +36,11 @@ public class RecentlyFragment extends BaseFragment {
     ) {
         View view = inflater.inflate(R.layout.recently_activity, container, false);
 
-        // ------------------- INITIALIZE VIEWS -------------------
         scoreContainer = view.findViewById(R.id.scoreContainer);
         btnDeleteAll = view.findViewById(R.id.delete_all);
 
         scoreStorage = ScoreStorage.getInstance(requireContext());
 
-        // Setup delete all button
         btnDeleteAll.setOnClickListener(v -> showDeleteAllConfirmation());
 
         loadAllGames();
@@ -51,9 +49,17 @@ public class RecentlyFragment extends BaseFragment {
 
     private void loadAllGames() {
         scoreContainer.removeAllViews();
-        List<GameState> games = scoreStorage.getAllGames();
 
-        if (games == null || games.isEmpty()) {
+        // Show ALL finished games
+        List<GameState> finishedGames = scoreStorage.getAllGames();
+
+        // Also show current unfinished game if any
+        GameState currentGame = scoreStorage.getCurrentGame();
+        boolean hasUnfinished = currentGame != null && !currentGame.isFinished;
+
+        boolean isEmpty = (finishedGames == null || finishedGames.isEmpty()) && !hasUnfinished;
+
+        if (isEmpty) {
             showEmptyState();
             btnDeleteAll.setVisibility(View.GONE);
             return;
@@ -61,9 +67,19 @@ public class RecentlyFragment extends BaseFragment {
 
         btnDeleteAll.setVisibility(View.VISIBLE);
 
-        // Add games in order from 1 to down (oldest first, newest last)
-        for (int i = 0; i < games.size(); i++) {
-            addGameView(games.get(i), i);
+        int index = 1;
+
+        // Show unfinished game first with special indicator
+        if (hasUnfinished) {
+            addGameView(currentGame, index - 1, true);
+            index++;
+        }
+
+        // Show all finished games
+        if (finishedGames != null) {
+            for (int i = 0; i < finishedGames.size(); i++) {
+                addGameView(finishedGames.get(i), i, false);
+            }
         }
     }
 
@@ -73,10 +89,11 @@ public class RecentlyFragment extends BaseFragment {
         emptyView.setTextSize(16);
         emptyView.setPadding(32, 32, 32, 32);
         emptyView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        emptyView.setTextColor(requireContext().getColor(R.color.primary_text));
         scoreContainer.addView(emptyView);
     }
 
-    private void addGameView(GameState gameState, int index) {
+    private void addGameView(GameState gameState, int index, boolean isUnfinished) {
         if (gameState == null) return;
 
         View itemView = LayoutInflater.from(requireContext())
@@ -89,22 +106,34 @@ public class RecentlyFragment extends BaseFragment {
         TextView groupBScore = itemView.findViewById(R.id.groupBScore);
         ImageView btnDelete = itemView.findViewById(R.id.delete_game);
 
-        // Index
-        tvIndex.setText((index + 1) + " - ");
+        String statusLabel = isUnfinished
+                ? (index + 1) + " - [" + getString(R.string.continue_game) + "]"
+                : (index + 1) + " - ";
+        tvIndex.setText(statusLabel);
 
-        // Names
         groupAName.setText(gameState.groupAName);
         groupBName.setText(gameState.groupBName);
-
-        // Total scores
         groupAScore.setText(String.valueOf(calculateTotal(gameState.scoresA)));
         groupBScore.setText(String.valueOf(calculateTotal(gameState.scoresB)));
 
-        // Delete button click listener
-        btnDelete.setOnClickListener(v -> showDeleteConfirmation(index));
+        // Clicking an unfinished game continues it
+        if (isUnfinished) {
+            itemView.setOnClickListener(v -> continueUnfinishedGame(gameState));
+            itemView.setAlpha(0.9f);
+            // Hide delete for unfinished (different handling)
+            btnDelete.setVisibility(View.GONE);
+        } else {
+            btnDelete.setOnClickListener(v -> showDeleteConfirmation(index));
+            btnDelete.setVisibility(View.VISIBLE);
+        }
 
-        // Add games in order (append to bottom)
         scoreContainer.addView(itemView);
+    }
+
+    private void continueUnfinishedGame(GameState game) {
+        // The game is already current — just navigate to cards
+        startActivity(new Intent(requireContext(), CardsActivity.class));
+        requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     private void showDeleteConfirmation(int index) {
@@ -135,7 +164,7 @@ public class RecentlyFragment extends BaseFragment {
         boolean success = scoreStorage.deleteGame(index);
         if (success) {
             Toast.makeText(requireContext(), R.string.game_deleted, Toast.LENGTH_SHORT).show();
-            loadAllGames(); // Refresh the list
+            loadAllGames();
         } else {
             Toast.makeText(requireContext(), R.string.failed_to_delete_game, Toast.LENGTH_SHORT).show();
         }
@@ -145,7 +174,7 @@ public class RecentlyFragment extends BaseFragment {
         boolean success = scoreStorage.deleteAllGames();
         if (success) {
             Toast.makeText(requireContext(), R.string.all_game_deleted, Toast.LENGTH_SHORT).show();
-            loadAllGames(); // Refresh the list
+            loadAllGames();
         } else {
             Toast.makeText(requireContext(), R.string.failed_to_delete_all, Toast.LENGTH_SHORT).show();
         }
@@ -154,9 +183,7 @@ public class RecentlyFragment extends BaseFragment {
     private int calculateTotal(List<Integer> scores) {
         int total = 0;
         if (scores == null) return total;
-        for (int score : scores) {
-            total += score;
-        }
+        for (int score : scores) total += score;
         return total;
     }
 }

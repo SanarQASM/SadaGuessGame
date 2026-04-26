@@ -10,6 +10,7 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.example.sadaguessgame.R;
 import com.example.sadaguessgame.data.GameState;
 import com.example.sadaguessgame.data.ScoreStorage;
@@ -36,6 +37,7 @@ public class GameScoreActivity extends BaseActivity {
         setHeaderNames();
         populateScoreTable();
         setupButtons();
+        checkSkipCondition();
     }
 
     private void initViews() {
@@ -55,6 +57,10 @@ public class GameScoreActivity extends BaseActivity {
         List<Integer> scoresB = currentGame.scoresB != null ? currentGame.scoresB : new ArrayList<>();
         int totalRounds = Math.max(scoresA.size(), scoresB.size());
 
+        tableLayoutScores.removeAllViews();
+
+        // Re-add header
+        // Header row is in XML — just add data rows
         for (int i = 0; i < totalRounds; i++) {
             TableRow row = new TableRow(this);
             row.setPadding(12, 12, 12, 12);
@@ -63,6 +69,14 @@ public class GameScoreActivity extends BaseActivity {
             row.addView(createCell(i < scoresB.size() ? String.valueOf(scoresB.get(i)) : "--"));
             tableLayoutScores.addView(row);
         }
+
+        // Total row
+        TableRow totalRow = new TableRow(this);
+        totalRow.setPadding(12, 16, 12, 12);
+        totalRow.addView(createCell("Total"));
+        totalRow.addView(createCell(String.valueOf(currentGame.getTotalScoreA())));
+        totalRow.addView(createCell(String.valueOf(currentGame.getTotalScoreB())));
+        tableLayoutScores.addView(totalRow);
 
         scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
     }
@@ -78,12 +92,27 @@ public class GameScoreActivity extends BaseActivity {
         int pad = (int) getResources().getDimension(R.dimen.primary_size_layout);
         tv.setPadding(pad, pad, pad, pad);
         tv.setGravity(Gravity.CENTER);
-
         TableRow.LayoutParams params = new TableRow.LayoutParams(0,
                 TableRow.LayoutParams.WRAP_CONTENT, 1f);
         params.setMargins(pad, pad, pad, pad);
         tv.setLayoutParams(params);
         return tv;
+    }
+
+    /**
+     * If one group can't possibly catch up, offer to end the game early.
+     */
+    private void checkSkipCondition() {
+        if (currentGame.canSkipRemainingRounds()) {
+            String leader = currentGame.getTotalScoreA() > currentGame.getTotalScoreB()
+                    ? currentGame.groupAName : currentGame.groupBName;
+            Toast.makeText(this,
+                    leader + " " + getString(R.string.winner_desc),
+                    Toast.LENGTH_LONG).show();
+            // Auto-mark finished — no more rounds can change outcome
+            btnContinueGame.setEnabled(false);
+            btnEndGame.setText(R.string.txt_end_game);
+        }
     }
 
     private void setupButtons() {
@@ -103,6 +132,11 @@ public class GameScoreActivity extends BaseActivity {
         });
     }
 
+    /**
+     * Advances the turn correctly:
+     * GROUP_A finishes → GROUP_B's turn
+     * GROUP_B finishes → round complete → next round or game over
+     */
     private void advanceGameTurn() {
         if (currentGame == null) return;
 
@@ -122,6 +156,11 @@ public class GameScoreActivity extends BaseActivity {
                 currentGame.turnGroupAFinish = false;
                 currentGame.turnGroupBFinish = false;
             }
+        }
+
+        // Check skip condition after advancing
+        if (!currentGame.isFinished && currentGame.canSkipRemainingRounds()) {
+            currentGame.isFinished = true;
         }
 
         ScoreStorage.getInstance(this).saveCurrentGame(currentGame);

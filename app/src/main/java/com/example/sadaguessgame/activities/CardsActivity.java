@@ -1,5 +1,6 @@
 package com.example.sadaguessgame.activities;
 
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
@@ -8,6 +9,7 @@ import android.os.CountDownTimer;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.example.sadaguessgame.R;
 import com.example.sadaguessgame.dialog.TimeUpDialog;
 import com.example.sadaguessgame.enums.CategoryCards;
@@ -22,7 +24,6 @@ import java.util.Locale;
 
 public class CardsActivity extends BaseActivity {
 
-    // ---------- UI ----------
     private ShapeableImageView cardImage;
     private TextView cardName;
     private LinearLayout cards;
@@ -30,9 +31,7 @@ public class CardsActivity extends BaseActivity {
     private ProgressBar circularProgressBar;
     private MaterialButton startTimer, stopTimer, restartTimer, endTimer;
 
-    private boolean timerStopped = false;
-
-    private int cardImageState = 0;
+    private int cardImageState = 0; // 0 = back, 1 = front
 
     private int currentGroup;
     private String assetPath;
@@ -40,14 +39,12 @@ public class CardsActivity extends BaseActivity {
     private GameState currentGame;
     private FileSelectingRandom fileSelectingRandom;
 
-    // ---------- TIMER ----------
     private CountDownTimer countDownTimer;
     private boolean isRunning = false;
-    private int totalTime; // seconds
-    private int timeLeft;  // seconds
+    private int totalTime;
+    private int timeLeft;
     private boolean warningPlayed = false;
 
-    // ---------- SOUND ----------
     private MediaPlayer warningPlayer;
 
     @Override
@@ -68,8 +65,6 @@ public class CardsActivity extends BaseActivity {
         setupButtons();
     }
 
-    // ---------------- INIT ----------------
-
     private void initViews() {
         cardImage = findViewById(R.id.cardImage);
         cardName = findViewById(R.id.cardName);
@@ -88,6 +83,8 @@ public class CardsActivity extends BaseActivity {
         assetPath = fileSelectingRandom.getRandomAssetImage();
 
         totalTime = (currentGame.minutePicker * 60) + currentGame.secondPicker;
+        // Ensure minimum timer of 10s so warning can fire
+        if (totalTime <= 0) totalTime = 60;
         timeLeft = totalTime;
         currentGroup = currentGame.groupTurn;
 
@@ -98,12 +95,11 @@ public class CardsActivity extends BaseActivity {
         initBackCard();
     }
 
-    // ---------------- CARD ----------------
+    // ------------- CARD -------------
 
     private void initBackCard() {
         cardImageState = 0;
 
-        // Add safety check
         if (assetPath == null || !assetPath.contains("/")) {
             cardName.setText(R.string.card_word);
             cardImage.setImageResource(R.drawable.nothing_selected);
@@ -111,9 +107,7 @@ public class CardsActivity extends BaseActivity {
         }
 
         String[] pathParts = assetPath.split("/");
-        if (pathParts.length == 0) {
-            return;
-        }
+        if (pathParts.length == 0) return;
 
         String category = pathParts[0];
         CategoryCards categoryEnum = CategoryCards.fromEnglishName(category);
@@ -121,23 +115,36 @@ public class CardsActivity extends BaseActivity {
 
         if (backImageRes != 0) {
             cardImage.setImageResource(backImageRes);
-            cardName.setText(category);
         }
+        // Show category name on back of card
+        String displayName = (categoryEnum != null)
+                ? categoryEnum.getDisplayName(this)
+                : category;
+        cardName.setText(displayName);
     }
 
     private void initFrontCard() {
+        if (assetPath == null) {
+            cardName.setText(R.string.card_word);
+            cardImage.setImageResource(R.drawable.nothing_selected);
+            return;
+        }
         try {
             InputStream inputStream = getAssets().open(assetPath);
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
             inputStream.close();
 
             cardImage.setImageBitmap(bitmap);
-            cardName.setText(
-                    assetPath.substring(
-                            assetPath.lastIndexOf("/") + 1,
-                            assetPath.lastIndexOf(".")
-                    ).replace("_", " ")
-            );
+
+            String fileName = assetPath.substring(
+                    assetPath.lastIndexOf("/") + 1,
+                    assetPath.lastIndexOf(".")
+            ).replace("_", " ");
+            // Capitalize first letter
+            if (!fileName.isEmpty()) {
+                fileName = fileName.substring(0, 1).toUpperCase() + fileName.substring(1);
+            }
+            cardName.setText(fileName);
             cardImageState = 1;
 
         } catch (IOException e) {
@@ -146,7 +153,7 @@ public class CardsActivity extends BaseActivity {
         }
     }
 
-    // ---------------- BUTTONS ----------------
+    // ------------- BUTTONS -------------
 
     private void setupButtons() {
         cards.setOnClickListener(v -> {
@@ -163,7 +170,7 @@ public class CardsActivity extends BaseActivity {
         });
     }
 
-    // ---------------- TIMER ----------------
+    // ------------- TIMER -------------
 
     private void startTimer() {
         if (isRunning || timeLeft <= 0) return;
@@ -175,7 +182,6 @@ public class CardsActivity extends BaseActivity {
                 updateTimeText();
                 circularProgressBar.setProgress(totalTime - timeLeft);
 
-                // 🔊 PLAY SOUND ONLY WHEN CLOSE TO END
                 if (!warningPlayed && shouldPlayWarning()) {
                     playWarningSound();
                     warningPlayed = true;
@@ -184,6 +190,9 @@ public class CardsActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
+                timeLeft = 0;
+                updateTimeText();
+                circularProgressBar.setProgress(totalTime);
                 stopTimer();
                 showEndDialog();
             }
@@ -192,10 +201,22 @@ public class CardsActivity extends BaseActivity {
         isRunning = true;
     }
 
+    /**
+     * Sound warning thresholds:
+     * < 60s total  → warn at 10s remaining
+     * < 120s total → warn at 20s remaining  (1 min)
+     * < 180s total → warn at 25s remaining  (2 min = requirement)
+     * >= 180s      → warn at 30s remaining
+     * Pattern: for each additional minute, add ~5s warning
+     */
     private boolean shouldPlayWarning() {
+        int totalMinutes = totalTime / 60;
         if (totalTime < 60) return timeLeft <= 10;
-        if (totalTime < 180) return timeLeft <= 20;
-        return timeLeft <= 30;
+        if (totalMinutes == 1) return timeLeft <= 20;
+        if (totalMinutes == 2) return timeLeft <= 25;
+        // General rule: 10 + (minutes * 5) capped at 60
+        int threshold = Math.min(10 + totalMinutes * 5, 60);
+        return timeLeft <= threshold;
     }
 
     private void stopTimer() {
@@ -210,18 +231,22 @@ public class CardsActivity extends BaseActivity {
 
     private void restartTimer() {
         stopTimer();
+        // Get fresh card
+        assetPath = fileSelectingRandom.getRandomAssetImage();
         timeLeft = totalTime;
         circularProgressBar.setProgress(0);
         updateTimeText();
+        initBackCard();
     }
 
-    // ---------------- SOUND ----------------
+    // ------------- SOUND -------------
 
     private void playWarningSound() {
         stopWarningSound();
         warningPlayer = MediaPlayer.create(this, R.raw.countdown_boom);
         if (warningPlayer != null) {
             warningPlayer.start();
+            warningPlayer.setOnCompletionListener(mp -> stopWarningSound());
         }
     }
 
@@ -235,7 +260,7 @@ public class CardsActivity extends BaseActivity {
         }
     }
 
-    // ---------------- UI ----------------
+    // ------------- UI -------------
 
     private void updateTimeText() {
         timeDisplay.setText(
@@ -245,13 +270,24 @@ public class CardsActivity extends BaseActivity {
     }
 
     private void setGroupText() {
+        // Re-read from storage to get latest groupTurn
+        GameState game = ScoreStorage.getInstance(this).getCurrentGame();
+        if (game == null) return;
         groupTurn.setText(
-                currentGroup == 0 ? R.string.group_turn_A : R.string.group_turn_B
+                game.groupTurn == GameState.GROUP_A
+                        ? R.string.group_turn_A
+                        : R.string.group_turn_B
         );
     }
 
     private void showEndDialog() {
         new TimeUpDialog(this).show();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Layout handles orientation via ScrollView — no action needed
     }
 
     @Override
@@ -263,7 +299,13 @@ public class CardsActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        // Stop timer if activity goes to background to prevent ghost timers
         if (isRunning) stopTimer();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Refresh group text in case turn changed
+        setGroupText();
     }
 }
