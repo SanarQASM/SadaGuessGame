@@ -43,57 +43,64 @@
     <string name="txt_continue_game">Continue</string>
     <string name="txt_view_page">View Page</string>
     <string name="cards_page_title">Guess The Card!</string>
-    <string name="txt_tip">Click To See Front Card</string>
-    <string name="timer_tip">Click To Start Timer</string>
-    <string name="group_turn_A">Turn Group A!</string>
-    <string name="group_turn_B">Turn Group B!</string>
+    <string name="txt_tip">Tap Card To Reveal</string>
+    <string name="timer_tip">Tap to Start Timer</string>
+
+    <!-- FIX: Use group name + this label: "Alice's Turn!" -->
+    <string name="turn_label">\'s Turn!</string>
+    <!-- Legacy turn labels kept for backward compatibility -->
+    <string name="group_turn_A">Turn: Group A!</string>
+    <string name="group_turn_B">Turn: Group B!</string>
+
     <string name="group_turn_found_A">Did Group A find the card?</string>
     <string name="group_turn_found_B">Did Group B find the card?</string>
-    <string name="no_recently_game">No Recently Game</string>
+    <string name="no_recently_game">No Recent Games</string>
     <string name="game_deleted">Game Deleted</string>
     <string name="all_game_deleted">All Games Deleted</string>
     <string name="delete_title">Delete Game</string>
-    <string name="deletes_title">Delete Games</string>
+    <string name="deletes_title">Delete All Games</string>
     <string name="detele_disc">Are you sure you want to delete this game?</string>
-    <string name="deteles_disc">Are you sure you want to delete All Games</string>
+    <string name="deteles_disc">Are you sure you want to delete All Games?</string>
 
     <string name="winner_title">Congratulations!</string>
     <string name="winner_desc">Winner is: </string>
-    <string name="draw">Draw!</string>
+    <string name="draw">It\'s a Draw!</string>
     <string name="delete">Delete</string>
     <string name="winner_group_name">Group Name</string>
-    <string name="txt_no_recently_game_tip">Play a game to See History!</string>
-    <string name="txt_all_recently_game">All Recently Games!</string>
-    <string name="txt_delete_all">Delete ALl</string>
+    <string name="txt_no_recently_game_tip">Play a game to see history!</string>
+    <string name="txt_all_recently_game">All Recent Games</string>
+    <string name="txt_delete_all">Delete All</string>
     <string name="txt_go_create_new_game">Go to Create New Game</string>
     <string name="txt_home_page">Home Page</string>
     <string name="time_up">Time is Up!</string>
     <string name="card_word">No Card Found!</string>
-    <string name="score_dialog_title">Give a Score: </string>
-    <string name="txt_game_setting">Game Setting: </string>
-    <string name="txt_select_dice">Select No. Dice: </string>
-    <string name="txt_select_color_group">Select Color for Group: </string>
+    <string name="score_dialog_title">Give a Score:</string>
+    <string name="txt_game_setting">Game Settings</string>
+    <string name="txt_select_dice">Select No. of Dice:</string>
+    <string name="txt_select_color_group">Select Color for Group:</string>
     <string name="history">Score History</string>
     <string name="group_b_color">Group B</string>
     <string name="group_a_color">Group A</string>
     <string name="undo">Undo</string>
-    <string name="score_added">Add 1 Score</string>
-    <string name="dice1">1 Dice</string>
-    <string name="dice2">2 Dices</string>
-    <string name="start_roll_dice">Start Rolling</string>
+    <string name="score_added">+1 Score</string>
+    <string name="dice1">1 Die</string>
+    <string name="dice2">2 Dice</string>
+    <string name="start_roll_dice">Roll Dice</string>
     <string name="skip_animation">Skip Animation</string>
-    <string name="probability_double">"Probability Double</string>
+    <string name="probability_double">Probability Double</string>
     <string name="txt_group_name">Group Name</string>
     <string name="round">Round</string>
-    <string name="txt_select_category">Select the category: </string>
-    <string name="txt_select_round">Select the Round: </string>
-    <string name="txt_minute">Minute</string>
-    <string name="txt_second">Second</string>
-    <string name="txt_select_time">Select the Time: </string>
-    <string name="txt_enter_group_name">Enter Group Name: </string>
-    <string name="txt_enter_first_group">First Group Name(A): </string>
-    <string name="txt_enter_second_group">Second Group Name(B): </string>
-    <string name="error_group_name">Name Can not be Empty</string>
+    <!-- NEW: Total label for score table -->
+    <string name="total_label">Total</string>
+    <string name="txt_select_category">Select Category:</string>
+    <string name="txt_select_round">Select Rounds:</string>
+    <string name="txt_minute">Min</string>
+    <string name="txt_second">Sec</string>
+    <string name="txt_select_time">Select Time:</string>
+    <string name="txt_enter_group_name">Group Name</string>
+    <string name="txt_enter_first_group">First Group Name (A):</string>
+    <string name="txt_enter_second_group">Second Group Name (B):</string>
+    <string name="error_group_name">Name cannot be empty (max 20 chars)</string>
 
     <string name="privacy_policy">Privacy Policy</string>
 
@@ -178,5 +185,4 @@ If you have any questions about this policy, please contact the developer.
     <string name="score_added_format">+%1$d</string>
     <string name="confirm_leave_game">Timer is running. Leave the game?</string>
     <string name="draw_subtitle">Both teams scored equally — well played!</string>
-
 </resources>

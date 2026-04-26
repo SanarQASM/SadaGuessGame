@@ -26,9 +26,12 @@ public class GameState {
     public String groupAName = "";
     public String groupBName = "";
 
+    // groupTurn tracks whose turn it currently is WITHIN the current round
     public int groupTurn = GROUP_A;
 
     public boolean isFinished = false;
+
+    // FIX: These flags track whether each group has completed their turn in the CURRENT round
     public boolean turnGroupAFinish = false;
     public boolean turnGroupBFinish = false;
 
@@ -49,27 +52,38 @@ public class GameState {
         return total;
     }
 
+    /**
+     * FIX: A round is complete when BOTH groups have played their turn.
+     * We track this by checking if both finish flags are set.
+     */
     public boolean isRoundComplete() {
         return turnGroupAFinish && turnGroupBFinish;
     }
 
+    /**
+     * FIX: The game is over when the current round equals totalRounds AND both groups have
+     * completed their turn in that final round.
+     */
     public boolean isGameOver() {
         return currentRound >= totalRounds && isRoundComplete();
     }
 
     /**
-     * Check if the game should skip remaining rounds because one group
-     * cannot possibly catch up even if they score max on all remaining rounds.
-     * Score dialog allows max 3 per round.
+     * Check if the game should end early because one group has an insurmountable lead.
+     * Max score per round per group = 3 points.
      */
     public boolean canSkipRemainingRounds() {
         if (isFinished) return false;
-        int roundsLeft = totalRounds - currentRound;
-        // +1 for current round if not complete
-        if (!isRoundComplete()) roundsLeft++;
-        int maxPossiblePerGroup = roundsLeft * 3;
+
+        // Rounds remaining AFTER the current one (current round is still in progress)
+        int roundsRemaining = totalRounds - currentRound;
+        // If the current round is still incomplete, the losing team still has their turn
+        if (!isRoundComplete()) roundsRemaining++;
+
+        int maxPossiblePerGroup = roundsRemaining * 3;
         int scoreA = getTotalScoreA();
         int scoreB = getTotalScoreB();
+
         // A wins decisively
         if (scoreA > scoreB + maxPossiblePerGroup) return true;
         // B wins decisively

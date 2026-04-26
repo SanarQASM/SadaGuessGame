@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.content.Intent;
 
 import androidx.activity.OnBackPressedCallback;
@@ -42,7 +41,6 @@ public class CardsActivity extends BaseActivity {
     private ImageView backButton;
 
     private int cardImageState = 0; // 0 = back, 1 = front
-
     private String assetPath;
 
     private GameState currentGame;
@@ -62,6 +60,7 @@ public class CardsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cards_activity);
+
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
@@ -175,7 +174,6 @@ public class CardsActivity extends BaseActivity {
     // ------------- BUTTONS -------------
 
     private void setupButtons() {
-        // FIX: Back button - confirm before leaving if timer running
         if (backButton != null) {
             backButton.setOnClickListener(v -> handleBackPress());
         }
@@ -194,9 +192,6 @@ public class CardsActivity extends BaseActivity {
         });
     }
 
-    /**
-     * Back press handling — warn user if game is in progress.
-     */
     private void handleBackPress() {
         if (isRunning) {
             new AlertDialog.Builder(this)
@@ -218,6 +213,12 @@ public class CardsActivity extends BaseActivity {
     private void startTimer() {
         if (isRunning || timeLeft <= 0) return;
 
+        // FIX: Update button states to reflect running state
+        startTimer.setEnabled(false);
+        startTimer.setAlpha(0.5f);
+        stopTimer.setEnabled(true);
+        stopTimer.setAlpha(1f);
+
         countDownTimer = new CountDownTimer(timeLeft * 1000L, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -238,11 +239,23 @@ public class CardsActivity extends BaseActivity {
                 circularProgressBar.setProgress(totalTime);
                 isRunning = false;
                 cancelCountDownTimer();
+                resetButtonStates();
                 showEndDialog();
             }
         }.start();
 
         isRunning = true;
+    }
+
+    private void resetButtonStates() {
+        if (startTimer != null) {
+            startTimer.setEnabled(true);
+            startTimer.setAlpha(1f);
+        }
+        if (stopTimer != null) {
+            stopTimer.setEnabled(true);
+            stopTimer.setAlpha(1f);
+        }
     }
 
     private boolean shouldPlayWarning() {
@@ -259,6 +272,7 @@ public class CardsActivity extends BaseActivity {
         stopWarningSound();
         isRunning = false;
         warningPlayed = false;
+        resetButtonStates();
     }
 
     private void cancelCountDownTimer() {
@@ -324,11 +338,12 @@ public class CardsActivity extends BaseActivity {
         if (groupTurn == null) return;
         GameState game = ScoreStorage.getInstance(this).getCurrentGame();
         if (game == null) return;
-        groupTurn.setText(
-                game.groupTurn == GameState.GROUP_A
-                        ? R.string.group_turn_A
-                        : R.string.group_turn_B
-        );
+
+        // FIX: Show the actual group name (not just A/B label) for better UX
+        String name = game.groupTurn == GameState.GROUP_A
+                ? game.groupAName : game.groupBName;
+        String turnText = name + " " + getString(R.string.turn_label);
+        groupTurn.setText(turnText);
     }
 
     private void showEndDialog() {
@@ -340,6 +355,7 @@ public class CardsActivity extends BaseActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        // Layout handles orientation via different layout files; no action needed here
     }
 
     @Override
@@ -360,5 +376,7 @@ public class CardsActivity extends BaseActivity {
         super.onResume();
         isDialogShown = false;
         setGroupText();
+        // Refresh game state in case it changed
+        currentGame = ScoreStorage.getInstance(this).getCurrentGame();
     }
 }

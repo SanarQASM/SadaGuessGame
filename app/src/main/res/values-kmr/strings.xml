@@ -94,6 +94,8 @@
     <string name="txt_enter_first_group">ناڤێ گرووپێ ئێکێ (A): </string>
     <string name="txt_enter_second_group">ناڤێ گرووپێ دووێ (B): </string>
     <string name="error_group_name">ناڤێ گروپێ ناچێبی بەتاڵ بی</string>
+    <string name="total_label">کۆمبۆن</string>
+    <string name="turn_label">رێزا %s!</string>
 
 
     <string name="privacy_intro">

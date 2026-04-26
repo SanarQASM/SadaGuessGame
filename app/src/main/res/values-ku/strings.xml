@@ -94,6 +94,8 @@
     <string name="txt_enter_first_group">ناوی گرووپی یەکەم (A): </string>
     <string name="txt_enter_second_group">ناوی گرووپی دووەم (B): </string>
     <string name="error_group_name">ناوی گروپ نابێت بەتاڵ بێت</string>
+    <string name="total_label">کۆ</string>
+    <string name="turn_label">سەرەی %s!</string>
 
     <string name="privacy_intro">
 SadaGuess ڕێز لە تایبەتمەندییەکانت دەگرێت. ئەم سیاسەتە ڕوونی دەکاتەوە چۆن زانیارییەکان مامەڵەیان لەگەڵ دەکرێت لە کاتی بەکارهێنانی ئەپەکەدا.

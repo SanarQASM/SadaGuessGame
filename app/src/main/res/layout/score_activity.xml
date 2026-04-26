@@ -4,137 +4,196 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
     android:background="@drawable/bg_linear_app_background_primary">
 
-    <!-- Title -->
-    <TextView
-        android:id="@+id/gameTitle"
-        android:layout_width="wrap_content"
+    <!-- Header Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/headerCard"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/game_score"
-        android:fontFamily="@font/primary_font"
-        android:textColor="@color/primary_text"
-        android:textSize="@dimen/primary_size"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="6dp"
+        app:cardBackgroundColor="@color/surface_card"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent">
 
-
-    <ScrollView
-        android:id="@+id/scrollLayoutScores"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:contentDescription="scroll"
-        android:fillViewport="true"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="@dimen/very_big_size_layout"
-        app:layout_constraintTop_toBottomOf="@id/gameTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <TableLayout
-            android:id="@+id/tableLayoutScores"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/secondary_size_layout"
-            android:stretchColumns="*">
+            android:padding="12dp">
 
-            <!-- Header Row -->
-            <TableRow
+            <!-- Title row -->
+            <TextView
+                android:id="@+id/gameTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/game_score"
+                android:fontFamily="@font/primary_font"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/secondary_size"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"/>
+
+            <!-- Round info -->
+            <TextView
+                android:id="@+id/tvRoundInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Round 1 / 10"
+                android:fontFamily="@font/subtext_font"
+                android:textColor="@color/primary_button_color"
+                android:textSize="@dimen/sub_font_size"
+                android:textStyle="italic"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"/>
+
+            <!-- Live score totals row -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/secondary_size_layout">
+                android:orientation="horizontal"
+                android:layout_marginTop="10dp"
+                android:gravity="center">
 
-                <!-- Round Header -->
-                <TextView
-                    android:id="@+id/round"
+                <!-- Group A total card -->
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginTop="@dimen/primary_size_layout"
-                    android:fontFamily="@font/normal_text"
-                    android:rotation="-45"
-                    android:text="@string/round"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_score_card_a"
+                    android:padding="10dp"
+                    android:layout_marginEnd="6dp">
+
+                    <TextView
+                        android:id="@+id/groupAName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/group_a_color"
+                        android:fontFamily="@font/subtext_font"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/normal_fond_size"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:ellipsize="end"/>
+
+                    <TextView
+                        android:id="@+id/tvTotalScoreA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:fontFamily="@font/primary_font"
+                        android:textColor="@color/primary_button_color"
+                        android:textSize="@dimen/secondary_size"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <!-- VS separator -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="VS"
+                    android:fontFamily="@font/primary_font"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/sub_font_size"
                     android:textStyle="bold"
-                    android:padding="@dimen/primary_size_layout"
-                    android:layout_margin="@dimen/primary_size_layout"
-                    android:gravity="center"/>
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"/>
 
-                <!-- Group A Score Header -->
-                <TextView
-                    android:id="@+id/groupAName"
+                <!-- Group B total card -->
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:fontFamily="@font/subtext_font"
-                    android:text="@string/txt_group_name"
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/sub_font_size"
-                    android:textStyle="bold"
-                    android:padding="@dimen/primary_size_layout"
-                    android:layout_margin="@dimen/primary_size_layout"
-                    android:layout_marginTop="@dimen/primary_size_layout"
-                    android:gravity="center"/>
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:background="@drawable/bg_score_card_b"
+                    android:padding="10dp"
+                    android:layout_marginStart="6dp">
 
-                <!-- Group B Score Header -->
-                <TextView
-                    android:id="@+id/groupBName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/subtext_font"
-                    android:text="@string/txt_group_name"
-                    android:textColor="@color/primary_text"
-                    android:textSize="@dimen/sub_font_size"
-                    android:textStyle="bold"
-                    android:padding="@dimen/primary_size_layout"
-                    android:layout_margin="@dimen/primary_size_layout"
-                    android:layout_marginTop="@dimen/primary_size_layout"
-                    android:gravity="center"/>
-            </TableRow>
+                    <TextView
+                        android:id="@+id/groupBName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/group_b_color"
+                        android:fontFamily="@font/subtext_font"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/normal_fond_size"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:ellipsize="end"/>
 
-            <!-- Dynamic rows will be added here from Java -->
+                    <TextView
+                        android:id="@+id/tvTotalScoreB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:fontFamily="@font/primary_font"
+                        android:textColor="@color/primary_button_color"
+                        android:textSize="@dimen/secondary_size"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
-        </TableLayout>
-    </ScrollView>
+    <!-- Score Table Card -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/tableCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="4dp"
+        app:cardBackgroundColor="@color/surface_card"
+        app:layout_constraintTop_toBottomOf="@id/headerCard"
+        app:layout_constraintBottom_toTopOf="@id/buttonContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <ScrollView
+            android:id="@+id/scrollLayoutScores"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbars="vertical">
+
+            <TableLayout
+                android:id="@+id/tableLayoutScores"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*"
+                android:padding="4dp"/>
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Bottom Buttons -->
     <LinearLayout
-        android:id="@+id/colorButtonsContainer"
+        android:id="@+id/buttonContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/scrollLayoutScores"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginTop="@dimen/primary_size_layout"
-        android:layout_marginBottom="@dimen/fifth_size_layout">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnContinueGame"
-        style="@style/PrimaryButtonStyle"
-        android:text="@string/txt_continue_game"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnContinueGame"
+            style="@style/PrimaryButtonStyle"
+            android:text="@string/txt_continue_game"/>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnEndGame"
-        style="@style/PrimaryButtonStyle"
-        android:layout_marginStart="@dimen/secondary_size_layout"
-        android:text="@string/txt_end_game"
-        app:layout_constraintTop_toBottomOf="@id/startTimer"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnEndGame"
+            style="@style/PrimaryButtonStyle"
+            android:layout_marginStart="@dimen/secondary_size_layout"
+            android:text="@string/txt_end_game"/>
     </LinearLayout>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
