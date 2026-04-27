@@ -90,8 +90,6 @@
     <string name="probability_double">Probability Double</string>
     <string name="txt_group_name">Group Name</string>
     <string name="round">Round</string>
-    <!-- NEW: Total label for score table -->
-    <string name="total_label">Total</string>
     <string name="txt_select_category">Select Category:</string>
     <string name="txt_select_round">Select Rounds:</string>
     <string name="txt_minute">Min</string>
@@ -185,4 +183,76 @@ If you have any questions about this policy, please contact the developer.
     <string name="score_added_format">+%1$d</string>
     <string name="confirm_leave_game">Timer is running. Leave the game?</string>
     <string name="draw_subtitle">Both teams scored equally — well played!</string>
+
+    <string name="leaderboard_page">Leaderboard</string>
+    <string name="leaderboard_title">🏆 Hall of Fame</string>
+    <string name="leaderboard_empty">No games played yet.\nPlay your first game to appear here!</string>
+    <string name="leaderboard_clear_title">Clear Leaderboard</string>
+    <string name="leaderboard_clear_message">Are you sure you want to clear all leaderboard data?</string>
+    <string name="leaderboard_cleared">Leaderboard cleared</string>
+    <string name="leaderboard_col_name">Name</string>
+    <string name="leaderboard_col_record">W/L/D</string>
+    <string name="leaderboard_col_streak">Streak</string>
+    <string name="leaderboard_col_winrate">Win%</string>
+
+    <!-- ── Sudden Death ── -->
+    <string name="sudden_death_title">⚡ Sudden Death!</string>
+    <string name="sudden_death_desc">It\'s a draw! First group to guess wins.</string>
+
+    <!-- ── Difficulty ── -->
+    <string name="difficulty_easy">Easy</string>
+    <string name="difficulty_medium">Medium</string>
+    <string name="difficulty_hard">Hard</string>
+    <string name="txt_select_difficulty">Select Difficulty: </string>
+
+    <!-- ── Voice Clue ── -->
+    <string name="voice_clue_mode">Voice Clue Mode</string>
+    <string name="voice_clue_desc">Read card word aloud using TTS</string>
+
+    <!-- ── Sound Theme ── -->
+    <string name="sound_theme_title">Sound Theme</string>
+    <string name="sound_theme_classic">Classic</string>
+    <string name="sound_theme_dabke">Dabke 🥁</string>
+    <string name="sound_theme_silent">Silent 🔇</string>
+
+    <!-- ── Hint system ── -->
+    <string name="no_hints_left">No hints remaining!</string>
+    <string name="hint_button_desc">Use Hint</string>
+    <string name="hints_remaining">Hints: %1$d</string>
+
+    <!-- ── Streak / Combo ── -->
+    <string name="combo_label">COMBO!</string>
+    <string name="streak_label">🔥 %1$d streak</string>
+
+    <!-- ── Word Packs ── -->
+    <string name="word_packs_title">Word Packs</string>
+    <string name="no_word_packs">No word packs yet.\nTap + to create your first pack!</string>
+    <string name="create_word_pack">Create Word Pack</string>
+    <string name="edit_word_pack">Edit Word Pack</string>
+    <string name="btn_select_word_pack">Use Word Pack</string>
+    <string name="use_builtin_cards">Use built-in cards</string>
+    <string name="pack_name_label">Pack Name</string>
+    <string name="pack_name_hint">e.g. Family Words</string>
+    <string name="pack_category_label">Category Label</string>
+    <string name="pack_category_hint">e.g. Custom, Food, Animals…</string>
+    <string name="pack_words_label">Words (one per line)</string>
+    <string name="pack_words_hint">Lion\nElephant\nGiraffe\n…</string>
+    <string name="pack_words_tip">Minimum 3 words required</string>
+    <string name="pack_name_required">Please enter a pack name</string>
+    <string name="pack_min_words">Add at least 3 words</string>
+    <string name="pack_saved">Word pack saved!</string>
+    <string name="share_pack_title">Share Word Pack</string>
+    <string name="manage_word_packs">Manage Word Packs</string>
+
+    <!-- ── Share / Summary ── -->
+    <string name="share_result">Share Result</string>
+    <string name="share_failed">Could not generate share image</string>
+
+    <!-- ── Score table ── -->
+    <string name="total_label">Total</string>
+    <string name="combo_star_tip">★ = Combo bonus applied</string>
+
+    <!-- ── Save label ── -->
+    <string name="save_label">Save</string>
+
 </resources>

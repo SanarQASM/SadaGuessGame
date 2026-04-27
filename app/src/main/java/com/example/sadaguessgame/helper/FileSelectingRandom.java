@@ -2,111 +2,181 @@ package com.example.sadaguessgame.helper;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.sadaguessgame.data.GameState;
 import com.example.sadaguessgame.data.ScoreStorage;
+import com.example.sadaguessgame.data.WordPack;
+import com.example.sadaguessgame.data.WordPackStorage;
 import com.example.sadaguessgame.enums.CategoryCards;
+import com.example.sadaguessgame.enums.DifficultyLevel;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 /**
- * Selects a random asset image from the current game's selected categories.
- * Prevents duplicate card selection within the same game session.
+ * Selects a random card path (or word) for the current game.
  *
- * FIX: If no categories are saved, falls back to ALL categories automatically.
+ * Priority:
+ *  1. If game.wordPackId >= 0 → use custom WordPack words.
+ *  2. Otherwise → use asset images, respecting difficulty subfolder:
+ *       assets/{category}/{difficulty}/{file}   ← preferred
+ *       assets/{category}/{file}                ← fallback (flat layout)
+ *
+ * The result is either:
+ *  • "animal/easy/cat.jpg"  (asset path)
+ *  • "custom::Lion"         (custom word pack word, prefixed with "custom::")
+ *
+ * CardsActivity checks the prefix to decide how to display the card.
  */
 public class FileSelectingRandom {
 
-    private static FileSelectingRandom instance;
-    private final Context context;
-    private final Random random = new Random();
+    public static final String CUSTOM_PREFIX = "custom::";
 
-    /** All valid category folder names (English, lowercase) */
-    private static final List<String> ALL_CATEGORIES = Arrays.asList(
-            "animal", "behavior", "challenge", "equipment",
-            "food", "general", "occupation", "people", "place"
-    );
+    private static FileSelectingRandom instance;
+    private final Context appContext;
+    private final Random  random = new Random();
 
     private FileSelectingRandom(Context context) {
-        this.context = context.getApplicationContext();
+        appContext = context.getApplicationContext();
     }
 
     public static synchronized FileSelectingRandom getInstance(Context context) {
-        if (instance == null) {
-            instance = new FileSelectingRandom(context);
-        }
+        if (instance == null) instance = new FileSelectingRandom(context);
         return instance;
     }
 
+    // ─── Public API ──────────────────────────────────────────────────────────
+
     /**
-     * Returns a random asset image path that has NOT been used in this game.
-     * Falls back to any random image if all cards have been used.
-     * If no categories are selected, uses ALL categories.
-     *
-     * @return path like "animal/cat.jpg" or null if nothing found
+     * Returns the next unused card path/word for the current game.
+     * Falls back to a random pick from all cards if every card has been used.
      */
     @Nullable
     public String getRandomAssetImage() {
-        GameState currentGame = ScoreStorage.getInstance(context).getCurrentGame();
-        if (currentGame == null) return null;
+        GameState game = ScoreStorage.getInstance(appContext).getCurrentGame();
+        if (game == null) return null;
 
-        // ── FIX 1: if no categories saved, use ALL categories ──
-        List<String> selectedCategories = currentGame.categories;
-        if (selectedCategories == null || selectedCategories.isEmpty()) {
-            selectedCategories = ALL_CATEGORIES;
-            // Persist the fix so future calls are consistent
-            currentGame.categories = new ArrayList<>(ALL_CATEGORIES);
-            ScoreStorage.getInstance(context).saveCurrentGame(currentGame);
+        // Custom word pack path
+        if (game.wordPackId >= 0) {
+            return pickFromCustomPack(game);
         }
 
-        AssetManager assetManager = context.getAssets();
+        // Asset path
+        return pickFromAssets(game);
+    }
 
-        // Collect ALL available paths from selected categories
+    // ─── Custom pack picker ──────────────────────────────────────────────────
+
+    @Nullable
+    private String pickFromCustomPack(@NonNull GameState game) {
+        WordPack pack = WordPackStorage.getInstance(appContext)
+                .getPackById(game.wordPackId);
+        if (pack == null || pack.words == null || pack.words.isEmpty()) return null;
+
+        List<String> unused = new ArrayList<>();
+        for (String word : pack.words) {
+            String path = CUSTOM_PREFIX + word;
+            if (!game.isCardUsed(path)) unused.add(path);
+        }
+
+        if (unused.isEmpty()) {
+            // All used → reset
+            game.clearUsedCards();
+            ScoreStorage.getInstance(appContext).saveCurrentGame(game);
+            unused.addAll(pack.words);
+            Collections.shuffle(unused, random);
+            String chosen = CUSTOM_PREFIX + unused.get(0);
+            game.markCardUsed(chosen);
+            ScoreStorage.getInstance(appContext).saveCurrentGame(game);
+            return chosen;
+        }
+
+        Collections.shuffle(unused, random);
+        String chosen = unused.get(0);
+        game.markCardUsed(chosen);
+        ScoreStorage.getInstance(appContext).saveCurrentGame(game);
+        return chosen;
+    }
+
+    // ─── Asset picker ────────────────────────────────────────────────────────
+
+    @Nullable
+    private String pickFromAssets(@NonNull GameState game) {
+        List<String> categories = game.categories;
+        if (categories == null || categories.isEmpty()) return null;
+
+        DifficultyLevel difficulty = DifficultyLevel.fromString(game.difficultyLevel);
+        AssetManager assetManager = appContext.getAssets();
+
+        // Build full candidate list
         List<String> allPaths = new ArrayList<>();
-        for (String englishCategoryName : selectedCategories) {
-            CategoryCards categoryEnum = CategoryCards.fromEnglishName(englishCategoryName);
-            if (categoryEnum == null) continue;
-            String assetFolder = categoryEnum.getEnglishName().toLowerCase();
-            try {
-                String[] files = assetManager.list(assetFolder);
-                if (files == null) continue;
-                for (String file : files) {
-                    allPaths.add(assetFolder + "/" + file);
-                }
-            } catch (Exception e) {
-                // skip unavailable folder
-            }
+        for (String englishName : categories) {
+            CategoryCards cat = CategoryCards.fromEnglishName(englishName);
+            if (cat == null) continue;
+            String folder = cat.getEnglishName().toLowerCase();
+            allPaths.addAll(listAssets(assetManager, folder, difficulty));
         }
 
         if (allPaths.isEmpty()) return null;
 
-        // Filter out already-used paths
-        List<String> unusedPaths = new ArrayList<>();
-        for (String path : allPaths) {
-            if (!currentGame.isCardUsed(path)) {
-                unusedPaths.add(path);
-            }
+        // Filter unused
+        List<String> unused = new ArrayList<>();
+        for (String p : allPaths) {
+            if (!game.isCardUsed(p)) unused.add(p);
         }
 
         String chosen;
-        if (unusedPaths.isEmpty()) {
-            // All cards used — reset and pick from all
-            currentGame.clearUsedCards();
-            ScoreStorage.getInstance(context).saveCurrentGame(currentGame);
+        if (unused.isEmpty()) {
+            game.clearUsedCards();
+            ScoreStorage.getInstance(appContext).saveCurrentGame(game);
             Collections.shuffle(allPaths, random);
             chosen = allPaths.get(0);
         } else {
-            Collections.shuffle(unusedPaths, random);
-            chosen = unusedPaths.get(0);
+            Collections.shuffle(unused, random);
+            chosen = unused.get(0);
         }
 
-        // Mark as used
-        currentGame.markCardUsed(chosen);
-        ScoreStorage.getInstance(context).saveCurrentGame(currentGame);
-
+        game.markCardUsed(chosen);
+        ScoreStorage.getInstance(appContext).saveCurrentGame(game);
         return chosen;
+    }
+
+    /**
+     * Lists asset image paths from:
+     *   {folder}/{difficulty}/   (preferred)
+     *   {folder}/                (fallback if difficulty subfolder absent)
+     */
+    @NonNull
+    private List<String> listAssets(@NonNull AssetManager am,
+                                    @NonNull String folder,
+                                    @NonNull DifficultyLevel difficulty) {
+        List<String> paths = new ArrayList<>();
+
+        // Try difficulty subfolder first
+        String diffFolder = folder + "/" + difficulty.getFolderName();
+        String[] diffFiles = safeList(am, diffFolder);
+        if (diffFiles != null && diffFiles.length > 0) {
+            for (String f : diffFiles) paths.add(diffFolder + "/" + f);
+            return paths;
+        }
+
+        // Fallback: flat folder (existing layout)
+        String[] files = safeList(am, folder);
+        if (files != null) {
+            for (String f : files) {
+                // Skip sub-directory names (easy/medium/hard) that appear in listing
+                if (!f.contains(".")) continue;
+                paths.add(folder + "/" + f);
+            }
+        }
+
+        return paths;
+    }
+
+    @Nullable
+    private String[] safeList(@NonNull AssetManager am, @NonNull String path) {
+        try { return am.list(path); } catch (Exception e) { return null; }
     }
 }

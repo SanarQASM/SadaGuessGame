@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/tvLeaderboardTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/primary_font"
+        android:text="@string/leaderboard_title"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/primary_size"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+    <!-- Divider -->
+    <View
+        android:id="@+id/divLb"
+        android:layout_width="250dp"
+        android:layout_height="2dp"
+        android:background="?android:attr/listDivider"
+        android:layout_marginTop="3dp"
+        app:layout_constraintTop_toBottomOf="@id/tvLeaderboardTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Column headers -->
+    <LinearLayout
+        android:id="@+id/lbHeader"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="6dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintTop_toBottomOf="@id/divLb"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="0.5" android:text="#"
+            android:textColor="@color/primary_text" android:textStyle="bold"
+            android:textSize="@dimen/normal_fond_size" android:gravity="center"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="2" android:text="@string/leaderboard_col_name"
+            android:textColor="@color/primary_text" android:textStyle="bold"
+            android:textSize="@dimen/normal_fond_size"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="1.5" android:text="@string/leaderboard_col_record"
+            android:textColor="@color/primary_text" android:textStyle="bold"
+            android:textSize="@dimen/normal_fond_size" android:gravity="center"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="0.8" android:text="@string/leaderboard_col_streak"
+            android:textColor="@color/primary_text" android:textStyle="bold"
+            android:textSize="@dimen/normal_fond_size" android:gravity="center"/>
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+            android:layout_weight="0.8" android:text="@string/leaderboard_col_winrate"
+            android:textColor="@color/primary_text" android:textStyle="bold"
+            android:textSize="@dimen/normal_fond_size" android:gravity="center"/>
+    </LinearLayout>
+
+    <!-- Scrollable rows -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/lbHeader"
+        app:layout_constraintBottom_toTopOf="@id/btnClearLeaderboard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:id="@+id/leaderboardRowContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp"/>
+
+    </ScrollView>
+
+    <!-- Empty state -->
+    <TextView
+        android:id="@+id/tvLeaderboardEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/leaderboard_empty"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/sub_font_size"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/lbHeader"
+        app:layout_constraintBottom_toTopOf="@id/btnClearLeaderboard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Clear button -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnClearLeaderboard"
+        style="@style/PrimaryButtonStyle"
+        android:text="@string/leaderboard_clear_title"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

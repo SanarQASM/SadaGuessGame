@@ -8,86 +8,91 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Singleton that persists GameState in SharedPreferences.
+ * Updated v2: uses GameState.ensureNonNullLists() after every deserialization,
+ * and automatically records finished games into LeaderboardStorage.
+ */
 public class ScoreStorage {
-    private static final String PREFS_NAME = "game_prefs";
-    private static final String KEY_ALL_GAMES = "all_games";
-    private static final String KEY_CURRENT_GAME = "current_game";
 
-    private final SharedPreferences sharedPreferences;
-    private final Gson gson;
+    private static final String PREFS_NAME       = "game_prefs";
+    private static final String KEY_ALL_GAMES    = "all_games";
+    private static final String KEY_CURRENT_GAME = "current_game";
 
     private static volatile ScoreStorage instance;
 
+    private final SharedPreferences prefs;
+    private final Gson              gson;
+    private final Context           appContext;
+
     private ScoreStorage(Context context) {
-        sharedPreferences = context.getApplicationContext()
-                .getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        gson = new Gson();
+        appContext = context.getApplicationContext();
+        prefs = appContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        gson  = new Gson();
     }
 
     public static ScoreStorage getInstance(Context context) {
         if (instance == null) {
             synchronized (ScoreStorage.class) {
-                if (instance == null) {
+                if (instance == null)
                     instance = new ScoreStorage(context.getApplicationContext());
-                }
             }
         }
         return instance;
     }
 
-    public synchronized void saveCurrentGame(GameState gameState) {
-        if (gameState == null) return;
-        // Ensure non-null lists
-        if (gameState.scoresA == null) gameState.scoresA = new ArrayList<>();
-        if (gameState.scoresB == null) gameState.scoresB = new ArrayList<>();
-        if (gameState.categories == null) gameState.categories = new ArrayList<>();
-        if (gameState.usedCardPaths == null) gameState.usedCardPaths = new ArrayList<>();
-        sharedPreferences.edit()
-                .putString(KEY_CURRENT_GAME, gson.toJson(gameState))
-                .apply();
+    // ─── Current game ────────────────────────────────────────────────────────
+
+    public synchronized void saveCurrentGame(GameState game) {
+        if (game == null) return;
+        game.ensureNonNullLists();
+        prefs.edit().putString(KEY_CURRENT_GAME, gson.toJson(game)).apply();
     }
 
     public synchronized GameState getCurrentGame() {
-        String gameJson = sharedPreferences.getString(KEY_CURRENT_GAME, null);
-        if (gameJson == null) return null;
+        String json = prefs.getString(KEY_CURRENT_GAME, null);
+        if (json == null) return null;
         try {
-            GameState game = gson.fromJson(gameJson, GameState.class);
+            GameState game = gson.fromJson(json, GameState.class);
             if (game == null) return null;
-            // Ensure non-null lists after deserialization
-            if (game.scoresA == null) game.scoresA = new ArrayList<>();
-            if (game.scoresB == null) game.scoresB = new ArrayList<>();
-            if (game.categories == null) game.categories = new ArrayList<>();
-            if (game.usedCardPaths == null) game.usedCardPaths = new ArrayList<>();
+            game.ensureNonNullLists();
             return game;
         } catch (Exception e) {
             return null;
         }
     }
 
-    public synchronized void saveFinishedGame(GameState gameState) {
-        if (gameState == null) return;
-        gameState.isFinished = true;
-        List<GameState> allGames = getAllGames();
-        allGames.add(gameState);
-        saveAllGames(allGames);
-        // Clear current game
-        sharedPreferences.edit().remove(KEY_CURRENT_GAME).apply();
+    // ─── Finished games ──────────────────────────────────────────────────────
+
+    /**
+     * Marks game finished, moves it to the history list, clears current game,
+     * and records the result in the leaderboard.
+     */
+    public synchronized void saveFinishedGame(GameState game) {
+        if (game == null) return;
+        game.ensureNonNullLists();
+        game.isFinished = true;
+
+        // Persist to history
+        List<GameState> all = getAllGames();
+        all.add(game);
+        saveAllGames(all);
+
+        // Clear current slot
+        prefs.edit().remove(KEY_CURRENT_GAME).apply();
+
+        // Update leaderboard
+        LeaderboardStorage.getInstance(appContext).recordGameResult(game);
     }
 
     public synchronized List<GameState> getAllGames() {
-        String gamesJson = sharedPreferences.getString(KEY_ALL_GAMES, null);
-        if (gamesJson == null) return new ArrayList<>();
+        String json = prefs.getString(KEY_ALL_GAMES, null);
+        if (json == null) return new ArrayList<>();
         try {
             Type type = new TypeToken<List<GameState>>() {}.getType();
-            List<GameState> games = gson.fromJson(gamesJson, type);
+            List<GameState> games = gson.fromJson(json, type);
             if (games == null) return new ArrayList<>();
-            // Ensure non-null lists in each game
-            for (GameState game : games) {
-                if (game.scoresA == null) game.scoresA = new ArrayList<>();
-                if (game.scoresB == null) game.scoresB = new ArrayList<>();
-                if (game.categories == null) game.categories = new ArrayList<>();
-                if (game.usedCardPaths == null) game.usedCardPaths = new ArrayList<>();
-            }
+            for (GameState g : games) g.ensureNonNullLists();
             return games;
         } catch (Exception e) {
             return new ArrayList<>();
@@ -103,25 +108,22 @@ public class ScoreStorage {
     }
 
     public synchronized boolean deleteAllGames() {
-        sharedPreferences.edit().remove(KEY_ALL_GAMES).apply();
+        prefs.edit().remove(KEY_ALL_GAMES).apply();
         return true;
     }
 
-    private void saveAllGames(List<GameState> games) {
-        sharedPreferences.edit()
-                .putString(KEY_ALL_GAMES, gson.toJson(games))
-                .apply();
+    public synchronized void clearCurrentGame() {
+        prefs.edit().remove(KEY_CURRENT_GAME).apply();
     }
 
     public GameState getLastUnfinishedGame() {
-        GameState currentGame = getCurrentGame();
-        return (currentGame != null && !currentGame.isFinished) ? currentGame : null;
+        GameState current = getCurrentGame();
+        return (current != null && !current.isFinished) ? current : null;
     }
 
-    /**
-     * Clear the current game without saving to history.
-     */
-    public synchronized void clearCurrentGame() {
-        sharedPreferences.edit().remove(KEY_CURRENT_GAME).apply();
+    // ─── Private ─────────────────────────────────────────────────────────────
+
+    private void saveAllGames(List<GameState> games) {
+        prefs.edit().putString(KEY_ALL_GAMES, gson.toJson(games)).apply();
     }
 }

@@ -7,22 +7,31 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.sadaguessgame.R;
 import com.example.sadaguessgame.data.GameState;
 import com.example.sadaguessgame.data.ScoreStorage;
+import com.example.sadaguessgame.manager.SoundManager;
 import com.google.android.material.button.MaterialButton;
 import java.util.Objects;
 
+/**
+ * Score assignment dialog — shown after time-up or manual end.
+ *
+ * NEW in v2:
+ *  • Applies combo multiplier when streak >= 3 (score shown with bonus label).
+ *  • Records correct/miss into GameState streak counters.
+ *  • Plays correct-answer sound via SoundManager.
+ *  • Shows current streak badge on the dialog title.
+ */
 public class ScoreDialog {
 
-    public interface OnScoreSavedListener {
-        void onScoreSaved();
-    }
+    public interface OnScoreSavedListener { void onScoreSaved(); }
 
-    private final Dialog dialog;
-    private final Context context;
+    private final Dialog              dialog;
+    private final Context             context;
     @Nullable private OnScoreSavedListener listener;
 
     public ScoreDialog(@NonNull Context context) {
@@ -33,18 +42,41 @@ public class ScoreDialog {
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
 
-        if (dialog.getWindow() != null) {
+        if (dialog.getWindow() != null)
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
 
+        bindStreakBadge();
         setupButtons();
         setupOutsideShake();
     }
 
-    public ScoreDialog setOnScoreSavedListener(@Nullable OnScoreSavedListener listener) {
-        this.listener = listener;
+    public ScoreDialog setOnScoreSavedListener(@Nullable OnScoreSavedListener l) {
+        this.listener = l;
         return this;
     }
+
+    // ─── Streak badge ────────────────────────────────────────────────────────
+
+    private void bindStreakBadge() {
+        GameState game = ScoreStorage.getInstance(context).getCurrentGame();
+        if (game == null) return;
+
+        int streak = game.getCurrentStreak(game.groupTurn);
+        TextView tvStreak = dialog.findViewById(R.id.tvStreakBadge);
+        if (tvStreak == null) return;
+
+        if (streak >= 3) {
+            tvStreak.setVisibility(View.VISIBLE);
+            tvStreak.setText("🔥 x" + streak + " Streak!");
+        } else if (streak == 2) {
+            tvStreak.setVisibility(View.VISIBLE);
+            tvStreak.setText("⚡ " + streak + " in a row");
+        } else {
+            tvStreak.setVisibility(View.GONE);
+        }
+    }
+
+    // ─── Buttons ─────────────────────────────────────────────────────────────
 
     private void setupButtons() {
         MaterialButton btn1 = dialog.findViewById(R.id.btn_1);
@@ -56,43 +88,52 @@ public class ScoreDialog {
         if (btn3 != null) btn3.setOnClickListener(v -> saveAndDismiss(3));
     }
 
-    private void saveAndDismiss(int score) {
-        // Always fetch fresh GameState to avoid stale data
+    private void saveAndDismiss(int baseScore) {
         GameState game = ScoreStorage.getInstance(context).getCurrentGame();
-        if (game == null) {
-            dismiss();
-            return;
-        }
+        if (game == null) { dismiss(); return; }
 
-        // Add score to the CURRENT group's list
+        // Apply combo multiplier
+        float multiplier = game.recordCorrectGuess(game.groupTurn);
+        int finalScore = Math.min(3, Math.round(baseScore * multiplier));
+
+        boolean comboApplied = (multiplier > 1.0f);
+
         if (game.groupTurn == GameState.GROUP_A) {
-            game.scoresA.add(score);
+            game.scoresA.add(finalScore);
+            game.comboScoresA.add(comboApplied);
         } else {
-            game.scoresB.add(score);
+            game.scoresB.add(finalScore);
+            game.comboScoresB.add(comboApplied);
         }
 
         ScoreStorage.getInstance(context).saveCurrentGame(game);
-        dismiss();
 
-        if (listener != null) {
-            listener.onScoreSaved();
-        }
+        // Sounds
+        SoundManager sm = SoundManager.getInstance(context);
+        sm.playCorrectAnswer();
+        int streak = game.getCurrentStreak(game.groupTurn);
+        if (streak >= 3) sm.playCombo();
+
+        dismiss();
+        if (listener != null) listener.onScoreSaved();
     }
+
+    // ─── Outside shake ───────────────────────────────────────────────────────
 
     @SuppressLint("ClickableViewAccessibility")
     private void setupOutsideShake() {
         dialog.setOnShowListener(d -> {
             View decorView = Objects.requireNonNull(dialog.getWindow()).getDecorView();
-            View content = dialog.findViewById(R.id.dialog_root);
+            View content   = dialog.findViewById(R.id.dialog_root);
             if (content == null) return;
-
             decorView.setOnTouchListener((v, event) -> {
                 int[] loc = new int[2];
                 content.getLocationOnScreen(loc);
                 float x = event.getRawX(), y = event.getRawY();
                 if (x < loc[0] || x > loc[0] + content.getWidth()
                         || y < loc[1] || y > loc[1] + content.getHeight()) {
-                    content.startAnimation(AnimationUtils.loadAnimation(context, R.anim.shake));
+                    content.startAnimation(
+                            AnimationUtils.loadAnimation(context, R.anim.shake));
                     return true;
                 }
                 return false;
@@ -100,6 +141,6 @@ public class ScoreDialog {
         });
     }
 
-    public void show() { dialog.show(); }
+    public void show()    { dialog.show(); }
     public void dismiss() { if (dialog.isShowing()) dialog.dismiss(); }
 }

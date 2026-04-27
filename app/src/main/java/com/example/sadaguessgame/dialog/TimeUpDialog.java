@@ -17,9 +17,16 @@ import com.example.sadaguessgame.data.ScoreStorage;
 import com.google.android.material.button.MaterialButton;
 import java.util.Objects;
 
+/**
+ * "Time is up!" dialog — shown when the countdown reaches zero.
+ *
+ * Changes in v2:
+ *  • "No" path calls game.recordMiss() to reset the streak counter.
+ *  • Groups' names are shown in the dialog text dynamically.
+ */
 public class TimeUpDialog {
 
-    private final Dialog dialog;
+    private final Dialog  dialog;
     private final Context context;
 
     public TimeUpDialog(@NonNull Context context) {
@@ -30,94 +37,97 @@ public class TimeUpDialog {
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
 
-        if (dialog.getWindow() != null) {
+        if (dialog.getWindow() != null)
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        }
 
         updateGroupText();
         setupButtons();
         setupOutsideShake();
     }
 
+    // ─── Group text ──────────────────────────────────────────────────────────
+
     private void updateGroupText() {
-        // Always fetch fresh to get correct current turn
         GameState game = ScoreStorage.getInstance(context).getCurrentGame();
         if (game == null) return;
 
-        TextView dialogText = dialog.findViewById(R.id.dialogText);
+        TextView dialogText  = dialog.findViewById(R.id.dialogText);
+        TextView dialogTitle = dialog.findViewById(R.id.dialogTitle);
+
+        if (dialogTitle != null) dialogTitle.setText(R.string.time_up);
+
         if (dialogText != null) {
-            // Show which group's turn it is asking if they found the card
-            dialogText.setText(
+            // Show group name + question
+            String groupName = game.getCurrentGroupName();
+            String question  = context.getString(
                     game.groupTurn == GameState.GROUP_A
                             ? R.string.group_turn_found_A
-                            : R.string.group_turn_found_B
-            );
-        }
-
-        // Also update title to show group name
-        TextView dialogTitle = dialog.findViewById(R.id.dialogTitle);
-        if (dialogTitle != null) {
-            dialogTitle.setText(R.string.time_up);
+                            : R.string.group_turn_found_B);
+            dialogText.setText(groupName + " — " + question);
         }
     }
+
+    // ─── Buttons ─────────────────────────────────────────────────────────────
 
     private void setupButtons() {
         MaterialButton btnYes = dialog.findViewById(R.id.btn_yes);
-        MaterialButton btnNo = dialog.findViewById(R.id.btn_no);
+        MaterialButton btnNo  = dialog.findViewById(R.id.btn_no);
 
-        // YES = found the card → let user give score
+        // YES → open score picker
         btnYes.setOnClickListener(v -> {
             dismiss();
             new ScoreDialog(context)
-                    .setOnScoreSavedListener(() -> {
-                        Intent intent = new Intent(context, GameScoreActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        context.startActivity(intent);
-                    })
+                    .setOnScoreSavedListener(() -> navigateToScore())
                     .show();
         });
 
-        // NO = didn't find card → add 0 score automatically
+        // NO → record miss (streak reset), score 0
         btnNo.setOnClickListener(v -> {
-            addZeroScore();
+            addZeroScoreAndResetStreak();
             dismiss();
-            Intent intent = new Intent(context, GameScoreActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            context.startActivity(intent);
+            navigateToScore();
         });
     }
 
-    private void addZeroScore() {
+    private void addZeroScoreAndResetStreak() {
         GameState game = ScoreStorage.getInstance(context).getCurrentGame();
         if (game == null) return;
 
+        game.recordMiss(game.groupTurn);
+
         if (game.groupTurn == GameState.GROUP_A) {
             game.scoresA.add(0);
+            game.comboScoresA.add(false);
         } else {
             game.scoresB.add(0);
+            game.comboScoresB.add(false);
         }
+
         ScoreStorage.getInstance(context).saveCurrentGame(game);
     }
+
+    private void navigateToScore() {
+        Intent intent = new Intent(context, GameScoreActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(intent);
+    }
+
+    // ─── Outside shake ───────────────────────────────────────────────────────
 
     @SuppressLint("ClickableViewAccessibility")
     private void setupOutsideShake() {
         dialog.setOnShowListener(d -> {
             View decorView = Objects.requireNonNull(dialog.getWindow()).getDecorView();
-            View content = dialog.findViewById(R.id.dialog_root);
+            View content   = dialog.findViewById(R.id.dialog_root);
             if (content == null) return;
-
             decorView.setOnTouchListener((v, event) -> {
-                int[] location = new int[2];
-                content.getLocationOnScreen(location);
-
-                float x = event.getRawX();
-                float y = event.getRawY();
-
-                boolean outsideX = x < location[0] || x > location[0] + content.getWidth();
-                boolean outsideY = y < location[1] || y > location[1] + content.getHeight();
-
-                if (outsideX || outsideY) {
-                    content.startAnimation(AnimationUtils.loadAnimation(context, R.anim.shake));
+                int[] loc = new int[2];
+                content.getLocationOnScreen(loc);
+                float x = event.getRawX(), y = event.getRawY();
+                if (x < loc[0] || x > loc[0] + content.getWidth()
+                        || y < loc[1] || y > loc[1] + content.getHeight()) {
+                    content.startAnimation(
+                            AnimationUtils.loadAnimation(context, R.anim.shake));
                     return true;
                 }
                 return false;
@@ -125,6 +135,6 @@ public class TimeUpDialog {
         });
     }
 
-    public void show() { dialog.show(); }
+    public void show()    { dialog.show(); }
     public void dismiss() { if (dialog.isShowing()) dialog.dismiss(); }
 }

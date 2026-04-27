@@ -1,12 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layoutDirection="locale"
     android:background="@drawable/bg_linear_app_background_primary">
 
-    <!-- Fragment container fills the space above the nav bar -->
+    <!-- Fragment container -->
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="0dp"
@@ -16,24 +17,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- ── Bottom navigation bar ── -->
+    <!-- Bottom nav -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomNavContainer"
         android:layout_width="0dp"
-        android:layout_height="88dp"
-        android:layout_marginStart="@dimen/third_size_layout"
-        android:layout_marginEnd="@dimen/third_size_layout"
-        android:layout_marginBottom="@dimen/secondary_size_layout"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="0dp"
-            android:layout_height="72dp"
-            app:cardCornerRadius="28dp"
-            app:cardElevation="12dp"
-            app:cardBackgroundColor="#CC000000"
+            android:layout_height="70dp"
+            app:cardCornerRadius="25dp"
+            app:cardBackgroundColor="#33000000"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
@@ -43,15 +41,15 @@
                 android:layout_height="match_parent"
                 android:layoutDirection="locale">
 
-                <!-- Animated selection indicator -->
+                <!-- Sliding indicator -->
                 <View
                     android:id="@+id/indicator"
-                    android:layout_width="64dp"
-                    android:layout_height="52dp"
-                    android:layout_gravity="center_vertical"
+                    android:layout_width="60dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
                     android:background="@drawable/bar_hover_background"/>
 
-                <!-- Tab buttons -->
+                <!-- 4 tab buttons -->
                 <LinearLayout
                     android:id="@+id/tabButtonsContainer"
                     android:layout_width="match_parent"
@@ -60,78 +58,76 @@
                     android:layoutDirection="locale"
                     android:orientation="horizontal"
                     android:gravity="center"
-                    android:paddingStart="@dimen/third_size_layout"
-                    android:paddingEnd="@dimen/third_size_layout">
+                    android:paddingStart="6dp"
+                    android:paddingEnd="6dp">
 
-                    <!-- Home tab -->
+                    <!-- Home -->
                     <FrameLayout
                         android:id="@+id/frHomeFragment"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:padding="@dimen/primary_size_layout"
-                        android:focusable="true"
-                        android:clickable="true"
-                        android:contentDescription="@string/home_page">
-
+                        android:padding="8dp">
                         <ImageView
                             android:id="@+id/btnHomeFragment"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
                             android:layout_gravity="center"
                             android:contentDescription="@string/home_page"
-                            android:src="@drawable/ic_home_selector"
-                            android:padding="4dp"/>
+                            android:src="@drawable/ic_home_selector"/>
                     </FrameLayout>
 
-                    <!-- Recently tab -->
+                    <!-- Recently -->
                     <FrameLayout
                         android:id="@+id/frRecentlyFragment"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:padding="@dimen/primary_size_layout"
-                        android:focusable="true"
-                        android:clickable="true"
-                        android:contentDescription="@string/recently_page">
-
+                        android:padding="8dp">
                         <ImageView
                             android:id="@+id/btnRecentlyFragment"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:layout_gravity="center"
                             android:contentDescription="@string/recently_page"
-                            android:src="@drawable/ic_recently_selector"
-                            android:padding="4dp"/>
+                            android:src="@drawable/ic_recently_selector"/>
                     </FrameLayout>
 
-                    <!-- Settings tab -->
+                    <!-- Leaderboard (NEW) -->
+                    <FrameLayout
+                        android:id="@+id/frLeaderboardFragment"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="8dp">
+                        <ImageView
+                            android:id="@+id/btnLeaderboardFragment"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/leaderboard_page"
+                            android:src="@drawable/ic_leaderboard_selector"/>
+                    </FrameLayout>
+
+                    <!-- Setting -->
                     <FrameLayout
                         android:id="@+id/frSettingFragment"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:padding="@dimen/primary_size_layout"
-                        android:focusable="true"
-                        android:clickable="true"
-                        android:contentDescription="@string/setting_page">
-
+                        android:padding="8dp">
                         <ImageView
                             android:id="@+id/btnSettingFragment"
-                            android:layout_width="44dp"
-                            android:layout_height="44dp"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:layout_gravity="center"
                             android:contentDescription="@string/setting_page"
-                            android:src="@drawable/ic_setting_selector"
-                            android:padding="4dp"/>
+                            android:src="@drawable/ic_setting_selector"/>
                     </FrameLayout>
 
                 </LinearLayout>
-
             </FrameLayout>
-
         </com.google.android.material.card.MaterialCardView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

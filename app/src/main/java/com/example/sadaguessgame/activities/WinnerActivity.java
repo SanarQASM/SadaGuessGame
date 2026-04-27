@@ -1,71 +1,94 @@
 package com.example.sadaguessgame.activities;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.TextView;
 import com.example.sadaguessgame.R;
 import com.example.sadaguessgame.data.GameState;
 import com.example.sadaguessgame.data.ScoreStorage;
+import com.example.sadaguessgame.manager.ShareManager;
+import com.example.sadaguessgame.manager.SoundManager;
 import com.google.android.material.button.MaterialButton;
 
+/**
+ * Winner / Draw / Sudden-Death-Winner screen.
+ *
+ * Changes in v2:
+ *  • Uses SoundManager instead of inline MediaPlayer.
+ *  • Shows sudden death winner label when applicable.
+ *  • Share button exports the summary card via ShareManager.
+ *  • saveFinishedGame() now also records leaderboard (done inside ScoreStorage).
+ */
 public class WinnerActivity extends BaseActivity {
 
-    private GameState currentGame;
-    private MediaPlayer mediaPlayer;
-    private boolean isMediaPlayerReady = false;
+    private GameState    currentGame;
+    private SoundManager soundManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        currentGame = ScoreStorage.getInstance(this).getCurrentGame();
-        if (currentGame == null) {
-            finish();
-            return;
-        }
-
-        int totalA = currentGame.getTotalScoreA();
-        int totalB = currentGame.getTotalScoreB();
-
-        // ── FIX: Route to DrawActivity when scores are equal ──
-        if (totalA == totalB) {
-            Intent drawIntent = new Intent(this, DrawActivity.class);
-            startActivity(drawIntent);
-            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-            finish();
-            return;
-        }
-
         setContentView(R.layout.winner_activity);
-        bindViews(totalA, totalB);
+
+        currentGame  = ScoreStorage.getInstance(this).getCurrentGame();
+        if (currentGame == null) { finish(); return; }
+
+        soundManager = SoundManager.getInstance(this);
+
+        bindViews();
         setupButtons();
     }
 
-    private void bindViews(int totalA, int totalB) {
+    // ─── Bind ────────────────────────────────────────────────────────────────
+
+    private void bindViews() {
         TextView groupWinnerName = findViewById(R.id.groupWinnerName);
         TextView groupOneName    = findViewById(R.id.groupOneName);
         TextView groupTwoName    = findViewById(R.id.groupTwoName);
         TextView groupOneScore   = findViewById(R.id.groupOneScore);
         TextView groupTwoScore   = findViewById(R.id.groupTwoScore);
 
+        // Streak summary (optional views — only present if added to winner_activity.xml)
+        TextView streakSummary = findViewById(R.id.streakSummary);
+        if (streakSummary != null) {
+            streakSummary.setText("🔥 Best streak — "
+                    + currentGame.groupAName + ": " + currentGame.maxStreakA
+                    + "  |  "
+                    + currentGame.groupBName + ": " + currentGame.maxStreakB);
+        }
+
         groupOneName.setText(currentGame.groupAName);
         groupTwoName.setText(currentGame.groupBName);
+
+        int totalA = currentGame.getTotalScoreA();
+        int totalB = currentGame.getTotalScoreB();
         groupOneScore.setText(String.valueOf(totalA));
         groupTwoScore.setText(String.valueOf(totalB));
 
-        if (totalA > totalB) {
+        // Determine winner label
+        if (currentGame.suddenDeathWinner != GameState.NO_WINNER) {
+            // Sudden death result
+            String sdWinner = currentGame.suddenDeathWinner == GameState.GROUP_A
+                    ? currentGame.groupAName : currentGame.groupBName;
+            groupWinnerName.setText("⚡ " + sdWinner);
+            soundManager.playWinner();
+        } else if (totalA > totalB) {
             groupWinnerName.setText(currentGame.groupAName);
-        } else {
+            soundManager.playWinner();
+        } else if (totalB > totalA) {
             groupWinnerName.setText(currentGame.groupBName);
+            soundManager.playWinner();
+        } else {
+            groupWinnerName.setText(R.string.draw);
+            soundManager.playDraw();
         }
-
-        playSound(R.raw.winner_sound);
     }
+
+    // ─── Buttons ─────────────────────────────────────────────────────────────
 
     private void setupButtons() {
         MaterialButton btnHome      = findViewById(R.id.btnHomePage);
         MaterialButton btnPlayAgain = findViewById(R.id.btnPlayAgain);
+        MaterialButton btnShare     = findViewById(R.id.btnShareWinner);
 
         btnHome.setOnClickListener(v -> {
             saveAndNavigate(MainActivity.class);
@@ -76,52 +99,27 @@ public class WinnerActivity extends BaseActivity {
             saveAndNavigate(CreateNewGameActivity.class);
             finish();
         });
+
+        if (btnShare != null) {
+            btnShare.setOnClickListener(v ->
+                    ShareManager.shareGameSummary(this, currentGame));
+        }
     }
 
+    // ─── Helpers ─────────────────────────────────────────────────────────────
+
     private void saveAndNavigate(Class<?> dest) {
+        // saveFinishedGame also records leaderboard entry (v2)
         ScoreStorage.getInstance(this).saveFinishedGame(currentGame);
         Intent intent = new Intent(this, dest);
-        if (dest == MainActivity.class) {
+        if (dest == MainActivity.class)
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        }
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    private void playSound(int resId) {
-        stopSound();
-        try {
-            mediaPlayer = MediaPlayer.create(this, resId);
-            if (mediaPlayer != null) {
-                isMediaPlayerReady = true;
-                mediaPlayer.setOnCompletionListener(mp -> {
-                    isMediaPlayerReady = false;
-                    mp.release();
-                    if (mediaPlayer == mp) mediaPlayer = null;
-                });
-                mediaPlayer.start();
-            }
-        } catch (Exception e) {
-            isMediaPlayerReady = false;
-            mediaPlayer = null;
-        }
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        soundManager.stopCurrent();
     }
-
-    private void stopSound() {
-        if (mediaPlayer == null) return;
-        try {
-            if (isMediaPlayerReady && mediaPlayer.isPlaying()) mediaPlayer.stop();
-        } catch (IllegalStateException ignored) {
-        } finally {
-            try { mediaPlayer.release(); } catch (Exception ignored) {}
-            mediaPlayer = null;
-            isMediaPlayerReady = false;
-        }
-    }
-
-    @Override
-    protected void onDestroy() { super.onDestroy(); stopSound(); }
-
-    @Override
-    protected void onStop()    { super.onStop();    stopSound(); }
 }

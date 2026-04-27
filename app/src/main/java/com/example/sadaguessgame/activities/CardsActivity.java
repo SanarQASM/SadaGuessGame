@@ -1,105 +1,133 @@
 package com.example.sadaguessgame.activities;
 
-import android.app.AlertDialog;
+import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.content.Intent;
-
-import androidx.activity.OnBackPressedCallback;
+import android.widget.Toast;
 import androidx.annotation.Nullable;
-
 import com.example.sadaguessgame.R;
+import com.example.sadaguessgame.data.GameState;
+import com.example.sadaguessgame.data.ScoreStorage;
 import com.example.sadaguessgame.dialog.TimeUpDialog;
 import com.example.sadaguessgame.enums.CategoryCards;
 import com.example.sadaguessgame.helper.FileSelectingRandom;
-import com.example.sadaguessgame.data.GameState;
-import com.example.sadaguessgame.data.ScoreStorage;
+import com.example.sadaguessgame.manager.HapticManager;
+import com.example.sadaguessgame.manager.SoundManager;
+import com.example.sadaguessgame.manager.VoiceClueManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
+/**
+ * Main gameplay screen.
+ *
+ * NEW in v2:
+ *  • Voice clue: auto-TTS of card word when front is revealed.
+ *  • Hint system: up to 2 hints per group (reveals first letter).
+ *  • Screen-flash + haptic: red border pulse + vibration in last 10 s.
+ *  • Streak badge: live streak counter shown on card area.
+ *  • Custom word pack: renders plain-text cards when wordPackId >= 0.
+ *  • Difficulty: FileSelectingRandom handles the subfolder logic.
+ *  • SoundManager replaces inline MediaPlayer calls.
+ */
 public class CardsActivity extends BaseActivity {
 
+    // ─── Views ───────────────────────────────────────────────────────────────
     private ShapeableImageView cardImage;
-    private TextView cardName;
-    private LinearLayout cards;
-    private TextView groupTurn, timeDisplay;
-    private ProgressBar circularProgressBar;
-    private MaterialButton startTimer, stopTimer, restartTimer, endTimer;
-    private ImageView backButton;
+    private TextView           cardName;
+    private LinearLayout       cards;
+    private TextView           groupTurnTv;
+    private TextView           timeDisplay;
+    private TextView           streakBadge;
+    private ProgressBar        circularProgressBar;
+    private MaterialButton     startTimer, stopTimer, restartTimer, endTimer;
+    private ImageButton        hintButton;
+    private TextView           hintCountTv;
 
-    private int cardImageState = 0; // 0 = back, 1 = front
-    private String assetPath;
+    // ─── State ───────────────────────────────────────────────────────────────
+    private int     cardImageState = 0;   // 0 = back, 1 = front
+    private String  assetPath;
+    private String  currentWord;          // plain word for TTS / hint
 
-    private GameState currentGame;
-    private FileSelectingRandom fileSelectingRandom;
+    private GameState            currentGame;
+    private FileSelectingRandom  fileRandom;
 
+    // ─── Timer ───────────────────────────────────────────────────────────────
     private CountDownTimer countDownTimer;
-    private boolean isRunning = false;
-    private int totalTime;
-    private int timeLeft;
-    private boolean warningPlayed = false;
+    private boolean        isRunning      = false;
+    private int            totalTime;
+    private int            timeLeft;
+    private boolean        warningPlayed  = false;
 
-    private MediaPlayer warningPlayer;
-    private boolean isWarningPlayerReady = false;
-    private boolean isDialogShown = false;
+    // ─── Managers ────────────────────────────────────────────────────────────
+    private SoundManager   soundManager;
+    private VoiceClueManager voiceManager;
+    private HapticManager  hapticManager;
+
+    // ─── Flash animator ──────────────────────────────────────────────────────
+    @Nullable private ValueAnimator flashAnimator;
+
+    // ─────────────────────────────────────────────────────────────────────────
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cards_activity);
 
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                handleBackPress();
-            }
-        });
-
         currentGame = ScoreStorage.getInstance(this).getCurrentGame();
-        if (currentGame == null) {
-            finish();
-            return;
-        }
+        if (currentGame == null) { finish(); return; }
 
-        fileSelectingRandom = FileSelectingRandom.getInstance(this);
+        soundManager  = SoundManager.getInstance(this);
+        voiceManager  = VoiceClueManager.getInstance(this);
+        hapticManager = HapticManager.getInstance(this);
+        fileRandom    = FileSelectingRandom.getInstance(this);
+
+        if (currentGame.voiceClueModeEnabled) {
+            voiceManager.init(null);
+        }
 
         initViews();
         initIntentData();
         setupButtons();
     }
 
-    private void initViews() {
-        cardImage           = findViewById(R.id.cardImage);
-        cardName            = findViewById(R.id.cardName);
-        groupTurn           = findViewById(R.id.groupTrun);
-        timeDisplay         = findViewById(R.id.timeDisplay);
-        circularProgressBar = findViewById(R.id.circularProgressBar);
-        cards               = findViewById(R.id.cards);
-        backButton          = findViewById(R.id.back_home_activity_button);
+    // ─── Init ────────────────────────────────────────────────────────────────
 
-        startTimer   = findViewById(R.id.startTimer);
-        stopTimer    = findViewById(R.id.stopTimer);
-        restartTimer = findViewById(R.id.restartTimer);
-        endTimer     = findViewById(R.id.endTimer);
+    private void initViews() {
+        cardImage            = findViewById(R.id.cardImage);
+        cardName             = findViewById(R.id.cardName);
+        groupTurnTv          = findViewById(R.id.groupTrun);
+        timeDisplay          = findViewById(R.id.timeDisplay);
+        circularProgressBar  = findViewById(R.id.circularProgressBar);
+        cards                = findViewById(R.id.cards);
+        startTimer           = findViewById(R.id.startTimer);
+        stopTimer            = findViewById(R.id.stopTimer);
+        restartTimer         = findViewById(R.id.restartTimer);
+        endTimer             = findViewById(R.id.endTimer);
+        streakBadge          = findViewById(R.id.streakBadge);
+        hintButton           = findViewById(R.id.hintButton);
+        hintCountTv          = findViewById(R.id.hintCountTv);
     }
 
     private void initIntentData() {
-        assetPath = fileSelectingRandom.getRandomAssetImage();
+        assetPath = fileRandom.getRandomAssetImage();
 
-        totalTime = (currentGame.minutePicker * 60) + currentGame.secondPicker;
+        totalTime = currentGame.getTimerDurationSeconds();
         if (totalTime <= 0) totalTime = 60;
         timeLeft = totalTime;
 
@@ -107,276 +135,265 @@ public class CardsActivity extends BaseActivity {
         circularProgressBar.setProgress(0);
         updateTimeText();
         setGroupText();
-        initBackCard();
+        updateStreakBadge();
+        updateHintUI();
+        showBackCard();
     }
 
-    // ------------- CARD -------------
+    // ─── Card display ────────────────────────────────────────────────────────
 
-    private void initBackCard() {
+    private void showBackCard() {
         cardImageState = 0;
+        voiceManager.stop();
 
-        if (assetPath == null || !assetPath.contains("/")) {
-            cardName.setText(R.string.card_word);
-            cardImage.setImageResource(R.drawable.nothing_selected);
-            return;
-        }
-
-        String[] pathParts = assetPath.split("/");
-        if (pathParts.length == 0) return;
-
-        String category = pathParts[0];
-        CategoryCards categoryEnum = CategoryCards.fromEnglishName(category);
-        int backImageRes = (categoryEnum != null) ? categoryEnum.getBackImageRes() : 0;
-
-        if (backImageRes != 0) {
-            cardImage.setImageResource(backImageRes);
-        }
-        String displayName = (categoryEnum != null)
-                ? categoryEnum.getDisplayName(this)
-                : category;
-        cardName.setText(displayName);
-    }
-
-    private void initFrontCard() {
         if (assetPath == null) {
             cardName.setText(R.string.card_word);
             cardImage.setImageResource(R.drawable.nothing_selected);
             return;
         }
+
+        if (assetPath.startsWith(FileSelectingRandom.CUSTOM_PREFIX)) {
+            // Custom word pack — show category placeholder on back
+            cardImage.setImageResource(R.drawable.cards);
+            cardName.setText("?");
+            currentWord = assetPath.substring(FileSelectingRandom.CUSTOM_PREFIX.length());
+            return;
+        }
+
+        // Built-in asset back
+        String[] parts = assetPath.split("/");
+        String category = parts[0];
+        CategoryCards catEnum = CategoryCards.fromEnglishName(category);
+        int backRes = (catEnum != null) ? catEnum.getBackImageRes() : 0;
+        if (backRes != 0) cardImage.setImageResource(backRes);
+
+        String displayName = (catEnum != null) ? catEnum.getDisplayName(this) : category;
+        cardName.setText(displayName);
+
+        // Extract plain word for TTS / hint
+        String fileName = assetPath.substring(assetPath.lastIndexOf('/') + 1,
+                        assetPath.lastIndexOf('.'))
+                .replace("_", " ");
+        currentWord = fileName.isEmpty() ? "" :
+                fileName.substring(0, 1).toUpperCase() + fileName.substring(1);
+    }
+
+    private void showFrontCard() {
+        if (assetPath == null) { cardName.setText(R.string.card_word); return; }
+        cardImageState = 1;
+
+        if (assetPath.startsWith(FileSelectingRandom.CUSTOM_PREFIX)) {
+            // Show word as text card
+            cardImage.setImageResource(R.drawable.cards);
+            cardName.setText(currentWord);
+            speakCurrentWord();
+            return;
+        }
+
         try {
-            InputStream inputStream = getAssets().open(assetPath);
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            inputStream.close();
-
-            if (bitmap != null) {
-                cardImage.setImageBitmap(bitmap);
-            } else {
-                cardImage.setImageResource(R.drawable.nothing_selected);
-            }
-
-            String fileName = assetPath.substring(
-                    assetPath.lastIndexOf("/") + 1,
-                    assetPath.contains(".") ? assetPath.lastIndexOf(".") : assetPath.length()
-            ).replace("_", " ");
-
-            if (!fileName.isEmpty()) {
-                fileName = fileName.substring(0, 1).toUpperCase() + fileName.substring(1);
-            }
-            cardName.setText(fileName);
-            cardImageState = 1;
-
+            InputStream is = getAssets().open(assetPath);
+            Bitmap bmp = BitmapFactory.decodeStream(is);
+            is.close();
+            cardImage.setImageBitmap(bmp);
+            cardName.setText(currentWord);
+            speakCurrentWord();
         } catch (IOException e) {
             cardName.setText(R.string.card_word);
             cardImage.setImageResource(R.drawable.nothing_selected);
         }
     }
 
-    // ------------- BUTTONS -------------
+    private void speakCurrentWord() {
+        if (currentWord != null && !currentWord.isEmpty()) {
+            voiceManager.speakWord(currentWord);
+        }
+    }
+
+    // ─── Hint system ─────────────────────────────────────────────────────────
+
+    private void updateHintUI() {
+        if (hintButton == null || hintCountTv == null) return;
+        int hintsLeft = currentGame.getHintsRemaining(currentGame.groupTurn);
+        hintCountTv.setText(String.valueOf(hintsLeft));
+        hintButton.setEnabled(hintsLeft > 0 && cardImageState == 0);
+        hintButton.setAlpha(hintsLeft > 0 ? 1f : 0.4f);
+    }
+
+    private void onHintClicked() {
+        if (!currentGame.canUseHint(currentGame.groupTurn)) {
+            Toast.makeText(this, R.string.no_hints_left, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (currentWord == null || currentWord.isEmpty()) return;
+
+        currentGame.consumeHint(currentGame.groupTurn);
+        ScoreStorage.getInstance(this).saveCurrentGame(currentGame);
+        updateHintUI();
+
+        // Reveal first letter as a toast overlay
+        String hint = currentWord.substring(0, 1).toUpperCase() + " _ _ _";
+        Toast.makeText(this, "💡 " + hint, Toast.LENGTH_LONG).show();
+        cardName.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
+    }
+
+    // ─── Streak badge ────────────────────────────────────────────────────────
+
+    private void updateStreakBadge() {
+        if (streakBadge == null) return;
+        int streak = currentGame.getCurrentStreak(currentGame.groupTurn);
+        if (streak >= 2) {
+            streakBadge.setVisibility(View.VISIBLE);
+            streakBadge.setText("🔥 " + streak);
+        } else {
+            streakBadge.setVisibility(View.GONE);
+        }
+    }
+
+    // ─── Buttons ─────────────────────────────────────────────────────────────
 
     private void setupButtons() {
-        if (backButton != null) {
-            backButton.setOnClickListener(v -> handleBackPress());
-        }
-
         cards.setOnClickListener(v -> {
-            if (cardImageState == 0) initFrontCard();
-            else initBackCard();
+            if (cardImageState == 0) showFrontCard();
+            else showBackCard();
         });
 
-        startTimer.setOnClickListener(v -> startTimer());
-        stopTimer.setOnClickListener(v -> stopTimerAction());
-        restartTimer.setOnClickListener(v -> restartTimer());
-        endTimer.setOnClickListener(v -> {
-            stopTimerAction();
-            showEndDialog();
-        });
+        startTimer.setOnClickListener(v  -> startTimer());
+        stopTimer.setOnClickListener(v   -> stopTimer());
+        restartTimer.setOnClickListener(v-> restartTimer());
+        endTimer.setOnClickListener(v    -> { stopTimer(); showEndDialog(); });
+
+        if (hintButton != null) hintButton.setOnClickListener(v -> onHintClicked());
     }
 
-    private void handleBackPress() {
-        if (isRunning) {
-            new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.back))
-                    .setMessage(getString(R.string.confirm_leave_game))
-                    .setPositiveButton(getString(R.string.yes_button), (d, w) -> {
-                        stopTimerAction();
-                        finish();
-                    })
-                    .setNegativeButton(getString(R.string.no_button), null)
-                    .show();
-        } else {
-            finish();
-        }
-    }
-
-    // ------------- TIMER -------------
+    // ─── Timer ───────────────────────────────────────────────────────────────
 
     private void startTimer() {
         if (isRunning || timeLeft <= 0) return;
-
-        // FIX: Update button states to reflect running state
-        startTimer.setEnabled(false);
-        startTimer.setAlpha(0.5f);
-        stopTimer.setEnabled(true);
-        stopTimer.setAlpha(1f);
-
         countDownTimer = new CountDownTimer(timeLeft * 1000L, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timeLeft = (int) (millisUntilFinished / 1000);
+            @Override public void onTick(long ms) {
+                timeLeft = (int)(ms / 1000);
                 updateTimeText();
                 circularProgressBar.setProgress(totalTime - timeLeft);
 
+                // Warning threshold
                 if (!warningPlayed && shouldPlayWarning()) {
-                    playWarningSound();
+                    soundManager.playTimerWarning();
+                    hapticManager.warning();
+                    startFlashAnimation();
                     warningPlayed = true;
                 }
-            }
 
-            @Override
-            public void onFinish() {
+                // Per-second haptic in last 10 s
+                if (timeLeft <= 10) hapticManager.tick();
+            }
+            @Override public void onFinish() {
                 timeLeft = 0;
                 updateTimeText();
                 circularProgressBar.setProgress(totalTime);
-                isRunning = false;
-                cancelCountDownTimer();
-                resetButtonStates();
+                stopTimer();
                 showEndDialog();
             }
         }.start();
-
         isRunning = true;
     }
 
-    private void resetButtonStates() {
-        if (startTimer != null) {
-            startTimer.setEnabled(true);
-            startTimer.setAlpha(1f);
-        }
-        if (stopTimer != null) {
-            stopTimer.setEnabled(true);
-            stopTimer.setAlpha(1f);
-        }
-    }
-
-    private boolean shouldPlayWarning() {
-        int totalMinutes = totalTime / 60;
-        if (totalTime < 60) return timeLeft <= 10;
-        if (totalMinutes == 1) return timeLeft <= 20;
-        if (totalMinutes == 2) return timeLeft <= 25;
-        int threshold = Math.min(10 + totalMinutes * 5, 60);
-        return timeLeft <= threshold;
-    }
-
-    private void stopTimerAction() {
-        cancelCountDownTimer();
-        stopWarningSound();
-        isRunning = false;
+    private void stopTimer() {
+        if (countDownTimer != null) { countDownTimer.cancel(); countDownTimer = null; }
+        stopFlashAnimation();
+        hapticManager.cancel();
+        soundManager.stopCurrent();
+        isRunning     = false;
         warningPlayed = false;
-        resetButtonStates();
-    }
-
-    private void cancelCountDownTimer() {
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-            countDownTimer = null;
-        }
     }
 
     private void restartTimer() {
-        stopTimerAction();
-        assetPath = fileSelectingRandom.getRandomAssetImage();
-        timeLeft = totalTime;
+        stopTimer();
+        assetPath   = fileRandom.getRandomAssetImage();
+        currentWord = null;
+        timeLeft    = totalTime;
         circularProgressBar.setProgress(0);
         updateTimeText();
-        initBackCard();
+        showBackCard();
+        updateHintUI();
+        updateStreakBadge();
     }
 
-    // ------------- SOUND -------------
+    // ─── Screen flash animation ───────────────────────────────────────────────
 
-    private void playWarningSound() {
-        stopWarningSound();
-        try {
-            warningPlayer = MediaPlayer.create(this, R.raw.countdown_boom);
-            if (warningPlayer != null) {
-                isWarningPlayerReady = true;
-                warningPlayer.setOnCompletionListener(mp -> stopWarningSound());
-                warningPlayer.start();
-            }
-        } catch (Exception e) {
-            isWarningPlayerReady = false;
-            warningPlayer = null;
+    private void startFlashAnimation() {
+        if (cards == null) return;
+        stopFlashAnimation();
+        flashAnimator = ValueAnimator.ofObject(
+                new ArgbEvaluator(),
+                Color.TRANSPARENT,
+                0x55FF0000,      // semi-transparent red
+                Color.TRANSPARENT);
+        flashAnimator.setDuration(600);
+        flashAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        flashAnimator.setRepeatMode(ValueAnimator.REVERSE);
+        flashAnimator.addUpdateListener(anim ->
+                cards.setBackgroundColor((int) anim.getAnimatedValue()));
+        flashAnimator.start();
+    }
+
+    private void stopFlashAnimation() {
+        if (flashAnimator != null) {
+            flashAnimator.cancel();
+            flashAnimator = null;
         }
+        if (cards != null) cards.setBackgroundColor(Color.TRANSPARENT);
     }
 
-    private void stopWarningSound() {
-        if (warningPlayer == null) return;
-        try {
-            if (isWarningPlayerReady && warningPlayer.isPlaying()) {
-                warningPlayer.stop();
-            }
-        } catch (IllegalStateException ignored) {
-        } finally {
-            try {
-                warningPlayer.release();
-            } catch (Exception ignored) { }
-            warningPlayer = null;
-            isWarningPlayerReady = false;
-        }
+    // ─── Warning threshold ────────────────────────────────────────────────────
+
+    private boolean shouldPlayWarning() {
+        int mins = totalTime / 60;
+        if (totalTime < 60)  return timeLeft <= 10;
+        if (mins == 1)       return timeLeft <= 20;
+        if (mins == 2)       return timeLeft <= 25;
+        int threshold = Math.min(10 + mins * 5, 60);
+        return timeLeft <= threshold;
     }
 
-    // ------------- UI -------------
+    // ─── UI helpers ──────────────────────────────────────────────────────────
 
     private void updateTimeText() {
-        if (timeDisplay == null) return;
-        timeDisplay.setText(
-                String.format(Locale.getDefault(),
-                        "%02d : %02d", timeLeft / 60, timeLeft % 60)
-        );
+        timeDisplay.setText(String.format(Locale.getDefault(),
+                "%02d : %02d", timeLeft / 60, timeLeft % 60));
     }
 
     private void setGroupText() {
-        if (groupTurn == null) return;
         GameState game = ScoreStorage.getInstance(this).getCurrentGame();
         if (game == null) return;
-
-        // FIX: Show the actual group name (not just A/B label) for better UX
-        String name = game.groupTurn == GameState.GROUP_A
-                ? game.groupAName : game.groupBName;
-        String turnText = name + " " + getString(R.string.turn_label);
-        groupTurn.setText(turnText);
+        groupTurnTv.setText(game.groupTurn == GameState.GROUP_A
+                ? R.string.group_turn_A : R.string.group_turn_B);
     }
 
-    private void showEndDialog() {
-        if (isDialogShown || isFinishing() || isDestroyed()) return;
-        isDialogShown = true;
-        new TimeUpDialog(this).show();
-    }
+    private void showEndDialog() { new TimeUpDialog(this).show(); }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Layout handles orientation via different layout files; no action needed here
-    }
+    // ─── Lifecycle ───────────────────────────────────────────────────────────
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        cancelCountDownTimer();
-        stopWarningSound();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (isRunning) stopTimerAction();
-    }
-
-    @Override
-    protected void onResume() {
+    @Override protected void onResume() {
         super.onResume();
-        isDialogShown = false;
-        setGroupText();
-        // Refresh game state in case it changed
         currentGame = ScoreStorage.getInstance(this).getCurrentGame();
+        if (currentGame == null) return;
+        setGroupText();
+        updateStreakBadge();
+        updateHintUI();
     }
+
+    @Override protected void onStop() {
+        super.onStop();
+        if (isRunning) stopTimer();
+        voiceManager.stop();
+    }
+
+    @Override protected void onDestroy() {
+        super.onDestroy();
+        stopTimer();
+        if (currentGame != null && currentGame.voiceClueModeEnabled)
+            voiceManager.shutdown();
+    }
+
+    @Override public void onConfigurationChanged(Configuration cfg) { super.onConfigurationChanged(cfg); }
 }

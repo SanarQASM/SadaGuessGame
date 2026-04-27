@@ -5,196 +5,247 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
-
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.sadaguessgame.R;
-import com.example.sadaguessgame.enums.CategoryCards;
-import com.example.sadaguessgame.enums.CategoryType;
-import com.example.sadaguessgame.helper.Category;
-import com.example.sadaguessgame.helper.CategoryAdapter;
 import com.example.sadaguessgame.data.GameState;
 import com.example.sadaguessgame.data.ScoreStorage;
+import com.example.sadaguessgame.data.WordPack;
+import com.example.sadaguessgame.data.WordPackStorage;
+import com.example.sadaguessgame.enums.CategoryCards;
+import com.example.sadaguessgame.enums.CategoryType;
+import com.example.sadaguessgame.enums.DifficultyLevel;
+import com.example.sadaguessgame.helper.Category;
+import com.example.sadaguessgame.helper.CategoryAdapter;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Game setup screen.
+ *
+ * NEW in v2:
+ *  • Difficulty level spinner (Easy / Medium / Hard).
+ *  • Voice clue toggle switch.
+ *  • "Use Word Pack" button that opens WordPackActivity.
+ *    If a pack is selected its id is stored in GameState.wordPackId
+ *    and the category RecyclerView is hidden (not needed for custom packs).
+ */
 public class CreateNewGameActivity extends BaseActivity {
 
-    private NumberPicker secondPicker, minutePicker;
-    private TextInputEditText groupNameOne, groupNameTwo;
-    private Spinner spinner;
-    private CategoryAdapter categoryAdapter;
-    private GameState newGame;
+    // ─── Views ───────────────────────────────────────────────────────────────
+    private NumberPicker      secondPicker, minutePicker;
+    private EditText          groupNameOne, groupNameTwo;
+    private Spinner           roundSpinner, difficultySpinner;
+    @SuppressWarnings("deprecation")
+    private Switch            voiceClueSwitch;
+    private CategoryAdapter   categoryAdapter;
+    private MaterialButton    btnWordPack;
+    private View              categorySection;
 
-    // FIX: track spinner position explicitly to avoid null issues
-    private int selectedRoundPosition = 2; // default index = 10 rounds
-    private String[] roundsStr;
+    // ─── State ───────────────────────────────────────────────────────────────
+    private GameState newGame;
+    private long      selectedWordPackId = -1L;   // -1 = use built-in assets
+
+    // ─────────────────────────────────────────────────────────────────────────
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_new_game_activity);
 
-        if (getSupportActionBar() != null) {
+        if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
 
         newGame = new GameState();
 
         initPickers();
-        initSpinner();
+        initRoundSpinner();
+        initDifficultySpinner();
         initRecycler();
         initGroupInputs();
+        initVoiceClueSwitch();
+        initWordPackButton();
         initBackButton();
     }
 
+    // ─── Back ────────────────────────────────────────────────────────────────
+
     private void initBackButton() {
-        ImageView backButton = findViewById(R.id.back_home_activity_button);
-        if (backButton != null) {
-            backButton.setOnClickListener(v -> finish());
-        }
+        ImageView btn = findViewById(R.id.back_home_activity_button);
+        btn.setOnClickListener(v -> finish());
     }
+
+    // ─── Pickers ─────────────────────────────────────────────────────────────
 
     private void initPickers() {
         minutePicker = findViewById(R.id.minutePicker2);
         secondPicker = findViewById(R.id.secondPicker2);
-
-        minutePicker.setMinValue(0);
-        minutePicker.setMaxValue(59);
-        secondPicker.setMinValue(0);
-        secondPicker.setMaxValue(59);
-
+        minutePicker.setMinValue(0); minutePicker.setMaxValue(59);
+        secondPicker.setMinValue(0); secondPicker.setMaxValue(59);
         minutePicker.setWrapSelectorWheel(true);
         secondPicker.setWrapSelectorWheel(true);
-
-        // Default 1 minute
         minutePicker.setValue(1);
         secondPicker.setValue(0);
-
-        // FIX: update game state live as pickers change
-        NumberPicker.OnValueChangeListener pickerListener = (picker, oldVal, newVal) -> {
-            newGame.minutePicker = minutePicker.getValue();
-            newGame.secondPicker = secondPicker.getValue();
-        };
-        minutePicker.setOnValueChangedListener(pickerListener);
-        secondPicker.setOnValueChangedListener(pickerListener);
     }
 
-    private void initSpinner() {
-        spinner = findViewById(R.id.item_spinner);
-        roundsStr = getResources().getStringArray(R.array.round);
+    // ─── Round spinner ───────────────────────────────────────────────────────
 
+    private void initRoundSpinner() {
+        roundSpinner = findViewById(R.id.item_spinner);
+        String[] roundsStr = getResources().getStringArray(R.array.round);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, roundsStr);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-
-        // Default: index 2 = 10 rounds
-        spinner.setSelection(selectedRoundPosition);
-        newGame.totalRounds = Integer.parseInt(roundsStr[selectedRoundPosition]);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedRoundPosition = position;
-                newGame.totalRounds = Integer.parseInt(roundsStr[position]);
+        roundSpinner.setAdapter(adapter);
+        roundSpinner.setSelection(2);   // default 10
+        roundSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override public void onItemSelected(AdapterView<?> p, View v, int pos, long id) {
+                newGame.totalRounds = Integer.parseInt(roundsStr[pos]);
             }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            @Override public void onNothingSelected(AdapterView<?> p) {}
         });
     }
+
+    // ─── Difficulty spinner (NEW) ─────────────────────────────────────────────
+
+    private void initDifficultySpinner() {
+        difficultySpinner = findViewById(R.id.difficultySpinner);
+        if (difficultySpinner == null) return;
+
+        String[] labels = {
+                getString(R.string.difficulty_easy),
+                getString(R.string.difficulty_medium),
+                getString(R.string.difficulty_hard)
+        };
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, labels);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        difficultySpinner.setAdapter(adapter);
+        difficultySpinner.setSelection(1);   // default Medium
+        difficultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override public void onItemSelected(AdapterView<?> p, View v, int pos, long id) {
+                switch (pos) {
+                    case 0: newGame.difficultyLevel = DifficultyLevel.EASY.getFolderName();   break;
+                    case 2: newGame.difficultyLevel = DifficultyLevel.HARD.getFolderName();   break;
+                    default: newGame.difficultyLevel = DifficultyLevel.MEDIUM.getFolderName();
+                }
+            }
+            @Override public void onNothingSelected(AdapterView<?> p) {}
+        });
+    }
+
+    // ─── Voice clue switch (NEW) ──────────────────────────────────────────────
+
+    @SuppressWarnings("deprecation")
+    private void initVoiceClueSwitch() {
+        voiceClueSwitch = findViewById(R.id.voiceClueSwitch);
+        if (voiceClueSwitch == null) return;
+        voiceClueSwitch.setOnCheckedChangeListener((btn, checked) ->
+                newGame.voiceClueModeEnabled = checked);
+    }
+
+    // ─── Word pack button (NEW) ───────────────────────────────────────────────
+
+    private void initWordPackButton() {
+        btnWordPack    = findViewById(R.id.btnSelectWordPack);
+        categorySection = findViewById(R.id.categorySection);
+        if (btnWordPack == null) return;
+
+        btnWordPack.setOnClickListener(v -> {
+            // Open WordPackActivity for selection; result comes back in onActivityResult
+            Intent intent = new Intent(this, WordPackActivity.class);
+            intent.putExtra(WordPackActivity.EXTRA_SELECT_MODE, true);
+            startActivityForResult(intent, WordPackActivity.REQ_SELECT_PACK);
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == WordPackActivity.REQ_SELECT_PACK
+                && resultCode == RESULT_OK && data != null) {
+            selectedWordPackId = data.getLongExtra(WordPackActivity.RESULT_PACK_ID, -1L);
+            if (selectedWordPackId >= 0) {
+                WordPack pack = WordPackStorage.getInstance(this)
+                        .getPackById(selectedWordPackId);
+                if (pack != null) {
+                    btnWordPack.setText(pack.name);
+                    // Hide category grid — not needed for custom packs
+                    if (categorySection != null)
+                        categorySection.setVisibility(View.GONE);
+                }
+            } else {
+                // User deselected
+                selectedWordPackId = -1L;
+                btnWordPack.setText(R.string.btn_select_word_pack);
+                if (categorySection != null)
+                    categorySection.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    // ─── Group name inputs ────────────────────────────────────────────────────
 
     private void initGroupInputs() {
         groupNameOne = findViewById(R.id.groupNameOne);
         groupNameTwo = findViewById(R.id.groupNameTwo);
-        MaterialButton btnNext = findViewById(R.id.btnNext);
-
+        Button btnNext = findViewById(R.id.btnNext);
         btnNext.setOnClickListener(v -> {
             if (validateGroupNames()) {
-                buildGameAndStart();
+                buildAndSaveGame();
+                openCardActivity();
             }
         });
     }
 
-    private void buildGameAndStart() {
-        String nameOne = groupNameOne.getText() != null
-                ? groupNameOne.getText().toString().trim() : "";
-        String nameTwo = groupNameTwo.getText() != null
-                ? groupNameTwo.getText().toString().trim() : "";
+    private void buildAndSaveGame() {
+        newGame.gameId        = "game_" + System.currentTimeMillis();
+        newGame.groupAName    = groupNameOne.getText().toString().trim();
+        newGame.groupBName    = groupNameTwo.getText().toString().trim();
+        newGame.minutePicker  = minutePicker.getValue();
+        newGame.secondPicker  = secondPicker.getValue();
+        newGame.totalRounds   = Integer.parseInt(roundSpinner.getSelectedItem().toString());
+        newGame.wordPackId    = selectedWordPackId;
 
-        newGame.gameId      = "game_" + System.currentTimeMillis();
-        newGame.groupAName  = nameOne;
-        newGame.groupBName  = nameTwo;
-        newGame.minutePicker = minutePicker.getValue();
-        newGame.secondPicker = secondPicker.getValue();
-
-        // FIX: ensure totalRounds is set from spinner, not stale default
-        if (spinner.getSelectedItem() != null) {
-            newGame.totalRounds = Integer.parseInt(spinner.getSelectedItem().toString());
-        } else {
-            newGame.totalRounds = 10;
+        if (selectedWordPackId < 0) {
+            // Use selected categories
+            newGame.categories = categoryAdapter.getSelectedCategoryNames();
         }
 
-        // FIX: if no category selected, select ALL before saving
-        List<String> selected = categoryAdapter.getSelectedCategoryNames();
-        if (selected.isEmpty()) {
-            categoryAdapter.selectAll();
-            selected = categoryAdapter.getSelectedCategoryNames();
-        }
-        newGame.categories = selected;
-
-        // FIX: ensure timer has a minimum of 1 second
-        if (newGame.minutePicker == 0 && newGame.secondPicker == 0) {
-            newGame.minutePicker = 1;
-            newGame.secondPicker = 0;
-        }
-
-        // Reset game state fields for a fresh game
-        newGame.currentRound       = 1;
-        newGame.groupTurn          = GameState.GROUP_A;
-        newGame.turnGroupAFinish   = false;
-        newGame.turnGroupBFinish   = false;
-        newGame.isFinished         = false;
-        newGame.scoresA            = new ArrayList<>();
-        newGame.scoresB            = new ArrayList<>();
-        newGame.usedCardPaths      = new ArrayList<>();
-
+        applyDefaultsIfNeeded();
         ScoreStorage.getInstance(this).saveCurrentGame(newGame);
+    }
 
-        Intent intent = new Intent(this, CardsActivity.class);
-        startActivity(intent);
+    private void openCardActivity() {
+        startActivity(new Intent(this, CardsActivity.class));
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    private boolean validateGroupNames() {
-        String nameOne = groupNameOne.getText() != null
-                ? groupNameOne.getText().toString().trim() : "";
-        String nameTwo = groupNameTwo.getText() != null
-                ? groupNameTwo.getText().toString().trim() : "";
+    // ─── Validation ──────────────────────────────────────────────────────────
 
+    private boolean validateGroupNames() {
+        String n1 = groupNameOne.getText().toString().trim();
+        String n2 = groupNameTwo.getText().toString().trim();
         boolean valid = true;
 
-        int nameOneLen = nameOne.codePointCount(0, nameOne.length());
-        int nameTwoLen = nameTwo.codePointCount(0, nameTwo.length());
-
-        if (nameOne.isEmpty() || nameOneLen > 20) {
-            Toast.makeText(this, getString(R.string.error_group_name), Toast.LENGTH_SHORT).show();
+        if (n1.isEmpty() || n1.codePointCount(0, n1.length()) > 20) {
+            Toast.makeText(this, R.string.error_group_name, Toast.LENGTH_SHORT).show();
             groupNameOne.setBackgroundResource(R.drawable.bg_edit_text_error);
             valid = false;
         } else {
             groupNameOne.setBackgroundResource(R.drawable.bg_edit_text_selector);
         }
 
-        if (nameTwo.isEmpty() || nameTwoLen > 20) {
-            Toast.makeText(this, getString(R.string.error_group_name), Toast.LENGTH_SHORT).show();
+        if (n2.isEmpty() || n2.codePointCount(0, n2.length()) > 20) {
+            Toast.makeText(this, R.string.error_group_name, Toast.LENGTH_SHORT).show();
             groupNameTwo.setBackgroundResource(R.drawable.bg_edit_text_error);
             valid = false;
         } else {
@@ -204,31 +255,32 @@ public class CreateNewGameActivity extends BaseActivity {
         return valid;
     }
 
+    // ─── Defaults ────────────────────────────────────────────────────────────
+
+    private void applyDefaultsIfNeeded() {
+        if (newGame.wordPackId < 0 && categoryAdapter.getSelectedCategoryNames().isEmpty())
+            categoryAdapter.selectAll();
+        if (minutePicker.getValue() == 0 && secondPicker.getValue() == 0)
+            minutePicker.setValue(1);
+    }
+
+    // ─── Recycler ────────────────────────────────────────────────────────────
+
     private void initRecycler() {
-        RecyclerView recyclerGames = findViewById(R.id.recyclerCategory);
-
-        CategoryCards[] categoriesEnum = CategoryCards.values();
-        CategoryType[]  categoryTypes  = CategoryType.values();
-
-        List<Category> categories = new ArrayList<>();
-        for (int i = 0; i < categoriesEnum.length; i++) {
-            CategoryCards categoryEnum = categoriesEnum[i];
-            String displayName  = categoryEnum.getDisplayName(this);
-            String englishName  = categoryEnum.getEnglishName();
-            int    imageResId   = categoryTypes[i].getDrawableId();
-            categories.add(new Category(displayName, englishName, imageResId));
+        RecyclerView recycler = findViewById(R.id.recyclerCategory);
+        CategoryCards[]  cats  = CategoryCards.values();
+        CategoryType[]   types = CategoryType.values();
+        List<Category>   list  = new ArrayList<>();
+        for (int i = 0; i < cats.length; i++) {
+            list.add(new Category(
+                    cats[i].getDisplayName(this),
+                    cats[i].getEnglishName(),
+                    types[i].getDrawableId()));
         }
-
-        categoryAdapter = new CategoryAdapter(this, categories);
-
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 5);
-        recyclerGames.setLayoutManager(layoutManager);
-        recyclerGames.setAdapter(categoryAdapter);
+        categoryAdapter = new CategoryAdapter(this, list);
+        recycler.setLayoutManager(new GridLayoutManager(this, 5));
+        recycler.setAdapter(categoryAdapter);
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
-    }
+    @Override public boolean onSupportNavigateUp() { finish(); return true; }
 }

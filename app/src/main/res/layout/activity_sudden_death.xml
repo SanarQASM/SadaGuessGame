@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_linear_app_background_primary">
+
+    <!-- Lightning title -->
+    <TextView
+        android:id="@+id/sdTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sudden_death_title"
+        android:textColor="@color/primary_text"
+        android:fontFamily="@font/primary_font"
+        android:textSize="@dimen/primary_size"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Group turn label -->
+    <TextView
+        android:id="@+id/sdGroupTurn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Group A"
+        android:textColor="@color/primary_text"
+        android:fontFamily="@font/secondary_font"
+        android:textSize="@dimen/secondary_size"
+        android:textStyle="bold"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/sdTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Countdown timer -->
+    <TextView
+        android:id="@+id/sdTimeDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="30"
+        android:textColor="@color/primary_text"
+        android:fontFamily="@font/buttons_font"
+        android:textSize="72sp"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/sdGroupTurn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Progress bar -->
+    <ProgressBar
+        android:id="@+id/sdProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="12dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginTop="4dp"
+        android:max="30"
+        android:progress="0"
+        android:progressTint="@color/primary_button_color"
+        android:progressBackgroundTint="@color/primary_color"
+        app:layout_constraintTop_toBottomOf="@id/sdTimeDisplay"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Card container -->
+    <LinearLayout
+        android:id="@+id/sdCardContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="10dp"
+        android:background="@drawable/button_background"
+        android:elevation="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/sdProgressBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/sdCardImage"
+            android:layout_width="@dimen/card_width"
+            android:layout_height="@dimen/card_height"
+            android:scaleType="centerCrop"
+            android:src="@drawable/cards"
+            app:shapeAppearanceOverlay="@style/RoundedCard"/>
+
+        <TextView
+            android:id="@+id/sdCardName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="\?"
+            android:gravity="center"
+            android:textColor="@color/primary_color"
+            android:textSize="@dimen/sub_font_size"
+            android:fontFamily="@font/subtext_font"
+            android:paddingTop="4dp"/>
+    </LinearLayout>
+
+    <!-- Tap tip -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_tip"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/normal_fond_size"
+        android:fontFamily="@font/subtext_font"
+        android:layout_marginTop="6dp"
+        app:layout_constraintTop_toBottomOf="@id/sdCardContainer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Found / Not found buttons -->
+    <LinearLayout
+        android:id="@+id/sdButtonContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintTop_toBottomOf="@id/sdCardContainer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="1.0">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSdFound"
+            style="@style/PrimaryButtonStyle"
+            android:text="@string/yes_button"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSdNotFound"
+            style="@style/PrimaryButtonStyle"
+            android:layout_marginStart="16dp"
+            android:text="@string/no_button"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
