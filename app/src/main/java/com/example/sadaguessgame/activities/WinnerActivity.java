@@ -10,15 +10,6 @@ import com.example.sadaguessgame.manager.ShareManager;
 import com.example.sadaguessgame.manager.SoundManager;
 import com.google.android.material.button.MaterialButton;
 
-/**
- * Winner / Draw / Sudden-Death-Winner screen.
- *
- * Changes in v2:
- *  • Uses SoundManager instead of inline MediaPlayer.
- *  • Shows sudden death winner label when applicable.
- *  • Share button exports the summary card via ShareManager.
- *  • saveFinishedGame() now also records leaderboard (done inside ScoreStorage).
- */
 public class WinnerActivity extends BaseActivity {
 
     private GameState    currentGame;
@@ -38,8 +29,6 @@ public class WinnerActivity extends BaseActivity {
         setupButtons();
     }
 
-    // ─── Bind ────────────────────────────────────────────────────────────────
-
     private void bindViews() {
         TextView groupWinnerName = findViewById(R.id.groupWinnerName);
         TextView groupOneName    = findViewById(R.id.groupOneName);
@@ -47,13 +36,11 @@ public class WinnerActivity extends BaseActivity {
         TextView groupOneScore   = findViewById(R.id.groupOneScore);
         TextView groupTwoScore   = findViewById(R.id.groupTwoScore);
 
-        // Streak summary (optional views — only present if added to winner_activity.xml)
         TextView streakSummary = findViewById(R.id.streakSummary);
         if (streakSummary != null) {
-            streakSummary.setText("🔥 Best streak — "
-                    + currentGame.groupAName + ": " + currentGame.maxStreakA
-                    + "  |  "
-                    + currentGame.groupBName + ": " + currentGame.maxStreakB);
+            streakSummary.setText(getString(R.string.streak_summary_format,
+                    currentGame.groupAName, currentGame.maxStreakA,
+                    currentGame.groupBName, currentGame.maxStreakB));
         }
 
         groupOneName.setText(currentGame.groupAName);
@@ -64,12 +51,10 @@ public class WinnerActivity extends BaseActivity {
         groupOneScore.setText(String.valueOf(totalA));
         groupTwoScore.setText(String.valueOf(totalB));
 
-        // Determine winner label
         if (currentGame.suddenDeathWinner != GameState.NO_WINNER) {
-            // Sudden death result
             String sdWinner = currentGame.suddenDeathWinner == GameState.GROUP_A
                     ? currentGame.groupAName : currentGame.groupBName;
-            groupWinnerName.setText("⚡ " + sdWinner);
+            groupWinnerName.setText(getString(R.string.winner_sudden_death_format, sdWinner));
             soundManager.playWinner();
         } else if (totalA > totalB) {
             groupWinnerName.setText(currentGame.groupAName);
@@ -82,8 +67,6 @@ public class WinnerActivity extends BaseActivity {
             soundManager.playDraw();
         }
     }
-
-    // ─── Buttons ─────────────────────────────────────────────────────────────
 
     private void setupButtons() {
         MaterialButton btnHome      = findViewById(R.id.btnHomePage);
@@ -106,10 +89,7 @@ public class WinnerActivity extends BaseActivity {
         }
     }
 
-    // ─── Helpers ─────────────────────────────────────────────────────────────
-
     private void saveAndNavigate(Class<?> dest) {
-        // saveFinishedGame also records leaderboard entry (v2)
         ScoreStorage.getInstance(this).saveFinishedGame(currentGame);
         Intent intent = new Intent(this, dest);
         if (dest == MainActivity.class)

@@ -1,179 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Sada Guess Game</string>
     <string name="application_name" translatable="true">SadaGuess</string>
     <string name="home_page">سەرەتا</string>
-    <string name="timer_title">ژمێرەری کات</string>
+    <string name="timer_title">کاتی دیاریکراو</string>
     <string name="dice_title">زار</string>
-    <string name="score_title">خاڵەکان</string>
+    <string name="score_title">خاڵ</string>
     <string name="back">گەڕانەوە</string>
     <string name="cards_page">کارتەکان</string>
     <string name="scors_page">خاڵەکان</string>
     <string name="recently_page">دوایینەکان</string>
-    <string name="setting_page">ڕێکخستن</string>
-    <string name="learn_game">لێرە نوێیت؟ فێری یارییەکە ببە!</string>
+    <string name="setting_page">رێکخستن</string>
+    <string name="learn_game">لێرە نوێیت؟ فێربە چۆن یاری بکەیت!</string>
     <string name="how_to_play">چۆنیەتی یاری کردن</string>
     <string name="dark_mode">دۆخی تاریک</string>
     <string name="language">زمان</string>
     <string name="about">دەربارە</string>
-    <string name="about_app_description">SadaGuess یارییەکی کۆمەڵایەتی خۆشە بۆ مەزندەکردن، دیزاین کراوە بۆ کۆکردنەوەی هاوڕێیان و خێزانەکان.</string>
-    <string name="privacy_policy">پاراستنی زانیارییەکان</string>
+    <string name="about_app_description">SadaGuess یارییەکی خۆشی کۆمەڵایەتییە بۆ کۆکردنەوەی هاوڕێیان و خێزانەکان دیزاین کراوە.</string>
     <string name="new_game">یاری نوێ</string>
     <string name="continue_game">بەردەوامبوون لە یاری</string>
     <string name="game_score">خاڵی یاری</string>
     <string name="tools">ئامرازەکان: </string>
-    <string name="tool_disc">(دەکرێت بۆ یاری تریش بەکاربێت)</string>
-    <string name="txt_timer">کاتژمێر</string>
+    <string name="tool_disc">(دەتوانرێت بۆ یاری تریش بەکاربێت)</string>
+    <string name="txt_timer">کاتیار</string>
     <string name="txt_Dice">زار</string>
     <string name="txt_Score">خاڵ</string>
     <string name="learn_button"> فێربوون </string>
     <string name="no_button">نەخێر</string>
     <string name="yes_button">بەڵێ</string>
     <string name="wel_title">بەخێربێیت بۆ SadaGuess</string>
-    <string name="wel_disc">کارتێک هەڵبژێرە، مەزندەی بکە، \n و کاتێکی خۆش لەگەڵ هاوڕێکانت بەسەر ببە!</string>
+    <string name="wel_disc">کارتێک هەڵبژێرە، بیدۆزەرەوە، \n و کاتێکی خۆش لەگەڵ هاوڕێکانت بەسەر ببە!</string>
     <string name="txt_get_start">دەستپێکردن</string>
     <string name="txt_skip">تێپەڕاندن</string>
-    <string name="txt_start">دەستپێکردن</string>
-    <string name="txt_stop">وەستان</string>
-    <string name="txt_restart">دەستپێکردنەوە</string>
+    <string name="txt_start">دەستپێبکە</string>
+    <string name="txt_stop">ڕاگرتن</string>
+    <string name="txt_restart">دووبارە دەستپێکردنەوە</string>
     <string name="txt_end">کۆتایی</string>
     <string name="txt_next">دواتر</string>
-    <string name="txt_finish">کۆتای</string>
+    <string name="txt_finish">تەواو</string>
     <string name="txt_back">گەڕانەوە</string>
     <string name="txt_end_game">کۆتایی یاری</string>
-    <string name="txt_play_again">دوبارە یاری بکەوە</string>
+    <string name="txt_play_again">دووبارە یاری بکەوە</string>
     <string name="txt_continue_game">بەردەوامبە</string>
     <string name="txt_view_page">بینینی پەڕە</string>
-    <string name="cards_page_title">مەزندەی کارتەکە بکە!</string>
-    <string name="txt_tip">کلیک بکە بۆ بینینی پێشەوەی کارتەکە</string>
-    <string name="timer_tip">کلیک بکە بۆ دەستپێکردنی کات</string>
-    <string name="group_turn_A">نۆرەی گرووپی A!</string>
-    <string name="group_turn_B">نۆرەی گرووپی B!</string>
-    <string name="group_turn_found_A">ئایا گرووپی A کارتەکەی دۆزییەوە؟</string>
-    <string name="group_turn_found_B">ئایا گرووپی B کارتەکەی دۆزییەوە؟</string>
+    <string name="cards_page_title">کارتەکە بپێکهێنە!</string>
+    <string name="txt_tip">دەست لە کارتەکە بدە بۆ دەرکەوتن</string>
+    <string name="timer_tip">دەست لێبدە بۆ دەستپێکردنی کاتەکە</string>
+
+    <string name="turn_label">نۆرەی ئەوە!</string>
+    <string name="group_turn_A">نۆرەی: گرووپی A!</string>
+    <string name="group_turn_B">نۆرەی: گرووپی B!</string>
+
+    <string name="group_turn_found_A">ئایا گرووپی A کارتەکەی دۆزیەوە؟</string>
+    <string name="group_turn_found_B">ئایا گرووپی B کارتەکەی دۆزیەوە؟</string>
     <string name="no_recently_game">هیچ یارییەکی پێشوو نییە</string>
-    <string name="game_deleted">یاری سڕایەوە</string>
-    <string name="all_game_deleted">هەموو یاریەکان سڕانەوە</string>
+    <string name="game_deleted">یارییەکە سڕایەوە</string>
+    <string name="all_game_deleted">هەموو یارییەکان سڕانەوە</string>
     <string name="delete_title">سڕینەوەی یاری</string>
-    <string name="deletes_title">سڕینەوەی یاریەکان</string>
-    <string name="detele_disc">دڵنیایت لە سڕینەوەی ئەم یاریە؟</string>
-    <string name="deteles_disc">دڵنیایت لە سڕینەوەی هەموو یاریەکان؟</string>
+    <string name="deletes_title">سڕینەوەی هەموو یارییەکان</string>
+    <string name="detele_disc">دڵنیای لە سڕینەوەی ئەم یارییە؟</string>
+    <string name="deteles_disc">دڵنیای لە سڕینەوەی هەموو یارییەکان؟</string>
+
     <string name="winner_title">پیرۆزە!</string>
     <string name="winner_desc">براوە بریتییە لە: </string>
-    <string name="draw">یەکسانبوون!</string>
+    <string name="draw">یەکسان بوون!</string>
     <string name="delete">سڕینەوە</string>
     <string name="winner_group_name">ناوی گرووپ</string>
-    <string name="txt_no_recently_game_tip">یارییەک بکە بۆ بینینی مێژووی یارییەکان!</string>
-    <string name="txt_all_recently_game">هەموو یارییەکانی پێشوو!</string>
+    <string name="txt_no_recently_game_tip">یارییەک بکە بۆ بینینی مێژوو!</string>
+    <string name="txt_all_recently_game">هەموو یارییە پێشووەکان</string>
+    <string name="txt_delete_all">سڕینەوەی هەمووی</string>
     <string name="txt_go_create_new_game">بڕۆ بۆ دروستکردنی یاری نوێ</string>
-    <string name="txt_delete_all">سرینەوەی هەموو</string>
     <string name="txt_home_page">پەڕەی سەرەکی</string>
     <string name="time_up">کات تەواو بوو!</string>
-    <string name="card_word">هیچ کارتێک نیە</string>
-    <string name="score_dialog_title">خاڵ بدە: </string>
-    <string name="txt_game_setting">ڕێکخستنی یاری: </string>
-    <string name="txt_select_dice">ژمارەی زارەکان هەڵبژێرە: </string>
-    <string name="txt_select_color_group">ڕەنگی گرووپ هەڵبژێرە: </string>
+    <string name="card_word">هیچ کارتێک نەدۆزرایەوە!</string>
+    <string name="score_dialog_title">خاڵێک بدە:</string>
+    <string name="txt_game_setting">ڕێکخستنەکانی یاری</string>
+    <string name="txt_select_dice">ژمارەی زارەکان دیاری بکە:</string>
+    <string name="txt_select_color_group">ڕەنگی گرووپ دیاری بکە:</string>
     <string name="history">مێژووی خاڵەکان</string>
     <string name="group_b_color">گرووپی B</string>
     <string name="group_a_color">گرووپی A</string>
     <string name="undo">گەڕانەوە</string>
-    <string name="score_added">1 خاڵ زیاد کرا</string>
+    <string name="score_added">+1 خاڵ</string>
     <string name="dice1">1 زار</string>
     <string name="dice2">2 زار</string>
-    <string name="start_roll_dice">دەستپێکردنی زار</string>
-    <string name="skip_animation">تێپەڕاندنی ئەنیمەیشن</string>
-    <string name="probability_double">ئەگەری دەرچوونی جووت</string>
+    <string name="start_roll_dice">هاویشتنی زار</string>
+    <string name="skip_animation">تێپەڕاندنی جوڵە</string>
+    <string name="probability_double">ئەگەری دوو هێندە</string>
     <string name="txt_group_name">ناوی گرووپ</string>
     <string name="round">خوول</string>
-    <string name="txt_select_category">جۆرەکە هەڵبژێرە: </string>
-    <string name="txt_select_round">ژمارەی خوولەکان هەڵبژێرە: </string>
-    <string name="txt_minute">دەقە</string>
+    <string name="txt_select_category">جۆر دیاری بکە:</string>
+    <string name="txt_select_round">ژمارەی خوولەکان:</string>
+    <string name="txt_minute">خوولەک</string>
     <string name="txt_second">چرکە</string>
-    <string name="txt_select_time">کاتەکە هەڵبژێرە: </string>
-    <string name="txt_enter_group_name">ناوی گرووپ بنووسە: </string>
-    <string name="txt_enter_first_group">ناوی گرووپی یەکەم (A): </string>
-    <string name="txt_enter_second_group">ناوی گرووپی دووەم (B): </string>
-    <string name="error_group_name">ناوی گروپ نابێت بەتاڵ بێت</string>
-    <string name="total_label">کۆ</string>
-    <string name="turn_label">سەرەی %s!</string>
+    <string name="txt_select_time">کات دیاری بکە:</string>
+    <string name="txt_enter_group_name">ناوی گرووپ</string>
+    <string name="txt_enter_first_group">ناوی گرووپی یەکەم (A):</string>
+    <string name="txt_enter_second_group">ناوی گرووپی دووەم (B):</string>
+    <string name="error_group_name">ناو نابێت بەتاڵ بێت (زۆرترین ٢٠ پیت)</string>
 
-    <string name="privacy_intro">
-SadaGuess ڕێز لە تایبەتمەندییەکانت دەگرێت. ئەم سیاسەتە ڕوونی دەکاتەوە چۆن زانیارییەکان مامەڵەیان لەگەڵ دەکرێت لە کاتی بەکارهێنانی ئەپەکەدا.
-</string>
-
-    <string name="privacy_data_title">کۆکردنەوەی زانیاری</string>
-    <string name="privacy_data_desc">
-SadaGuess هیچ زانیارییەکی کەسیی بەکارهێنەر کۆناکاتەوە و پاشەکەوتی ناکات.
-</string>
-
-    <string name="privacy_permission_title">مۆڵەتەکان</string>
-    <string name="privacy_permission_desc">
-ئەپەکە تەنها داوای ئەو مۆڵەتانە دەکات کە بۆ یاریکردن و کارکردنی ئەپەکە پێویستن.
-</string>
-
-    <string name="privacy_third_party_title">خزمەتگوزارییەکانی لایەنی سێیەم</string>
-    <string name="privacy_third_party_desc">
-ئەپەکە لەوانەیە خزمەتگوزارییەکانی لایەنی سێیەم بەکاربهێنێت وەک Google Play Services.
-</string>
-
-    <string name="privacy_contact">
-ئەگەر هەر پرسیارێکت هەبوو دەربارەی ئەم سیاسەتە، تکایە پەیوەندی بە گەشەپێدەر بکە.
-</string>
+    <string name="privacy_policy">پاراستنی زانیارییەکان</string>
+    <string name="privacy_intro">SadaGuess ڕێز لە تایبەتمەندییەکانت دەگرێت. ئەم یاسایانە ڕوونی دەکاتەوە چۆن مامەڵە لەگەڵ زانیارییەکان دەکرێت.</string>
+    <string name="privacy_data_title">کۆکردنەوەی داتا</string>
+    <string name="privacy_data_desc">SadaGuess هیچ داتایەکی تایبەتی بەکارهێنەر کۆناکاتەوە.</string>
+    <string name="privacy_permission_title">دەسەڵاتەکان</string>
+    <string name="privacy_permission_desc">بەرنامەکە تەنها ئەو دەسەڵاتانە داوا دەکات کە بۆ یارییەکە پێویستن.</string>
+    <string name="privacy_third_party_title">خزمەتگوزاری لایەنی سێیەم</string>
+    <string name="privacy_third_party_desc">بەرنامەکە لەوانەیە خزمەتگوزارییەکانی Google Play بەکاربهێنێت.</string>
+    <string name="privacy_contact">ئەگەر هەر پرسیارێکت هەیە، پەیوەندی بە گەشەپێدەر بکە.</string>
 
     <string-array name="home_texts">
         <item>بەخێربێیت بۆ SadaGuess!</item>
         <item>کارتێک هەڵبژێرە!</item>
-        <item>مەزندە بکە و کاتێکی خۆش بەسەر ببە!</item>
-        <item>هاوڕێکانت تەحەدا بکە!</item>
+        <item>بیپێکهێنە و کاتێکی خۆش بەسەر ببە!</item>
+        <item>ڕکابەری هاوڕێکانت بکە!</item>
     </string-array>
+
     <string-array name="language_txt">
         <item>ئینگلیزی</item>
         <item>سۆرانی</item>
         <item>بادینی</item>
     </string-array>
 
-    <string-array name="round">
-        <item>1</item>
-        <item>5</item>
-        <item>10</item>
-        <item>15</item>
-        <item>20</item>
-        <item>35</item>
-        <item>50</item>
-        <item>100</item>
-    </string-array>
-
     <string name="category_animal">ئاژەڵ</string>
-    <string name="category_people">کەسایەتی</string>
+    <string name="category_people">خەڵک</string>
     <string name="category_food">خواردن</string>
     <string name="category_challenge">تەحەدا</string>
     <string name="category_place">شوێن</string>
     <string name="category_occupation">پیشە</string>
     <string name="category_behavior">ڕەفتار</string>
-    <string name="category_equipment">کەلوپەل</string>
+    <string name="category_equipment">ئامێرەکان</string>
     <string name="category_general">گشتی</string>
-    <string name="category_select_all">هەمووی</string>
-
-    <string-array name="slider_all_title">
-        <item>پەڕەی سەرەکی</item>
-        <item>پەڕەی دوایینەکان</item>
-        <item>پەڕەی ڕێکخستن</item>
-    </string-array>
-
-    <string-array name="slider_all_desc">
-        <item>دروستکردنی نوێ | بەردەوامبوون لە یاری پێشوو:\nیارییەکی نوێ دەستپێبکە یان لە پێشوو بەردەوام ببە.\nدوگمەی فێربوون:\nبەکارهێنەر ڕێنمایی دەکات بۆ فێربوونی بەکارهێنانی ئەپەکە.\nبەشی ئامرازەکان:\nپێکهاتووە لە سێ ئامراز بۆ باشترکردنی یاریکردن یان کارلێککردن لەگەڵ یارییەکانی تر.</item>
-        <item>پێکهاتووە لە هەموو یارییەکانی پێشوو لەگەڵ ناو و خاڵی هەر گرووپێک.</item>
-        <item>چۆنیەتی یاری کردن: فێری یاساکانی یاری و چۆنیەتی یاریکردن ببە.\n دۆخی تاریک: گۆڕین لە نێوان تیمی ڕووناک و تاریک.\n زمان: گۆڕینی زمانی ئەپەکە (ئینگلیزی، سۆرانی، بادینی).\n پاراستنی زانیارییەکان: ببینە چۆن زانیارییەکانت مامەڵەیان لەگەڵ دەکرێت.</item>
-    </string-array>
-
+    <string name="category_select_all">دیاریکردنی هەمووی</string>
 
     <string name="no_games_to_delete">هیچ یارییەک نییە بۆ سڕینەوە</string>
-    <string name="failed_to_delete_game">سڕینەوەی یارییەکە سەرکەوتوو نەبوو</string>
-    <string name="failed_to_delete_all">سڕینەوەی یارییەکان سەرکەوتوو نەبوو</string>
-    <string name="content_desc_delete_game">ئەم یارییە بسڕەوە</string>
     <string name="app_version_prefix">وەشان</string>
-    <string name="no_score_yet">٠</string>
-    <string name="score_added_format">+%1$d</string>
-    <string name="confirm_leave_game">کاتی یارییەکە دەڕوات. دەتەوێت لە یارییەکە بڕۆیتە دەرەوە؟</string>
-    <string name="draw_subtitle">هەردوو تیم وەک یەک خاڵیان بەدەستهێنا — دەستخۆش!</string>
+    <string name="confirm_leave_game">کات بەردەوامە. دەتەوێت یارییەکە جێبهێڵیت؟</string>
+    <string name="draw_subtitle">هەردوو تیم یەکسان بوون — یارییەکی باش بوو!</string>
+    <string name="leaderboard_page">ڕیزبەندی براوەکان</string>
+    <string name="leaderboard_title">🏆 تەلاری ناوداران</string>
+    <string name="leaderboard_empty">تائێستا هیچ یارییەک نەکراوە.</string>
+
+    <string name="sudden_death_title">⚡ مردنی لەناکاو!</string>
+    <string name="sudden_death_desc">یەکسانە! یەکەم گرووپ کە بیپێکهێنێت دەبێتە براوە.</string>
+
+    <string name="difficulty_easy">ئاسان</string>
+    <string name="difficulty_medium">مامناوەند</string>
+    <string name="difficulty_hard">سەخت</string>
+    <string name="txt_select_difficulty">ئاستی سەختی دیاری بکە: </string>
+
+    <string name="sound_theme_title">تمێی دەنگ</string>
+    <string name="sound_theme_classic">کلاسیک</string>
+    <string name="sound_theme_dabke">دەبکە 🥁</string>
+    <string name="sound_theme_silent">بێدەنگ 🔇</string>
+
+    <string name="hint_button_desc">بەکاربردنی یارمەتی</string>
+    <string name="hints_remaining">یارمەتییە ماوەکان: %1$d</string>
+
+    <string name="word_packs_title">پاکێجی وشەکان</string>
+    <string name="create_word_pack">دروستکردنی پاکێجی وشە</string>
+    <string name="save_label">پاشکەوتکردن</string>
+    <string name="share_result">ناردنی ئەنجام</string>
+    <string name="total_label">کۆی گشتی</string>
 </resources>

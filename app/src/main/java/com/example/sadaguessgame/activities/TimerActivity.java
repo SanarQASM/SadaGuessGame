@@ -1,6 +1,5 @@
 package com.example.sadaguessgame.activities;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.widget.Button;
@@ -70,10 +69,7 @@ public class TimerActivity extends BaseActivity {
     }
 
     private void updateTimeText() {
-        int minutes = timeLeft / 60;
-        int seconds = timeLeft % 60;
-        @SuppressLint("DefaultLocale") String timeStr = String.format("%02d : %02d", minutes, seconds);
-        timeDisplay.setText(timeStr);
+        timeDisplay.setText(getString(R.string.time_format_mmss, timeLeft / 60, timeLeft % 60));
 
         if (totalTime > 0) {
             int progress = (int) ((totalTime - timeLeft) * 100.0 / totalTime);
@@ -99,7 +95,6 @@ public class TimerActivity extends BaseActivity {
         stopTimer.setOnClickListener(v -> stopTimerAction());
         restartTimer.setOnClickListener(v -> restartTimerAction());
 
-        // Simply finish — the back stack returns naturally to MainActivity
         backHomeButton.setOnClickListener(v -> {
             stopTimerAction();
             finish();

@@ -18,17 +18,6 @@ import com.example.sadaguessgame.data.WordPackStorage;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
-/**
- * Manage custom word packs: create, edit, delete, export, import.
- *
- * Two modes:
- *  BROWSE mode (normal entry from Settings/Home):
- *    Shows list of packs; user can create / edit / delete / share.
- *
- *  SELECT mode (launched from CreateNewGameActivity with EXTRA_SELECT_MODE=true):
- *    Shows list of packs; tapping one finishes with RESULT_OK +
- *    RESULT_PACK_ID extra.  A "Use built-in cards" option is shown at top.
- */
 public class WordPackActivity extends BaseActivity {
 
     public static final String EXTRA_SELECT_MODE = "select_mode";
@@ -45,20 +34,17 @@ public class WordPackActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_pack);
 
-        selectMode       = getIntent().getBooleanExtra(EXTRA_SELECT_MODE, false);
-        storage          = WordPackStorage.getInstance(this);
+        selectMode        = getIntent().getBooleanExtra(EXTRA_SELECT_MODE, false);
+        storage           = WordPackStorage.getInstance(this);
         packListContainer = findViewById(R.id.packListContainer);
-        emptyTv          = findViewById(R.id.tvEmptyPacks);
+        emptyTv           = findViewById(R.id.tvEmptyPacks);
 
-        // Back button
         ImageView back = findViewById(R.id.back_home_activity_button);
         back.setOnClickListener(v -> finish());
 
-        // FAB — create new pack
         FloatingActionButton fab = findViewById(R.id.fabNewPack);
         fab.setOnClickListener(v -> showCreatePackDialog(null));
 
-        // "Use built-in cards" option when in select mode
         View builtInRow = findViewById(R.id.rowBuiltInCards);
         if (selectMode && builtInRow != null) {
             builtInRow.setVisibility(View.VISIBLE);
@@ -98,7 +84,6 @@ public class WordPackActivity extends BaseActivity {
             tvName.setText(pack.name);
             tvSubtitle.setText(pack.getSubtitle());
 
-            // Select mode — whole row is selectable
             if (selectMode) {
                 row.setOnClickListener(v -> returnPackId(pack.id));
                 btnEdit.setVisibility(View.GONE);
@@ -120,9 +105,9 @@ public class WordPackActivity extends BaseActivity {
         View view = LayoutInflater.from(this)
                 .inflate(R.layout.dialog_create_word_pack, null);
 
-        EditText etName     = view.findViewById(R.id.etPackName);
-        EditText etCategory = view.findViewById(R.id.etPackCategory);
-        EditText etWords    = view.findViewById(R.id.etPackWords);
+        EditText etName      = view.findViewById(R.id.etPackName);
+        EditText etCategory  = view.findViewById(R.id.etPackCategory);
+        EditText etWords     = view.findViewById(R.id.etPackWords);
         TextView tvWordCount = view.findViewById(R.id.tvWordCount);
 
         if (existing != null) {
@@ -133,15 +118,14 @@ public class WordPackActivity extends BaseActivity {
             }
         }
 
-        // Live word count
         etWords.addTextChangedListener(new TextWatcher() {
-            @Override public void beforeTextChanged(CharSequence s,int a,int b,int c){}
-            @Override public void onTextChanged(CharSequence s,int a,int b,int c){
+            @Override public void beforeTextChanged(CharSequence s, int a, int b, int c) {}
+            @Override public void onTextChanged(CharSequence s, int a, int b, int c) {
                 int count = s.toString().trim().isEmpty() ? 0
                         : s.toString().trim().split("\\n").length;
-                tvWordCount.setText(count + " words");
+                tvWordCount.setText(getString(R.string.word_count_format, count));
             }
-            @Override public void afterTextChanged(Editable s){}
+            @Override public void afterTextChanged(Editable s) {}
         });
 
         new AlertDialog.Builder(this)
@@ -162,7 +146,7 @@ public class WordPackActivity extends BaseActivity {
 
                     WordPack pack = (existing != null) ? existing : new WordPack();
                     pack.name     = name;
-                    pack.category = category.isEmpty() ? "Custom" : category;
+                    pack.category = category.isEmpty() ? getString(R.string.pack_category_hint) : category;
                     pack.words.clear();
 
                     for (String line : rawWords.split("\\n")) {
@@ -199,7 +183,7 @@ public class WordPackActivity extends BaseActivity {
                 .show();
     }
 
-    // ─── Share (export JSON) ─────────────────────────────────────────────────
+    // ─── Share ───────────────────────────────────────────────────────────────
 
     private void sharePackJson(WordPack pack) {
         String json = storage.exportAsJson(pack.id);
@@ -207,12 +191,12 @@ public class WordPackActivity extends BaseActivity {
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT, json);
         intent.putExtra(Intent.EXTRA_SUBJECT,
-                "SadaGuess Word Pack: " + pack.name);
+                getString(R.string.share_pack_title) + ": " + pack.name);
         startActivity(Intent.createChooser(intent,
                 getString(R.string.share_pack_title)));
     }
 
-    // ─── Select mode result ──────────────────────────────────────────────────
+    // ─── Select mode ─────────────────────────────────────────────────────────
 
     private void returnPackId(long id) {
         Intent result = new Intent();

@@ -17,15 +17,6 @@ import com.example.sadaguessgame.manager.SoundManager;
 import com.google.android.material.button.MaterialButton;
 import java.util.Objects;
 
-/**
- * Score assignment dialog — shown after time-up or manual end.
- *
- * NEW in v2:
- *  • Applies combo multiplier when streak >= 3 (score shown with bonus label).
- *  • Records correct/miss into GameState streak counters.
- *  • Plays correct-answer sound via SoundManager.
- *  • Shows current streak badge on the dialog title.
- */
 public class ScoreDialog {
 
     public interface OnScoreSavedListener { void onScoreSaved(); }
@@ -67,10 +58,10 @@ public class ScoreDialog {
 
         if (streak >= 3) {
             tvStreak.setVisibility(View.VISIBLE);
-            tvStreak.setText("🔥 x" + streak + " Streak!");
+            tvStreak.setText(context.getString(R.string.streak_fire_format, streak));
         } else if (streak == 2) {
             tvStreak.setVisibility(View.VISIBLE);
-            tvStreak.setText("⚡ " + streak + " in a row");
+            tvStreak.setText(context.getString(R.string.streak_two_in_row_format, streak));
         } else {
             tvStreak.setVisibility(View.GONE);
         }
@@ -92,10 +83,8 @@ public class ScoreDialog {
         GameState game = ScoreStorage.getInstance(context).getCurrentGame();
         if (game == null) { dismiss(); return; }
 
-        // Apply combo multiplier
         float multiplier = game.recordCorrectGuess(game.groupTurn);
         int finalScore = Math.min(3, Math.round(baseScore * multiplier));
-
         boolean comboApplied = (multiplier > 1.0f);
 
         if (game.groupTurn == GameState.GROUP_A) {
@@ -108,7 +97,6 @@ public class ScoreDialog {
 
         ScoreStorage.getInstance(context).saveCurrentGame(game);
 
-        // Sounds
         SoundManager sm = SoundManager.getInstance(context);
         sm.playCorrectAnswer();
         int streak = game.getCurrentStreak(game.groupTurn);

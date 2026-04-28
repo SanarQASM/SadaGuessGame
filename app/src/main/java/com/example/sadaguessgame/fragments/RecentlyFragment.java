@@ -50,10 +50,7 @@ public class RecentlyFragment extends BaseFragment {
     private void loadAllGames() {
         scoreContainer.removeAllViews();
 
-        // Show ALL finished games
         List<GameState> finishedGames = scoreStorage.getAllGames();
-
-        // Also show current unfinished game if any
         GameState currentGame = scoreStorage.getCurrentGame();
         boolean hasUnfinished = currentGame != null && !currentGame.isFinished;
 
@@ -69,13 +66,11 @@ public class RecentlyFragment extends BaseFragment {
 
         int index = 1;
 
-        // Show unfinished game first with special indicator
         if (hasUnfinished) {
             addGameView(currentGame, index - 1, true);
             index++;
         }
 
-        // Show all finished games
         if (finishedGames != null) {
             for (int i = 0; i < finishedGames.size(); i++) {
                 addGameView(finishedGames.get(i), i, false);
@@ -99,28 +94,27 @@ public class RecentlyFragment extends BaseFragment {
         View itemView = LayoutInflater.from(requireContext())
                 .inflate(R.layout.recently_game_item, scoreContainer, false);
 
-        TextView tvIndex = itemView.findViewById(R.id.tvIndex);
+        TextView tvIndex    = itemView.findViewById(R.id.tvIndex);
         TextView groupAName = itemView.findViewById(R.id.groupAName);
-        TextView groupAScore = itemView.findViewById(R.id.groupAScore);
+        TextView groupAScore= itemView.findViewById(R.id.groupAScore);
         TextView groupBName = itemView.findViewById(R.id.groupBName);
-        TextView groupBScore = itemView.findViewById(R.id.groupBScore);
+        TextView groupBScore= itemView.findViewById(R.id.groupBScore);
         ImageView btnDelete = itemView.findViewById(R.id.delete_game);
 
         String statusLabel = isUnfinished
-                ? (index + 1) + " - [" + getString(R.string.continue_game) + "]"
-                : (index + 1) + " - ";
-        tvIndex.setText(statusLabel);
+                ? getString(R.string.status_index_continue_format,
+                index + 1, getString(R.string.continue_game))
+                : getString(R.string.status_index_simple_format, index + 1);
 
+        tvIndex.setText(statusLabel);
         groupAName.setText(gameState.groupAName);
         groupBName.setText(gameState.groupBName);
         groupAScore.setText(String.valueOf(calculateTotal(gameState.scoresA)));
         groupBScore.setText(String.valueOf(calculateTotal(gameState.scoresB)));
 
-        // Clicking an unfinished game continues it
         if (isUnfinished) {
             itemView.setOnClickListener(v -> continueUnfinishedGame(gameState));
             itemView.setAlpha(0.9f);
-            // Hide delete for unfinished (different handling)
             btnDelete.setVisibility(View.GONE);
         } else {
             btnDelete.setOnClickListener(v -> showDeleteConfirmation(index));
@@ -131,7 +125,6 @@ public class RecentlyFragment extends BaseFragment {
     }
 
     private void continueUnfinishedGame(GameState game) {
-        // The game is already current — just navigate to cards
         startActivity(new Intent(requireContext(), CardsActivity.class));
         requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }

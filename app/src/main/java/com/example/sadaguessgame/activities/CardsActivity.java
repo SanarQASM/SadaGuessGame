@@ -1,8 +1,6 @@
 package com.example.sadaguessgame.activities;
 
-import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -33,18 +31,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
 
-/**
- * Main gameplay screen.
- *
- * NEW in v2:
- *  • Voice clue: auto-TTS of card word when front is revealed.
- *  • Hint system: up to 2 hints per group (reveals first letter).
- *  • Screen-flash + haptic: red border pulse + vibration in last 10 s.
- *  • Streak badge: live streak counter shown on card area.
- *  • Custom word pack: renders plain-text cards when wordPackId >= 0.
- *  • Difficulty: FileSelectingRandom handles the subfolder logic.
- *  • SoundManager replaces inline MediaPlayer calls.
- */
 public class CardsActivity extends BaseActivity {
 
     // ─── Views ───────────────────────────────────────────────────────────────
@@ -60,9 +46,9 @@ public class CardsActivity extends BaseActivity {
     private TextView           hintCountTv;
 
     // ─── State ───────────────────────────────────────────────────────────────
-    private int     cardImageState = 0;   // 0 = back, 1 = front
+    private int     cardImageState = 0;
     private String  assetPath;
-    private String  currentWord;          // plain word for TTS / hint
+    private String  currentWord;
 
     private GameState            currentGame;
     private FileSelectingRandom  fileRandom;
@@ -75,9 +61,9 @@ public class CardsActivity extends BaseActivity {
     private boolean        warningPlayed  = false;
 
     // ─── Managers ────────────────────────────────────────────────────────────
-    private SoundManager   soundManager;
+    private SoundManager    soundManager;
     private VoiceClueManager voiceManager;
-    private HapticManager  hapticManager;
+    private HapticManager   hapticManager;
 
     // ─── Flash animator ──────────────────────────────────────────────────────
     @Nullable private ValueAnimator flashAnimator;
@@ -153,14 +139,12 @@ public class CardsActivity extends BaseActivity {
         }
 
         if (assetPath.startsWith(FileSelectingRandom.CUSTOM_PREFIX)) {
-            // Custom word pack — show category placeholder on back
             cardImage.setImageResource(R.drawable.cards);
-            cardName.setText("?");
+            cardName.setText(R.string.card_back_placeholder);
             currentWord = assetPath.substring(FileSelectingRandom.CUSTOM_PREFIX.length());
             return;
         }
 
-        // Built-in asset back
         String[] parts = assetPath.split("/");
         String category = parts[0];
         CategoryCards catEnum = CategoryCards.fromEnglishName(category);
@@ -170,7 +154,6 @@ public class CardsActivity extends BaseActivity {
         String displayName = (catEnum != null) ? catEnum.getDisplayName(this) : category;
         cardName.setText(displayName);
 
-        // Extract plain word for TTS / hint
         String fileName = assetPath.substring(assetPath.lastIndexOf('/') + 1,
                         assetPath.lastIndexOf('.'))
                 .replace("_", " ");
@@ -183,7 +166,6 @@ public class CardsActivity extends BaseActivity {
         cardImageState = 1;
 
         if (assetPath.startsWith(FileSelectingRandom.CUSTOM_PREFIX)) {
-            // Show word as text card
             cardImage.setImageResource(R.drawable.cards);
             cardName.setText(currentWord);
             speakCurrentWord();
@@ -230,9 +212,9 @@ public class CardsActivity extends BaseActivity {
         ScoreStorage.getInstance(this).saveCurrentGame(currentGame);
         updateHintUI();
 
-        // Reveal first letter as a toast overlay
-        String hint = currentWord.substring(0, 1).toUpperCase() + " _ _ _";
-        Toast.makeText(this, "💡 " + hint, Toast.LENGTH_LONG).show();
+        String firstLetter = currentWord.substring(0, 1).toUpperCase(Locale.getDefault());
+        String hint = getString(R.string.hint_display_format, firstLetter);
+        Toast.makeText(this, hint, Toast.LENGTH_LONG).show();
         cardName.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
     }
 
@@ -243,7 +225,7 @@ public class CardsActivity extends BaseActivity {
         int streak = currentGame.getCurrentStreak(currentGame.groupTurn);
         if (streak >= 2) {
             streakBadge.setVisibility(View.VISIBLE);
-            streakBadge.setText("🔥 " + streak);
+            streakBadge.setText(getString(R.string.streak_badge_format, streak));
         } else {
             streakBadge.setVisibility(View.GONE);
         }
@@ -275,7 +257,6 @@ public class CardsActivity extends BaseActivity {
                 updateTimeText();
                 circularProgressBar.setProgress(totalTime - timeLeft);
 
-                // Warning threshold
                 if (!warningPlayed && shouldPlayWarning()) {
                     soundManager.playTimerWarning();
                     hapticManager.warning();
@@ -283,7 +264,6 @@ public class CardsActivity extends BaseActivity {
                     warningPlayed = true;
                 }
 
-                // Per-second haptic in last 10 s
                 if (timeLeft <= 10) hapticManager.tick();
             }
             @Override public void onFinish() {
@@ -318,16 +298,14 @@ public class CardsActivity extends BaseActivity {
         updateStreakBadge();
     }
 
-    // ─── Screen flash animation ───────────────────────────────────────────────
+    // ─── Screen flash ─────────────────────────────────────────────────────────
 
     private void startFlashAnimation() {
         if (cards == null) return;
         stopFlashAnimation();
         flashAnimator = ValueAnimator.ofObject(
                 new ArgbEvaluator(),
-                Color.TRANSPARENT,
-                0x55FF0000,      // semi-transparent red
-                Color.TRANSPARENT);
+                Color.TRANSPARENT, 0x55FF0000, Color.TRANSPARENT);
         flashAnimator.setDuration(600);
         flashAnimator.setRepeatCount(ValueAnimator.INFINITE);
         flashAnimator.setRepeatMode(ValueAnimator.REVERSE);
@@ -337,14 +315,9 @@ public class CardsActivity extends BaseActivity {
     }
 
     private void stopFlashAnimation() {
-        if (flashAnimator != null) {
-            flashAnimator.cancel();
-            flashAnimator = null;
-        }
+        if (flashAnimator != null) { flashAnimator.cancel(); flashAnimator = null; }
         if (cards != null) cards.setBackgroundColor(Color.TRANSPARENT);
     }
-
-    // ─── Warning threshold ────────────────────────────────────────────────────
 
     private boolean shouldPlayWarning() {
         int mins = totalTime / 60;
@@ -358,8 +331,7 @@ public class CardsActivity extends BaseActivity {
     // ─── UI helpers ──────────────────────────────────────────────────────────
 
     private void updateTimeText() {
-        timeDisplay.setText(String.format(Locale.getDefault(),
-                "%02d : %02d", timeLeft / 60, timeLeft % 60));
+        timeDisplay.setText(getString(R.string.time_format_mmss, timeLeft / 60, timeLeft % 60));
     }
 
     private void setGroupText() {

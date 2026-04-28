@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">Sada Guess Game</string>
     <string name="application_name" translatable="true">SadaGuess</string>
@@ -46,9 +47,7 @@
     <string name="txt_tip">Tap Card To Reveal</string>
     <string name="timer_tip">Tap to Start Timer</string>
 
-    <!-- FIX: Use group name + this label: "Alice's Turn!" -->
     <string name="turn_label">\'s Turn!</string>
-    <!-- Legacy turn labels kept for backward compatibility -->
     <string name="group_turn_A">Turn: Group A!</string>
     <string name="group_turn_B">Turn: Group B!</string>
 
@@ -104,26 +103,26 @@
 
     <string name="privacy_intro">
 SadaGuess respects your privacy. This policy explains how information is handled while using the app.
-</string>
+    </string>
 
     <string name="privacy_data_title">Data Collection</string>
     <string name="privacy_data_desc">
 SadaGuess does not collect or store personal user data.
-</string>
+    </string>
 
     <string name="privacy_permission_title">Permissions</string>
     <string name="privacy_permission_desc">
 The app only requests permissions required for gameplay and functionality.
-</string>
+    </string>
 
     <string name="privacy_third_party_title">Third-Party Services</string>
     <string name="privacy_third_party_desc">
 The app may use third-party services such as Google Play Services.
-</string>
+    </string>
 
     <string name="privacy_contact">
 If you have any questions about this policy, please contact the developer.
-</string>
+    </string>
 
     <string-array name="home_texts">
         <item>Welcome to SadaGuess!</item>
@@ -131,6 +130,7 @@ If you have any questions about this policy, please contact the developer.
         <item>Guess and have fun!</item>
         <item>Challenge your friends!</item>
     </string-array>
+
     <string-array name="language_txt">
         <item>English</item>
         <item>Sorani</item>
@@ -159,20 +159,17 @@ If you have any questions about this policy, please contact the developer.
     <string name="category_general">General</string>
     <string name="category_select_all">Select All</string>
 
-    <!-- Title Tip  -->
     <string-array name="slider_all_title">
         <item>Home Page</item>
         <item>Recently Page</item>
         <item>Setting Page</item>
     </string-array>
 
-    <!-- Description Tip  -->
     <string-array name="slider_all_desc">
         <item>Create New | Continue Last Game:\nStart a new game or resume the previous.\nLearn Button:\nGuides users to learn how to use the app.\nTools Section:\nContains three tools to enhance gameplay or interact with other games.</item>
         <item>Contains all previous games with the name and score of each group.</item>
         <item>How to Play: Learn the game rules and how to play.\n Dark Mode: Switch between light and dark themes.\n Language: Change the app language (English, Sorani, Badini).\n Privacy Policy: View how your data is handled.</item>
     </string-array>
-
 
     <string name="no_games_to_delete">No games to delete</string>
     <string name="failed_to_delete_game">Failed to delete game</string>
@@ -195,36 +192,29 @@ If you have any questions about this policy, please contact the developer.
     <string name="leaderboard_col_streak">Streak</string>
     <string name="leaderboard_col_winrate">Win%</string>
 
-    <!-- ── Sudden Death ── -->
     <string name="sudden_death_title">⚡ Sudden Death!</string>
     <string name="sudden_death_desc">It\'s a draw! First group to guess wins.</string>
 
-    <!-- ── Difficulty ── -->
     <string name="difficulty_easy">Easy</string>
     <string name="difficulty_medium">Medium</string>
     <string name="difficulty_hard">Hard</string>
     <string name="txt_select_difficulty">Select Difficulty: </string>
 
-    <!-- ── Voice Clue ── -->
     <string name="voice_clue_mode">Voice Clue Mode</string>
     <string name="voice_clue_desc">Read card word aloud using TTS</string>
 
-    <!-- ── Sound Theme ── -->
     <string name="sound_theme_title">Sound Theme</string>
     <string name="sound_theme_classic">Classic</string>
     <string name="sound_theme_dabke">Dabke 🥁</string>
     <string name="sound_theme_silent">Silent 🔇</string>
 
-    <!-- ── Hint system ── -->
     <string name="no_hints_left">No hints remaining!</string>
     <string name="hint_button_desc">Use Hint</string>
     <string name="hints_remaining">Hints: %1$d</string>
 
-    <!-- ── Streak / Combo ── -->
     <string name="combo_label">COMBO!</string>
     <string name="streak_label">🔥 %1$d streak</string>
 
-    <!-- ── Word Packs ── -->
     <string name="word_packs_title">Word Packs</string>
     <string name="no_word_packs">No word packs yet.\nTap + to create your first pack!</string>
     <string name="create_word_pack">Create Word Pack</string>
@@ -244,15 +234,107 @@ If you have any questions about this policy, please contact the developer.
     <string name="share_pack_title">Share Word Pack</string>
     <string name="manage_word_packs">Manage Word Packs</string>
 
-    <!-- ── Share / Summary ── -->
     <string name="share_result">Share Result</string>
     <string name="share_failed">Could not generate share image</string>
 
-    <!-- ── Score table ── -->
     <string name="total_label">Total</string>
     <string name="combo_star_tip">★ = Combo bonus applied</string>
 
-    <!-- ── Save label ── -->
     <string name="save_label">Save</string>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         NEW KEYS — extracted from hardcoded strings during refactoring (v3)
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- ── ScoreBoardActivity ───────────────────────────────────────────────── -->
+    <!-- History row index label, e.g. "3 -" -->
+    <string name="history_item_index_format">%1$d -</string>
+    <!-- Zero score displayed after restart / undo reaches bottom -->
+    <string name="score_zero">0</string>
+
+    <!-- ── RecentlyFragment ─────────────────────────────────────────────────── -->
+    <!-- Unfinished game row label, e.g. "1 - [Continue Game]" -->
+    <string name="status_index_continue_format">%1$d - [%2$s]</string>
+    <!-- Finished game row label, e.g. "2 - " -->
+    <string name="status_index_simple_format">%1$d - </string>
+
+    <!-- ── ScoreDialog ──────────────────────────────────────────────────────── -->
+    <!-- Streak badge when streak >= 3, e.g. "🔥 x4 Streak!" -->
+    <string name="streak_fire_format">🔥 x%1$d Streak!</string>
+    <!-- Streak badge when streak == 2, e.g. "⚡ 2 in a row" -->
+    <string name="streak_two_in_row_format">⚡ %1$d in a row</string>
+
+    <!-- ── CardsActivity ────────────────────────────────────────────────────── -->
+    <!-- Back-of-card placeholder for custom word pack cards -->
+    <string name="card_back_placeholder">?</string>
+    <!-- Live streak badge on the card screen, e.g. "🔥 3" -->
+    <string name="streak_badge_format">🔥 %1$d</string>
+    <!-- Timer display format for minutes and seconds, e.g. "01 : 30" -->
+    <string name="time_format_mmss">%1$02d : %2$02d</string>
+    <!-- Hint toast text, e.g. "💡 L _ _ _" -->
+    <string name="hint_display_format">💡 %1$s _ _ _</string>
+
+    <!-- ── SuddenDeathActivity ──────────────────────────────────────────────── -->
+    <!-- Two-digit seconds display, e.g. "08" -->
+    <string name="time_format_ss">%1$02d</string>
+
+    <!-- ── GameScoreActivity ────────────────────────────────────────────────── -->
+    <!-- Streak summary row icon -->
+    <string name="score_table_streak_icon">🔥</string>
+    <!-- Per-group best-streak cell in score table, e.g. "Best 4×" -->
+    <string name="streak_best_format">Best %1$d×</string>
+    <!-- Combo star appended to a score cell, e.g. "3★" -->
+    <string name="combo_star_char">★</string>
+    <!-- Placeholder shown when a group has no score for a given round -->
+    <string name="score_placeholder">--</string>
+
+    <!-- ── ShareManager ──────────────────────────────────────────────────────── -->
+    <!-- App name drawn on the share-card bitmap (not translatable) -->
+    <string name="share_app_name" translatable="false">SadaGuess</string>
+    <!-- "vs" separator drawn between group names on the share bitmap -->
+    <string name="share_vs_separator">vs</string>
+    <!-- Sudden-death winner line on share card, e.g. "⚡ Sudden Death Winner: Team A" -->
+    <string name="share_sudden_death_winner_format">⚡ Sudden Death Winner: %1$s</string>
+    <!-- Regular winner line on share card, e.g. "🏆 Winner: Team A" -->
+    <string name="share_winner_format">🏆 Winner: %1$s</string>
+    <!-- Draw result line on share card -->
+    <string name="share_draw_label">🤝 Draw!</string>
+    <!-- Streak + rounds line on share card -->
+    <string name="share_streak_format">🔥 Best streak A: %1$d   B: %2$d   Rounds: %3$d</string>
+    <!-- Hashtag watermark on share card (not translatable) -->
+    <string name="share_hashtag_watermark" translatable="false">#SadaGuess</string>
+    <!-- System share-sheet chooser title -->
+    <string name="share_chooser_title">Share result</string>
+    <!-- Plain-text body of the share intent -->
+    <string name="share_text_format">🎮 SadaGuess Result\n%1$s: %2$d\n%3$s: %4$d\nRounds: %5$d\n#SadaGuess #Kurdish</string>
+
+    <!-- ── WinnerActivity ────────────────────────────────────────────────────── -->
+    <!-- Sudden-death winner label shown in winner screen, e.g. "⚡ Team A" -->
+    <string name="winner_sudden_death_format">⚡ %1$s</string>
+    <!-- Streak summary line below scores, e.g. "🔥 Best streak — A: 3  |  B: 2" -->
+    <string name="streak_summary_format">🔥 Best streak — %1$s: %2$d  |  %3$s: %4$d</string>
+
+    <!-- ── LeaderboardFragment ──────────────────────────────────────────────── -->
+    <string name="leaderboard_rank_gold">🥇</string>
+    <string name="leaderboard_rank_silver">🥈</string>
+    <string name="leaderboard_rank_bronze">🥉</string>
+    <!-- W/L/D record cell, e.g. "4W  2L  1D" -->
+    <string name="leaderboard_record_format">%1$dW  %2$dL  %3$dD</string>
+    <!-- Best-streak cell in leaderboard, e.g. "🔥 5" -->
+    <string name="leaderboard_streak_format">🔥 %1$d</string>
+
+    <!-- ── WordPackActivity ──────────────────────────────────────────────────── -->
+    <!-- Live word-count label in the create-pack dialog, e.g. "12 words" -->
+    <string name="word_count_format">%1$d words</string>
+
+    <!-- ── NavigationActivity ───────────────────────────────────────────────── -->
+    <!-- Accessibility content description for the onboarding ViewPager -->
+    <string name="onboarding_viewpager_desc">Onboarding pages</string>
+
+    <!-- ── CategoryAdapter (accessibility) ─────────────────────────────────── -->
+    <!-- Content description when a category chip is selected, e.g. "Animal selected" -->
+    <string name="category_content_desc_selected">%1$s selected</string>
+    <!-- Content description when a category chip is not selected, e.g. "Food not selected" -->
+    <string name="category_content_desc_not_selected">%1$s not selected</string>
 
 </resources>

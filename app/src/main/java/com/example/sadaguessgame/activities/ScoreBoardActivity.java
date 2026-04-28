@@ -1,6 +1,5 @@
 package com.example.sadaguessgame.activities;
 
-import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -95,7 +94,6 @@ public class ScoreBoardActivity extends BaseActivity {
         rebuildHistoryView();
     }
 
-    @SuppressLint("SetTextI18n")
     private void rebuildHistoryView() {
         historyContainerLinear.removeAllViews();
 
@@ -108,7 +106,7 @@ public class ScoreBoardActivity extends BaseActivity {
             TextView tvIndex = view.findViewById(R.id.tvIndex);
             TextView tvGroup = view.findViewById(R.id.tvGroup);
 
-            tvIndex.setText((i + 1) + " -");
+            tvIndex.setText(getString(R.string.history_item_index_format, i + 1));
             tvGroup.setText(item.isGroupA
                     ? getString(R.string.group_a_color)
                     : getString(R.string.group_b_color));
@@ -119,7 +117,7 @@ public class ScoreBoardActivity extends BaseActivity {
 
     private void undoLastScore() {
         if (currentHistoryIndex < 0 || historyList.isEmpty()) {
-            Toast.makeText(this, "0", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.score_zero), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -142,8 +140,8 @@ public class ScoreBoardActivity extends BaseActivity {
     private void restartScores() {
         scoreGroupA = 0;
         scoreGroupB = 0;
-        tvGroupOneScore.setText("0");
-        tvGroupTwoScore.setText("0");
+        tvGroupOneScore.setText(getString(R.string.score_zero));
+        tvGroupTwoScore.setText(getString(R.string.score_zero));
         historyList.clear();
         currentHistoryIndex = -1;
         historyContainerLinear.removeAllViews();

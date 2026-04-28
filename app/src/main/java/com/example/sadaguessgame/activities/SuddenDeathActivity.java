@@ -1,7 +1,6 @@
 package com.example.sadaguessgame.activities;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,20 +23,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Locale;
 
-/**
- * Sudden-Death tiebreaker round.
- *
- * Rules:
- *  • 30 seconds for Group A to guess one card.
- *  • If they succeed → Group A wins.
- *  • If time expires → Group B gets a chance (another 30 s).
- *  • If Group B also fails → result stays as Draw.
- *
- * Entered from GameScoreActivity when isExactDraw() is true.
- * After resolution, navigates to WinnerActivity.
- */
 public class SuddenDeathActivity extends BaseActivity {
 
     private static final int SUDDEN_DEATH_SECONDS = 30;
@@ -58,7 +44,7 @@ public class SuddenDeathActivity extends BaseActivity {
 
     private CountDownTimer countDownTimer;
     private int            timeLeft;
-    private int            cardState   = 0;   // 0 = back, 1 = front
+    private int            cardState   = 0;
     private boolean        groupATried = false;
     private String         assetPath;
 
@@ -67,12 +53,12 @@ public class SuddenDeathActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sudden_death);
 
-        game         = ScoreStorage.getInstance(this).getCurrentGame();
+        game = ScoreStorage.getInstance(this).getCurrentGame();
         if (game == null) { finish(); return; }
 
-        fileRandom   = FileSelectingRandom.getInstance(this);
-        soundManager = SoundManager.getInstance(this);
-        hapticManager= HapticManager.getInstance(this);
+        fileRandom    = FileSelectingRandom.getInstance(this);
+        soundManager  = SoundManager.getInstance(this);
+        hapticManager = HapticManager.getInstance(this);
 
         initViews();
         game.isSuddenDeath = true;
@@ -81,8 +67,6 @@ public class SuddenDeathActivity extends BaseActivity {
         soundManager.playSuddenDeath();
         startRoundFor(GameState.GROUP_A);
     }
-
-    // ─── Init ────────────────────────────────────────────────────────────────
 
     private void initViews() {
         cardImage     = findViewById(R.id.sdCardImage);
@@ -101,11 +85,9 @@ public class SuddenDeathActivity extends BaseActivity {
             if (cardState == 0) showFrontCard();
         });
 
-        btnFound.setOnClickListener(v   -> onFound());
-        btnNotFound.setOnClickListener(v-> onNotFound());
+        btnFound.setOnClickListener(v    -> onFound());
+        btnNotFound.setOnClickListener(v -> onNotFound());
     }
-
-    // ─── Round management ────────────────────────────────────────────────────
 
     private void startRoundFor(int group) {
         game.groupTurn = group;
@@ -115,8 +97,7 @@ public class SuddenDeathActivity extends BaseActivity {
         cardState = 0;
         showBackCard();
 
-        groupTurnTv.setText(group == GameState.GROUP_A
-                ? game.groupAName : game.groupBName);
+        groupTurnTv.setText(group == GameState.GROUP_A ? game.groupAName : game.groupBName);
 
         timeLeft = SUDDEN_DEATH_SECONDS;
         progressBar.setMax(SUDDEN_DEATH_SECONDS);
@@ -137,11 +118,9 @@ public class SuddenDeathActivity extends BaseActivity {
     private void onNotFound() {
         stopCountdown();
         if (!groupATried && game.groupTurn == GameState.GROUP_A) {
-            // Give Group B a chance
             groupATried = true;
             startRoundFor(GameState.GROUP_B);
         } else {
-            // Both failed → draw stands
             game.suddenDeathWinner = GameState.NO_WINNER;
             game.isFinished = true;
             ScoreStorage.getInstance(this).saveCurrentGame(game);
@@ -155,7 +134,7 @@ public class SuddenDeathActivity extends BaseActivity {
         if (assetPath == null) return;
         if (assetPath.startsWith(FileSelectingRandom.CUSTOM_PREFIX)) {
             cardImage.setImageResource(R.drawable.cards);
-            cardName.setText("?");
+            cardName.setText(R.string.card_back_placeholder);
             return;
         }
         String category = assetPath.split("/")[0];
@@ -195,12 +174,13 @@ public class SuddenDeathActivity extends BaseActivity {
                 if (timeLeft <= 10) {
                     timeDisplay.setTextColor(Color.RED);
                     timeDisplay.startAnimation(
-                            AnimationUtils.loadAnimation(SuddenDeathActivity.this,
-                                    R.anim.shake));
+                            AnimationUtils.loadAnimation(SuddenDeathActivity.this, R.anim.shake));
                 }
             }
             @Override public void onFinish() {
-                timeLeft = 0; updateTimeText(); onNotFound();
+                timeLeft = 0;
+                updateTimeText();
+                onNotFound();
             }
         }.start();
     }
@@ -212,8 +192,7 @@ public class SuddenDeathActivity extends BaseActivity {
     }
 
     private void updateTimeText() {
-        timeDisplay.setText(String.format(Locale.getDefault(),
-                "%02d", timeLeft));
+        timeDisplay.setText(getString(R.string.time_format_ss, timeLeft));
     }
 
     private void navigateToWinner() {

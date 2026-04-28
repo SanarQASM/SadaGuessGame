@@ -19,15 +19,6 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Shows per-round score table after each turn.
- *
- * Changes in v2:
- *  • Combo-bonus rows highlighted with a star indicator.
- *  • Exact draw → launches SuddenDeathActivity instead of WinnerActivity.
- *  • Share button calls ShareManager to export the summary card.
- *  • Streak summary row shown at bottom of table.
- */
 public class GameScoreActivity extends BaseActivity {
 
     private TableLayout    tableLayoutScores;
@@ -49,8 +40,6 @@ public class GameScoreActivity extends BaseActivity {
         setupButtons();
         checkSkipCondition();
     }
-
-    // ─── Init ────────────────────────────────────────────────────────────────
 
     private void initViews() {
         tableLayoutScores = findViewById(R.id.tableLayoutScores);
@@ -76,21 +65,23 @@ public class GameScoreActivity extends BaseActivity {
 
         tableLayoutScores.removeAllViews();
 
+        String comboStar    = getString(R.string.combo_star_char);
+        String placeholder  = getString(R.string.score_placeholder);
+
         for (int i = 0; i < rounds; i++) {
             TableRow row = new TableRow(this);
             row.setPadding(12, 12, 12, 12);
 
-            // Round number
             row.addView(createCell(String.valueOf(i + 1), false, false));
 
-            // Group A score
             boolean aCombo = i < comboA.size() && Boolean.TRUE.equals(comboA.get(i));
-            String  aText  = i < scoresA.size() ? scoresA.get(i) + (aCombo ? "★" : "") : "--";
+            String  aText  = i < scoresA.size()
+                    ? scoresA.get(i) + (aCombo ? comboStar : "") : placeholder;
             row.addView(createCell(aText, aCombo, false));
 
-            // Group B score
             boolean bCombo = i < comboB.size() && Boolean.TRUE.equals(comboB.get(i));
-            String  bText  = i < scoresB.size() ? scoresB.get(i) + (bCombo ? "★" : "") : "--";
+            String  bText  = i < scoresB.size()
+                    ? scoresB.get(i) + (bCombo ? comboStar : "") : placeholder;
             row.addView(createCell(bText, bCombo, false));
 
             tableLayoutScores.addView(row);
@@ -99,9 +90,9 @@ public class GameScoreActivity extends BaseActivity {
         // Streak summary row
         TableRow streakRow = new TableRow(this);
         streakRow.setPadding(12, 8, 12, 8);
-        streakRow.addView(createCell("🔥", false, true));
-        streakRow.addView(createCell("Best " + currentGame.maxStreakA + "×", false, true));
-        streakRow.addView(createCell("Best " + currentGame.maxStreakB + "×", false, true));
+        streakRow.addView(createCell(getString(R.string.score_table_streak_icon), false, true));
+        streakRow.addView(createCell(getString(R.string.streak_best_format, currentGame.maxStreakA), false, true));
+        streakRow.addView(createCell(getString(R.string.streak_best_format, currentGame.maxStreakB), false, true));
         tableLayoutScores.addView(streakRow);
 
         // Total row
@@ -119,7 +110,7 @@ public class GameScoreActivity extends BaseActivity {
         TextView tv = new TextView(this);
         tv.setText(text);
         tv.setTextColor(isCombo
-                ? 0xFFFFAA00   // gold for combo cells
+                ? 0xFFFFAA00
                 : getResources().getColor(R.color.primary_text, null));
         tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 getResources().getDimension(R.dimen.sub_font_size));
@@ -143,7 +134,8 @@ public class GameScoreActivity extends BaseActivity {
         if (currentGame.canSkipRemainingRounds()) {
             String leader = currentGame.getTotalScoreA() > currentGame.getTotalScoreB()
                     ? currentGame.groupAName : currentGame.groupBName;
-            Toast.makeText(this, leader + " " + getString(R.string.winner_desc),
+            Toast.makeText(this,
+                    leader + " " + getString(R.string.winner_desc),
                     Toast.LENGTH_LONG).show();
             btnContinueGame.setEnabled(false);
         }
@@ -154,11 +146,8 @@ public class GameScoreActivity extends BaseActivity {
     private void setupButtons() {
         btnContinueGame.setOnClickListener(v -> {
             advanceGameTurn();
-            if (currentGame.isFinished) {
-                resolveFinish();
-            } else {
-                navigateToCards();
-            }
+            if (currentGame.isFinished) resolveFinish();
+            else navigateToCards();
         });
 
         btnEndGame.setOnClickListener(v -> {
@@ -175,20 +164,14 @@ public class GameScoreActivity extends BaseActivity {
         }
     }
 
-    /**
-     * Decides whether to go to SuddenDeathActivity or WinnerActivity.
-     */
     private void resolveFinish() {
         if (currentGame.isExactDraw() && !currentGame.isSuddenDeath) {
-            // Trigger sudden death
             startActivity(new Intent(this, SuddenDeathActivity.class));
         } else {
             navigateToWinner();
         }
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
-
-    // ─── Turn advancement ────────────────────────────────────────────────────
 
     private void advanceGameTurn() {
         if (currentGame == null) return;
@@ -218,8 +201,6 @@ public class GameScoreActivity extends BaseActivity {
         ScoreStorage.getInstance(this).saveCurrentGame(currentGame);
     }
 
-    // ─── Navigation ──────────────────────────────────────────────────────────
-
     private void navigateToCards() {
         startActivity(new Intent(this, CardsActivity.class));
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -229,8 +210,6 @@ public class GameScoreActivity extends BaseActivity {
         startActivity(new Intent(this, WinnerActivity.class));
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
-
-    // ─── Helpers ─────────────────────────────────────────────────────────────
 
     private <T> List<T> safe(List<T> list) {
         return list != null ? list : new ArrayList<>();

@@ -35,20 +35,15 @@ public class NavigationActivity extends BaseActivity {
         slideViewPager = findViewById(R.id.slideViewPager);
         dotIndicator = findViewById(R.id.dotIndicator);
 
-        // Accessibility
-        slideViewPager.setContentDescription("Onboarding pages");
+        slideViewPager.setContentDescription(getString(R.string.onboarding_viewpager_desc));
 
-        // Adapter
         viewPagerAdapter = new ViewPagerAdapter(this);
         slideViewPager.setAdapter(viewPagerAdapter);
 
-        // Dots
         setDotIndicator(0);
 
-        // Page change listener
         slideViewPager.addOnPageChangeListener(viewPagerListener);
 
-        // Buttons
         backButton.setOnClickListener(v -> {
             if (getItem(-1) >= 0) {
                 slideViewPager.setCurrentItem(getItem(-1), true);
@@ -66,7 +61,6 @@ public class NavigationActivity extends BaseActivity {
 
         skipButton.setOnClickListener(v -> finishOnboarding());
 
-        // Optional: first page animation
         animatePage(0);
     }
 
@@ -80,13 +74,12 @@ public class NavigationActivity extends BaseActivity {
         return slideViewPager.getCurrentItem() + offset;
     }
 
-    // Animate a page
     private void animatePage(int position) {
+        // Tag is an internal view lookup key — not user-visible, stays as-is
         View currentPage = slideViewPager.findViewWithTag("page_" + position);
         if (currentPage != null) {
             currentPage.startAnimation(
-                    AnimationUtils.loadAnimation(this, R.anim.page_anim)
-            );
+                    AnimationUtils.loadAnimation(this, R.anim.page_anim));
         }
     }
 
@@ -97,20 +90,15 @@ public class NavigationActivity extends BaseActivity {
 
         @Override
         public void onPageSelected(int position) {
-            // Update dots
             setDotIndicator(position);
-
-            // Show/hide back button
             backButton.setVisibility(position == 0 ? View.INVISIBLE : View.VISIBLE);
 
-            // Update next button text
             if (position == viewPagerAdapter.getCount() - 1) {
                 nextButton.setText(R.string.txt_finish);
             } else {
                 nextButton.setText(R.string.txt_next);
             }
 
-            // Animate page
             animatePage(position);
         }
 
