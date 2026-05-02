@@ -6,6 +6,6 @@
         android:drawable="@drawable/ic_recently_selected" />
 
     <!-- Default (inactive) -->
-    <item android:drawable="@drawable/ic_recently_selected" />
+    <item android:drawable="@drawable/ic_recently_unselected" />
 
 </selector>

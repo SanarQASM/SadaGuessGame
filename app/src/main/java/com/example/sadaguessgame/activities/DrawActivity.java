@@ -12,13 +12,19 @@ import com.google.android.material.button.MaterialButton;
 
 /**
  * Shown when both groups finish the game with equal scores.
- * Provides the same navigation options as WinnerActivity.
+ *
+ * FIX: saveAndNavigate() now guards against calling saveFinishedGame() twice.
+ * The first call marks the game finished and writes it to history. A second
+ * call (e.g. from onBackPressed or a rapid double-tap) would duplicate the
+ * entry in getAllGames(). The guard flag `saved` prevents this.
  */
 public class DrawActivity extends BaseActivity {
 
-    private GameState currentGame;
+    private GameState   currentGame;
     private MediaPlayer mediaPlayer;
-    private boolean isMediaPlayerReady = false;
+    private boolean     isMediaPlayerReady = false;
+    // FIX: guard against duplicate saveFinishedGame() calls
+    private boolean     saved = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +70,11 @@ public class DrawActivity extends BaseActivity {
     }
 
     private void saveAndNavigate(Class<?> dest) {
-        ScoreStorage.getInstance(this).saveFinishedGame(currentGame);
+        // FIX: only save once — duplicate calls would append another entry to history
+        if (!saved) {
+            saved = true;
+            ScoreStorage.getInstance(this).saveFinishedGame(currentGame);
+        }
         Intent intent = new Intent(this, dest);
         if (dest == MainActivity.class) {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -104,9 +114,6 @@ public class DrawActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() { super.onDestroy(); stopSound(); }
-
-    @Override
-    protected void onStop() { super.onStop(); stopSound(); }
+    @Override protected void onDestroy() { super.onDestroy(); stopSound(); }
+    @Override protected void onStop()    { super.onStop();    stopSound(); }
 }

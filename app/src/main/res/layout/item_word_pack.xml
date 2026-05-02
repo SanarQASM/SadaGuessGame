@@ -19,49 +19,54 @@
             android:id="@+id/tvPackName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/secondary_font"
             android:text="My Pack"
             android:textColor="@color/primary_text"
             android:textSize="@dimen/buttons_size"
-            android:textStyle="bold"
-            android:fontFamily="@font/secondary_font"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvPackSubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/subtext_font"
+            android:layout_marginTop="2dp"
             android:text="10 words · Custom"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/normal_fond_size"
-            android:fontFamily="@font/subtext_font"
-            android:layout_marginTop="2dp"/>
+            android:textSize="@dimen/normal_fond_size" />
     </LinearLayout>
 
-    <!-- Action icons -->
+    <!-- Share -->
     <ImageView
         android:id="@+id/btnSharePack"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:src="@drawable/ic_close"
+        android:layout_marginStart="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/share_pack_title"
         android:padding="4dp"
-        android:layout_marginStart="8dp"/>
+        android:src="@drawable/ic_share" />
 
+    <!-- Edit (was incorrectly using ic_back) -->
     <ImageView
         android:id="@+id/btnEditPack"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:src="@drawable/ic_back"
+        android:layout_marginStart="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/edit_word_pack"
         android:padding="4dp"
-        android:layout_marginStart="8dp"/>
+        android:src="@drawable/ic_edit" />
 
+    <!-- Delete -->
     <ImageView
         android:id="@+id/btnDeletePack"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:src="@drawable/delete"
+        android:layout_marginStart="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/delete"
         android:padding="4dp"
-        android:layout_marginStart="8dp"/>
+        android:src="@drawable/delete" />
 
 </LinearLayout>

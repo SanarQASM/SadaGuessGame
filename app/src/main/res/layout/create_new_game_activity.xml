@@ -14,7 +14,7 @@
         android:background="@drawable/bg_linear_app_background_secondary"
         android:paddingBottom="14dp">
 
-        <!-- 🔹 Header Container -->
+        <!-- Header -->
         <LinearLayout
             android:id="@+id/logo_name_container"
             android:layout_width="0dp"
@@ -56,7 +56,7 @@
                 android:textSize="@dimen/primary_size" />
         </LinearLayout>
 
-        <!-- 🔹 Game Settings Title -->
+        <!-- Game Settings Title -->
         <TextView
             android:id="@+id/game_setting"
             android:layout_width="0dp"
@@ -82,32 +82,37 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/game_setting" />
 
-        <!-- Select Category -->
-        <TextView
-            android:id="@+id/select_category"
+        <!-- ── Category section wrapper (shown/hidden for word pack) ── -->
+        <LinearLayout
+            android:id="@+id/categorySection"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/secondary_size_layout"
-            android:fontFamily="@font/secondary_font"
-            android:text="@string/txt_select_category"
-            android:textColor="@color/primary_button_color"
-            android:textSize="@dimen/sub_font_size"
-            android:textStyle="bold"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/div_under_game_setting" />
+            app:layout_constraintTop_toBottomOf="@id/div_under_game_setting">
 
-        <!-- RecyclerView -->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerCategory"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:padding="5dp"
-            android:layout_marginHorizontal="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/select_category" />
+            <!-- Select Category label -->
+            <TextView
+                android:id="@+id/select_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/secondary_size_layout"
+                android:fontFamily="@font/secondary_font"
+                android:text="@string/txt_select_category"
+                android:textColor="@color/primary_button_color"
+                android:textSize="@dimen/sub_font_size"
+                android:textStyle="bold" />
+
+            <!-- Category RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginHorizontal="16dp"
+                android:padding="5dp" />
+        </LinearLayout>
 
         <!-- Select Round -->
         <LinearLayout
@@ -119,15 +124,15 @@
             android:layoutDirection="locale"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/recyclerCategory">
+            app:layout_constraintTop_toBottomOf="@id/categorySection">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/secondary_font"
+                android:gravity="start"
                 android:text="@string/txt_select_round"
                 android:textColor="@color/primary_button_color"
-                android:gravity="start"
                 android:textSize="@dimen/sub_font_size"
                 android:textStyle="bold" />
 
@@ -137,9 +142,41 @@
                 android:layout_height="@dimen/primary_button_size_height"
                 android:layout_marginStart="15dp"
                 android:background="@drawable/spinner_bg_with_arrow"
-                android:spinnerMode="dropdown"/>
-
+                android:spinnerMode="dropdown" />
         </LinearLayout>
+
+        <!-- Select Difficulty (NEW v2) -->
+        <LinearLayout
+            android:id="@+id/select_difficulty"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/third_size_layout"
+            android:gravity="center"
+            android:layoutDirection="locale"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/select_round">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/secondary_font"
+                android:gravity="start"
+                android:text="@string/txt_select_difficulty"
+                android:textColor="@color/primary_button_color"
+                android:textSize="@dimen/sub_font_size"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/difficultySpinner"
+                android:layout_width="@dimen/primary_button_size_length"
+                android:layout_height="@dimen/primary_button_size_height"
+                android:layout_marginStart="15dp"
+                android:background="@drawable/spinner_bg_with_arrow"
+                android:spinnerMode="dropdown" />
+        </LinearLayout>
+
+        <!-- Select Time -->
         <LinearLayout
             android:id="@+id/select_time_alternative_with_labels"
             android:layout_width="0dp"
@@ -150,36 +187,33 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/select_round">
+            app:layout_constraintTop_toBottomOf="@id/select_difficulty">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/secondary_font"
+                android:gravity="start"
                 android:text="@string/txt_select_time"
                 android:textColor="@color/primary_button_color"
-                android:gravity="start"
                 android:textSize="@dimen/sub_font_size"
                 android:textStyle="bold" />
 
-            <!-- Time Picker with Labels -->
             <LinearLayout
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/secondary_size_layout"
                 android:layout_marginEnd="@dimen/secondary_size_layout"
                 android:gravity="center"
-                android:orientation="horizontal"
                 android:layoutDirection="ltr"
+                android:orientation="horizontal"
                 android:textDirection="ltr">
 
-                <!-- Minute Section -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <NumberPicker
                         android:id="@+id/minutePicker2"
@@ -192,31 +226,29 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/buttons_font"
+                        android:gravity="start"
+                        android:layoutDirection="ltr"
                         android:text="@string/txt_minute"
                         android:textColor="@color/primary_button_color"
-                        android:gravity="start"
-                        android:textSize="@dimen/normal_fond_size"
-                        android:layoutDirection="ltr"
-                        android:textDirection="ltr" />
+                        android:textDirection="ltr"
+                        android:textSize="@dimen/normal_fond_size" />
                 </LinearLayout>
 
-                <!-- Colon -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:paddingHorizontal="@dimen/secondary_size_layout"
                     android:text=":"
                     android:textColor="@color/primary_button_color"
                     android:textSize="@dimen/buttons_size"
-                    android:textStyle="bold"
-                    android:layout_gravity="center_vertical" />
+                    android:textStyle="bold" />
 
-                <!-- Second Section -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <NumberPicker
                         android:id="@+id/secondPicker2"
@@ -229,28 +261,70 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/buttons_font"
+                        android:gravity="start"
+                        android:layoutDirection="ltr"
                         android:text="@string/txt_second"
                         android:textColor="@color/primary_button_color"
-                        android:gravity="start"
-                        android:textSize="@dimen/normal_fond_size"
-                        android:layoutDirection="ltr"
-                        android:textDirection="ltr" />
+                        android:textDirection="ltr"
+                        android:textSize="@dimen/normal_fond_size" />
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
+
+        <!-- Voice Clue Switch (NEW v2) -->
         <LinearLayout
-            android:id="@+id/linearGroupNames"
+            android:id="@+id/voiceClueRow"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_marginTop="@dimen/third_size_layout"
-            android:paddingStart="@dimen/third_size_layout"
-            android:paddingEnd="@dimen/third_size_layout"
+            android:layout_marginHorizontal="@dimen/secondary_size_layout"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:layoutDirection="locale"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/select_time_alternative_with_labels">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/secondary_font"
+                android:text="@string/voice_clue_mode"
+                android:textColor="@color/primary_button_color"
+                android:textSize="@dimen/sub_font_size"
+                android:textStyle="bold" />
+
+            <Switch
+                android:id="@+id/voiceClueSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false" />
+        </LinearLayout>
+
+        <!-- Select Word Pack button (NEW v2) -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSelectWordPack"
+            style="@style/PrimaryButtonStyle"
+            android:layout_marginTop="@dimen/third_size_layout"
+            android:text="@string/btn_select_word_pack"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/voiceClueRow" />
+
+        <!-- Group name inputs -->
+        <LinearLayout
+            android:id="@+id/linearGroupNames"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/third_size_layout"
+            android:layoutDirection="locale"
+            android:orientation="vertical"
+            android:paddingEnd="@dimen/third_size_layout"
+            android:paddingStart="@dimen/third_size_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSelectWordPack">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="wrap_content"
@@ -260,12 +334,12 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/groupNameOne"
                     style="@style/AppEditTextStyle"
+                    android:gravity="start"
                     android:hint="@string/txt_enter_first_group"
-                    android:inputType="text|textCapSentences|textMultiLine"
                     android:imeOptions="actionNext"
-                    android:textDirection="locale"
+                    android:inputType="text|textCapSentences|textMultiLine"
                     android:layoutDirection="locale"
-                    android:gravity="start" />
+                    android:textDirection="locale" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -277,14 +351,13 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/groupNameTwo"
                     style="@style/AppEditTextStyle"
+                    android:gravity="start"
                     android:hint="@string/txt_enter_second_group"
-                    android:inputType="text|textCapSentences|textMultiLine"
                     android:imeOptions="actionDone"
-                    android:textDirection="locale"
+                    android:inputType="text|textCapSentences|textMultiLine"
                     android:layoutDirection="locale"
-                    android:gravity="start"/>
+                    android:textDirection="locale" />
             </com.google.android.material.textfield.TextInputLayout>
-
         </LinearLayout>
 
         <!-- Next Button -->
@@ -297,5 +370,4 @@
             app:layout_constraintTop_toBottomOf="@id/linearGroupNames" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>

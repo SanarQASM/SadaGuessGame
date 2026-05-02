@@ -11,63 +11,65 @@
         android:id="@+id/wpHeader"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
         android:padding="@dimen/secondary_size_layout"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/back_home_activity_button"
             android:layout_width="@dimen/back_button_size"
             android:layout_height="@dimen/back_button_size"
-            android:src="@drawable/ic_back"
-            android:contentDescription="@string/back"/>
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back"
+            android:padding="8dp"
+            android:src="@drawable/ic_back" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginStart="12dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/primary_font"
             android:text="@string/word_packs_title"
             android:textColor="@color/primary_text"
-            android:fontFamily="@font/primary_font"
-            android:textSize="@dimen/secondary_size"/>
+            android:textSize="@dimen/secondary_size" />
     </LinearLayout>
 
-    <!-- Built-in cards row (shown only in select mode) -->
+    <!-- Built-in cards row (select mode only) -->
     <LinearLayout
         android:id="@+id/rowBuiltInCards"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/secondary_size_layout"
         android:layout_marginHorizontal="@dimen/third_size_layout"
         android:layout_marginTop="4dp"
         android:background="@drawable/bg_category_unselected"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/secondary_size_layout"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/wpHeader"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/wpHeader">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/secondary_font"
             android:text="@string/use_builtin_cards"
             android:textColor="@color/primary_text"
-            android:fontFamily="@font/secondary_font"
             android:textSize="@dimen/sub_font_size"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <ImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:src="@drawable/ic_back"
+            android:contentDescription="@string/use_builtin_cards"
             android:rotation="180"
-            android:contentDescription="@string/use_builtin_cards"/>
+            android:src="@drawable/ic_back" />
     </LinearLayout>
 
     <!-- Pack list -->
@@ -75,18 +77,17 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/rowBuiltInCards"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/rowBuiltInCards">
 
         <LinearLayout
             android:id="@+id/packListContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/third_size_layout"/>
-
+            android:padding="@dimen/third_size_layout" />
     </ScrollView>
 
     <!-- Empty state -->
@@ -97,21 +98,22 @@
         android:text="@string/no_word_packs"
         android:textColor="@color/primary_text"
         android:textSize="@dimen/sub_font_size"
+        android:gravity="center"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/rowBuiltInCards"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/rowBuiltInCards" />
 
-    <!-- FAB -->
+    <!-- FAB — was incorrectly using ic_close, now ic_add -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabNewPack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:src="@drawable/ic_close"
         android:contentDescription="@string/create_word_pack"
+        android:src="@drawable/ic_add"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

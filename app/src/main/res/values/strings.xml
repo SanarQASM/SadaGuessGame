@@ -266,7 +266,7 @@ If you have any questions about this policy, please contact the developer.
 
     <!-- ── CardsActivity ────────────────────────────────────────────────────── -->
     <!-- Back-of-card placeholder for custom word pack cards -->
-    <string name="card_back_placeholder">?</string>
+    <string name="card_back_placeholder">\?</string>
     <!-- Live streak badge on the card screen, e.g. "🔥 3" -->
     <string name="streak_badge_format">🔥 %1$d</string>
     <!-- Timer display format for minutes and seconds, e.g. "01 : 30" -->

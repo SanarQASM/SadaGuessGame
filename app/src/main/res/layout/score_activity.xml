@@ -14,12 +14,12 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:layout_marginTop="8dp"
+        app:cardBackgroundColor="@color/secondary_color"
         app:cardCornerRadius="16dp"
         app:cardElevation="6dp"
-        app:cardBackgroundColor="@color/surface_card"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,117 +27,116 @@
             android:orientation="vertical"
             android:padding="12dp">
 
-            <!-- Title row -->
+            <!-- Title -->
             <TextView
                 android:id="@+id/gameTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/game_score"
+                android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/primary_font"
+                android:text="@string/game_score"
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/secondary_size"
-                android:textStyle="bold"
-                android:layout_gravity="center_horizontal"/>
+                android:textStyle="bold" />
 
             <!-- Round info -->
             <TextView
                 android:id="@+id/tvRoundInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Round 1 / 10"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"
                 android:fontFamily="@font/subtext_font"
                 android:textColor="@color/primary_button_color"
                 android:textSize="@dimen/sub_font_size"
-                android:textStyle="italic"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="4dp"/>
+                android:textStyle="italic" />
 
-            <!-- Live score totals row -->
+            <!-- Live score totals -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:gravity="center"
                 android:layout_marginTop="10dp"
-                android:gravity="center">
+                android:orientation="horizontal">
 
-                <!-- Group A total card -->
+                <!-- Group A -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center"
                     android:background="@drawable/bg_score_card_a"
-                    android:padding="10dp"
-                    android:layout_marginEnd="6dp">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
                     <TextView
                         android:id="@+id/groupAName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/group_a_color"
+                        android:ellipsize="end"
                         android:fontFamily="@font/subtext_font"
+                        android:maxLines="1"
+                        android:text="@string/group_a_color"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/normal_fond_size"
-                        android:textStyle="bold"
-                        android:maxLines="1"
-                        android:ellipsize="end"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvTotalScoreA"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
                         android:fontFamily="@font/primary_font"
+                        android:text="0"
                         android:textColor="@color/primary_button_color"
                         android:textSize="@dimen/secondary_size"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
 
-                <!-- VS separator -->
+                <!-- VS -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="VS"
                     android:fontFamily="@font/primary_font"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="VS"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/sub_font_size"
-                    android:textStyle="bold"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"/>
+                    android:textStyle="bold" />
 
-                <!-- Group B total card -->
+                <!-- Group B -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:gravity="center"
                     android:background="@drawable/bg_score_card_b"
-                    android:padding="10dp"
-                    android:layout_marginStart="6dp">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="10dp">
 
                     <TextView
                         android:id="@+id/groupBName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/group_b_color"
+                        android:ellipsize="end"
                         android:fontFamily="@font/subtext_font"
+                        android:maxLines="1"
+                        android:text="@string/group_b_color"
                         android:textColor="@color/primary_text"
                         android:textSize="@dimen/normal_fond_size"
-                        android:textStyle="bold"
-                        android:maxLines="1"
-                        android:ellipsize="end"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvTotalScoreB"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="0"
                         android:fontFamily="@font/primary_font"
+                        android:text="0"
                         android:textColor="@color/primary_button_color"
                         android:textSize="@dimen/secondary_size"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -149,13 +148,13 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="12dp"
+        app:cardBackgroundColor="@color/secondary_color"
         app:cardCornerRadius="16dp"
         app:cardElevation="4dp"
-        app:cardBackgroundColor="@color/surface_card"
-        app:layout_constraintTop_toBottomOf="@id/headerCard"
         app:layout_constraintBottom_toTopOf="@id/buttonContainer"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/headerCard">
 
         <ScrollView
             android:id="@+id/scrollLayoutScores"
@@ -168,32 +167,40 @@
                 android:id="@+id/tableLayoutScores"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:stretchColumns="*"
-                android:padding="4dp"/>
+                android:padding="4dp"
+                android:stretchColumns="*" />
         </ScrollView>
     </androidx.cardview.widget.CardView>
 
-    <!-- Bottom Buttons -->
+    <!-- Bottom Buttons — Continue | End | Share (NEW) -->
     <LinearLayout
         android:id="@+id/buttonContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_marginBottom="12dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnContinueGame"
             style="@style/PrimaryButtonStyle"
-            android:text="@string/txt_continue_game"/>
+            android:text="@string/txt_continue_game" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEndGame"
             style="@style/PrimaryButtonStyle"
             android:layout_marginStart="@dimen/secondary_size_layout"
-            android:text="@string/txt_end_game"/>
+            android:text="@string/txt_end_game" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnShareResult"
+            style="@style/PrimaryButtonStyle"
+            android:layout_marginStart="@dimen/secondary_size_layout"
+            android:text="@string/share_result"
+            app:icon="@drawable/ic_share" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
