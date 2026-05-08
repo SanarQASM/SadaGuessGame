@@ -68,4 +68,8 @@
     <!-- ── Secondary size (used standalone in some places) ── -->
     <dimen name="secondary_size_layout_alias">12dp</dimen>
 
+    <dimen name="score_card_height">160dp</dimen>
+    <dimen name="score_display_size">48sp</dimen>
+    <dimen name="card_name_height">32dp</dimen>
+
 </resources>

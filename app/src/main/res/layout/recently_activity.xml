@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_linear_app_background_primary">
 
-    <!-- 🔹 Header Container - FIXED -->
+    <!-- Header -->
     <LinearLayout
         android:id="@+id/logo_name_container"
         android:layout_width="0dp"
@@ -24,11 +25,9 @@
             android:layout_height="@dimen/image_size"
             android:layout_margin="10dp"
             android:elevation="20dp"
-            android:outlineAmbientShadowColor="@color/black"
-            android:outlineSpotShadowColor="@color/black"
             android:scaleType="centerCrop"
             android:src="@drawable/sada_guess_main_image"
-            app:shapeAppearanceOverlay="@style/CircleImage" />
+            app:shapeAppearanceOverlay="@style/CircleImage"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,55 +42,203 @@
                 android:fontFamily="@font/primary_font"
                 android:text="@string/application_name"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/primary_size" />
+                android:textSize="@dimen/primary_size"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/third_size_layout"
-                android:layout_marginTop="@dimen/primary_size_layout"
                 android:fontFamily="@font/buttons_font"
                 android:text="@string/recently_page"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/sub_font_size" />
-
+                android:textSize="@dimen/sub_font_size"/>
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Title - FIXED -->
+    <!-- Continue Game Card (shown when unfinished game exists) -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/continueGameCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/third_size_layout"
+        android:layout_marginEnd="@dimen/third_size_layout"
+        android:layout_marginTop="@dimen/secondary_size_layout"
+        android:visibility="gone"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="@color/surface_elevated"
+        app:layout_constraintTop_toBottomOf="@id/logo_name_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/third_size_layout">
+
+            <!-- "In Progress" badge -->
+            <TextView
+                android:id="@+id/tvInProgressBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_category_selected"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp"
+                android:fontFamily="@font/buttons_font"
+                android:text="@string/game_in_progress"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/normal_fond_size"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <!-- Round info -->
+            <TextView
+                android:id="@+id/tvContinueRound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/subtext_font"
+                android:textColor="@color/primary_button_color"
+                android:textSize="@dimen/normal_fond_size"
+                app:layout_constraintTop_toTopOf="@id/tvInProgressBadge"
+                app:layout_constraintBottom_toBottomOf="@id/tvInProgressBadge"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <!-- Score display -->
+            <LinearLayout
+                android:id="@+id/continueScoreRow"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/secondary_size_layout"
+                android:gravity="center"
+                android:weightSum="2"
+                app:layout_constraintTop_toBottomOf="@id/tvInProgressBadge"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <!-- Group A mini card -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/bg_score_card_a"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:id="@+id/tvContinueGroupA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/subtext_font"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/normal_fond_size"
+                        android:textStyle="bold"
+                        android:ellipsize="end"
+                        android:maxLines="1"/>
+
+                    <TextView
+                        android:id="@+id/tvContinueScoreA"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/primary_font"
+                        android:textColor="@color/primary_button_color"
+                        android:textSize="@dimen/secondary_size"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/share_vs_separator"
+                    android:fontFamily="@font/primary_font"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/sub_font_size"
+                    android:textStyle="bold"
+                    android:paddingHorizontal="8dp"/>
+
+                <!-- Group B mini card -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_score_card_b"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:id="@+id/tvContinueGroupB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/subtext_font"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/normal_fond_size"
+                        android:textStyle="bold"
+                        android:ellipsize="end"
+                        android:maxLines="1"/>
+
+                    <TextView
+                        android:id="@+id/tvContinueScoreB"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/primary_font"
+                        android:textColor="@color/primary_button_color"
+                        android:textSize="@dimen/secondary_size"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Continue Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnContinueGame"
+                style="@style/PrimaryButtonStyle"
+                android:layout_marginTop="@dimen/secondary_size_layout"
+                android:text="@string/continue_game"
+                app:layout_constraintTop_toBottomOf="@id/continueScoreRow"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Section title -->
     <TextView
         android:id="@+id/recentlyTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/primary_font"
+        android:fontFamily="@font/secondary_font"
         android:text="@string/txt_all_recently_game"
         android:textColor="@color/primary_text"
-        android:textSize="@dimen/primary_size"
+        android:textSize="@dimen/buttons_size"
+        android:textStyle="bold"
         android:layout_marginTop="@dimen/secondary_size_layout"
-        app:layout_constraintTop_toBottomOf="@id/logo_name_container"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:layout_marginStart="@dimen/third_size_layout"
+        app:layout_constraintTop_toBottomOf="@id/continueGameCard"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-    <!-- Divider - FIXED -->
     <View
         android:id="@+id/div_under_title"
-        android:layout_width="250dp"
-        android:layout_height="2dp"
-        android:background="?android:attr/listDivider"
-        android:layout_marginTop="3dp"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/divider_color"
+        android:layout_marginTop="4dp"
+        android:layout_marginHorizontal="@dimen/third_size_layout"
         app:layout_constraintTop_toBottomOf="@id/recentlyTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- ScrollView - SCROLLABLE CONTENT ONLY -->
+    <!-- Game list -->
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        android:layout_marginBottom="@dimen/primary_size_layout"
-        android:contentDescription="@string/score_title"
         android:layout_marginTop="@dimen/primary_size_layout"
+        android:layout_marginBottom="@dimen/primary_size_layout"
+        android:contentDescription="@string/recently_page"
         app:layout_constraintTop_toBottomOf="@id/div_under_title"
         app:layout_constraintBottom_toTopOf="@id/delete_all"
         app:layout_constraintStart_toStartOf="parent"
@@ -102,11 +249,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/primary_size_layout">
-
-            <!-- Score items will be added here dynamically -->
-
-        </LinearLayout>
+            android:padding="@dimen/secondary_size_layout"/>
 
     </ScrollView>
 
@@ -114,7 +257,8 @@
         android:id="@+id/delete_all"
         style="@style/PrimaryButtonStyle"
         android:text="@string/txt_delete_all"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="@dimen/big_size_layout"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>

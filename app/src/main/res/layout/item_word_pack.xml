@@ -1,72 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="@dimen/secondary_size_layout"
-    android:layout_marginBottom="8dp"
-    android:background="@drawable/bg_category_unselected"
-    android:gravity="center_vertical">
+    android:layout_marginBottom="@dimen/secondary_size_layout"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="@color/surface_card">
 
-    <!-- Pack info -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/third_size_layout">
 
-        <TextView
-            android:id="@+id/tvPackName"
-            android:layout_width="wrap_content"
+        <!-- Top row: name + action icons -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/secondary_font"
-            android:text="My Pack"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/buttons_size"
-            android:textStyle="bold" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/tvPackSubtitle"
-            android:layout_width="wrap_content"
+            <!-- Pack name -->
+            <TextView
+                android:id="@+id/tvPackName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/secondary_font"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/buttons_size"
+                android:textStyle="bold"
+                android:ellipsize="end"
+                android:maxLines="1"/>
+
+            <!-- Share -->
+            <ImageView
+                android:id="@+id/btnSharePack"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="@dimen/primary_size_layout"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/share_pack_title"
+                android:padding="6dp"
+                android:src="@drawable/ic_share"/>
+
+            <!-- Edit -->
+            <ImageView
+                android:id="@+id/btnEditPack"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="@dimen/primary_size_layout"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/edit_word_pack"
+                android:padding="6dp"
+                android:src="@drawable/ic_edit"/>
+
+            <!-- Delete -->
+            <ImageView
+                android:id="@+id/btnDeletePack"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="@dimen/primary_size_layout"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/delete"
+                android:padding="6dp"
+                android:src="@drawable/delete"/>
+        </LinearLayout>
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="@dimen/primary_size_layout"
+            android:background="@color/divider_color"/>
+
+        <!-- Bottom row: category badge + word count + times played -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/subtext_font"
-            android:layout_marginTop="2dp"
-            android:text="10 words · Custom"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/normal_fond_size" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Category badge -->
+            <TextView
+                android:id="@+id/tvPackCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_category_selected"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="3dp"
+                android:fontFamily="@font/subtext_font"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/normal_fond_size"/>
+
+            <!-- Word count -->
+            <TextView
+                android:id="@+id/tvPackSubtitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/secondary_size_layout"
+                android:fontFamily="@font/subtext_font"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/normal_fond_size"/>
+
+            <!-- Times played -->
+            <TextView
+                android:id="@+id/tvPackTimesPlayed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/subtext_font"
+                android:textColor="@color/primary_button_color"
+                android:textSize="@dimen/normal_fond_size"/>
+        </LinearLayout>
     </LinearLayout>
-
-    <!-- Share -->
-    <ImageView
-        android:id="@+id/btnSharePack"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/share_pack_title"
-        android:padding="4dp"
-        android:src="@drawable/ic_share" />
-
-    <!-- Edit (was incorrectly using ic_back) -->
-    <ImageView
-        android:id="@+id/btnEditPack"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/edit_word_pack"
-        android:padding="4dp"
-        android:src="@drawable/ic_edit" />
-
-    <!-- Delete -->
-    <ImageView
-        android:id="@+id/btnDeletePack"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/delete"
-        android:padding="4dp"
-        android:src="@drawable/delete" />
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>

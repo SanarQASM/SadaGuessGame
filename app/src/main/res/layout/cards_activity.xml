@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_linear_app_background_primary"
-        android:padding="16dp">
+        android:padding="@dimen/secondary_size_layout">
 
         <!-- ── Title ── -->
         <TextView
@@ -28,72 +28,72 @@
         <!-- ── Divider ── -->
         <View
             android:id="@+id/div_under_title"
-            android:layout_width="250dp"
-            android:layout_height="2dp"
-            android:background="?android:attr/listDivider"
-            android:layout_marginTop="3dp"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/divider_color"
+            android:layout_marginTop="4dp"
             app:layout_constraintTop_toBottomOf="@id/cardsTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- ── Card container ── -->
-        <LinearLayout
-            android:id="@+id/cards"
+        <!--
+             ── Card container ──
+             FIXED dimensions via card_width / card_height dimens.
+             scaleType="centerCrop" ensures image fills without resizing the view.
+             The FrameLayout wrapper prevents any constraint re-measurement
+             from changing the ShapeableImageView's size.
+        -->
+        <FrameLayout
+            android:id="@+id/cardFrameContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:background="@drawable/button_background"
-            android:elevation="20dp"
-            android:orientation="vertical"
-            android:outlineAmbientShadowColor="@color/black"
-            android:outlineSpotShadowColor="@color/black"
+            android:layout_marginTop="@dimen/secondary_size_layout"
             app:layout_constraintTop_toBottomOf="@id/div_under_title"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="20dp">
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/cardImage"
-                android:layout_width="@dimen/card_width"
-                android:layout_height="@dimen/card_height"
-                android:layout_margin="10dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/cards"
-                app:shapeAppearanceOverlay="@style/RoundedCard"/>
-
-            <TextView
-                android:id="@+id/cardName"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/cards"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/subtext_font"
-                android:text="@string/card_word"
-                android:textColor="@color/primary_color"
-                android:textSize="@dimen/sub_font_size"
-                android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginBottom="5dp"
-                android:gravity="center"/>
-        </LinearLayout>
+                android:background="@drawable/button_background"
+                android:elevation="20dp"
+                android:orientation="vertical"
+                android:padding="8dp"
+                android:outlineAmbientShadowColor="@color/black"
+                android:outlineSpotShadowColor="@color/black"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground">
 
-        <!-- ── Streak badge (NEW) ── -->
-        <TextView
-            android:id="@+id/streakBadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="14dp"
-            android:paddingVertical="4dp"
-            android:background="@drawable/bg_category_selected"
-            android:text="🔥 3"
-            android:textColor="@color/primary_text"
-            android:fontFamily="@font/secondary_font"
-            android:textSize="@dimen/sub_font_size"
-            android:textStyle="bold"
-            android:visibility="gone"
-            android:layout_marginTop="6dp"
-            app:layout_constraintTop_toBottomOf="@id/cards"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+                <!-- FIXED SIZE card image — never changes dimensions -->
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/cardImage"
+                    android:layout_width="@dimen/card_width"
+                    android:layout_height="@dimen/card_height"
+                    android:layout_margin="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/cards"
+                    app:shapeAppearanceOverlay="@style/RoundedCard"/>
 
-        <!-- ── Tip text ── -->
+                <!-- Card name — fixed height so it cannot push card size -->
+                <TextView
+                    android:id="@+id/cardName"
+                    android:layout_width="@dimen/card_width"
+                    android:layout_height="@dimen/card_name_height"
+                    android:fontFamily="@font/subtext_font"
+                    android:text="@string/card_word"
+                    android:textColor="@color/primary_color"
+                    android:textSize="@dimen/sub_font_size"
+                    android:layout_gravity="bottom|center_horizontal"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center"
+                    android:ellipsize="end"
+                    android:maxLines="1"/>
+            </LinearLayout>
+        </FrameLayout>
+
+        <!-- ── Tap tip ── -->
         <TextView
             android:id="@+id/warningTip"
             android:layout_width="wrap_content"
@@ -101,10 +101,28 @@
             android:fontFamily="@font/subtext_font"
             android:text="@string/txt_tip"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/buttons_size"
+            android:textSize="@dimen/normal_fond_size"
+            android:textStyle="italic"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/cardFrameContainer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- ── Streak badge ── -->
+        <TextView
+            android:id="@+id/streakBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="14dp"
+            android:paddingVertical="4dp"
+            android:background="@drawable/bg_category_selected"
+            android:fontFamily="@font/secondary_font"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/sub_font_size"
             android:textStyle="bold"
-            android:layout_marginTop="6dp"
-            app:layout_constraintTop_toBottomOf="@id/streakBadge"
+            android:visibility="gone"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/warningTip"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -118,12 +136,12 @@
             android:textColor="@color/primary_text"
             android:textSize="@dimen/sub_font_size"
             android:textStyle="bold"
-            android:layout_marginTop="6dp"
-            app:layout_constraintTop_toBottomOf="@id/warningTip"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/streakBadge"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- ── Hint button row (NEW) ── -->
+        <!-- ── Hint row ── -->
         <LinearLayout
             android:id="@+id/hintRow"
             android:layout_width="wrap_content"
@@ -172,10 +190,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
+            android:layout_marginTop="@dimen/secondary_size_layout"
             app:layout_constraintTop_toBottomOf="@id/hintRow"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/colorButtonsContainer"
-            android:layout_marginTop="5dp">
+            app:layout_constraintEnd_toStartOf="@+id/colorButtonsContainer">
 
             <ProgressBar
                 android:id="@+id/circularProgressBar"
@@ -189,8 +207,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintVertical_bias="0.493"/>
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
             <TextView
                 android:id="@+id/timeDisplay"
@@ -199,7 +216,7 @@
                 android:fontFamily="@font/buttons_font"
                 android:textDirection="ltr"
                 android:padding="5dp"
-                android:text=" 01 : 00 "
+                android:text="@string/timer_default_display"
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/buttons_size"
                 android:textStyle="bold"
@@ -214,23 +231,23 @@
                 android:fontFamily="@font/secondary_font"
                 android:text="@string/timer_tip"
                 android:textColor="@color/primary_text"
-                android:textSize="@dimen/sub_font_size"
+                android:textSize="@dimen/normal_fond_size"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/circularProgressBar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_margin="10dp"/>
+                android:layout_margin="8dp"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- ── Control buttons ── -->
+        <!-- ── Control buttons column ── -->
         <LinearLayout
             android:id="@+id/colorButtonsContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:layout_marginTop="@dimen/secondary_size_layout"
             app:layout_constraintTop_toBottomOf="@id/hintRow"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/secondary_size_layout">
+            app:layout_constraintEnd_toEndOf="parent">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/startTimer"
@@ -243,17 +260,32 @@
                 android:layout_marginTop="5dp"
                 android:text="@string/txt_stop"/>
 
+            <!--
+                RESTART TIMER: resets the countdown only.
+                Does NOT change the card.
+            -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/restartTimer"
                 style="@style/PrimaryButtonStyle"
                 android:layout_marginTop="5dp"
-                android:text="@string/txt_restart"/>
+                android:text="@string/txt_restart_timer"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/endTimer"
                 style="@style/PrimaryButtonStyle"
                 android:layout_marginTop="5dp"
                 android:text="@string/txt_end"/>
+
+            <!--
+                CHANGE CARD: loads a new card.
+                Does NOT touch the timer.
+            -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/changeCardButton"
+                style="@style/PrimaryButtonStyle"
+                android:layout_marginTop="5dp"
+                android:text="@string/txt_change_card"/>
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,6 @@
 package com.example.sadaguessgame.fragments;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,12 +19,13 @@ import java.util.List;
 
 public class LeaderboardFragment extends BaseFragment {
 
-    private LinearLayout        rowContainer;
-    private TextView            emptyTv;
-    private LeaderboardStorage  storage;
+    private LinearLayout       rowContainer;
+    private LinearLayout emptyTv;
+    private LeaderboardStorage storage;
 
     public LeaderboardFragment() {}
 
+    @SuppressLint("WrongViewCast")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -36,21 +38,29 @@ public class LeaderboardFragment extends BaseFragment {
         emptyTv      = root.findViewById(R.id.tvLeaderboardEmpty);
 
         MaterialButton btnClear = root.findViewById(R.id.btnClearLeaderboard);
-        btnClear.setOnClickListener(v -> confirmClear());
+        if (btnClear != null) btnClear.setOnClickListener(v -> confirmClear());
 
         loadEntries();
         return root;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadEntries();
+    }
+
     private void loadEntries() {
+        if (rowContainer == null) return;
         rowContainer.removeAllViews();
+
         List<LeaderboardEntry> entries = storage.getTopEntries(20);
 
         if (entries.isEmpty()) {
-            emptyTv.setVisibility(View.VISIBLE);
+            if (emptyTv != null) emptyTv.setVisibility(View.VISIBLE);
             return;
         }
-        emptyTv.setVisibility(View.GONE);
+        if (emptyTv != null) emptyTv.setVisibility(View.GONE);
 
         LayoutInflater inflater = LayoutInflater.from(requireContext());
         for (int i = 0; i < entries.size(); i++) {
@@ -63,8 +73,10 @@ public class LeaderboardFragment extends BaseFragment {
             TextView tvRecord  = row.findViewById(R.id.tvLbRecord);
             TextView tvStreak  = row.findViewById(R.id.tvLbStreak);
             TextView tvWinRate = row.findViewById(R.id.tvLbWinRate);
+            TextView tvGames   = row.findViewById(R.id.tvLbGamesPlayed);
             TextView tvPoints  = row.findViewById(R.id.tvLbPoints);
 
+            // Rank with medal emoji for top 3
             String rankLabel;
             switch (i) {
                 case 0:  rankLabel = getString(R.string.leaderboard_rank_gold);   break;
@@ -72,14 +84,38 @@ public class LeaderboardFragment extends BaseFragment {
                 case 2:  rankLabel = getString(R.string.leaderboard_rank_bronze); break;
                 default: rankLabel = String.valueOf(i + 1);                       break;
             }
+            if (tvRank != null) tvRank.setText(rankLabel);
 
-            tvRank.setText(rankLabel);
-            tvName.setText(e.groupName);
-            tvRecord.setText(getString(R.string.leaderboard_record_format,
-                    e.totalWins, e.totalLosses, e.totalDraws));
-            tvStreak.setText(getString(R.string.leaderboard_streak_format, e.maxWinStreak));
-            tvWinRate.setText(e.getWinRateFormatted());
-            tvPoints.setText(String.valueOf(e.totalPointsScored));
+            // Group name
+            if (tvName != null) tvName.setText(e.groupName);
+
+            // W/L/D record — what it actually tracks: wins, losses, draws across games
+            if (tvRecord != null) tvRecord.setText(
+                    getString(R.string.leaderboard_record_format,
+                            e.totalWins, e.totalLosses, e.totalDraws));
+
+            // Best win streak — max consecutive wins
+            if (tvStreak != null) tvStreak.setText(
+                    getString(R.string.leaderboard_streak_format, e.maxWinStreak));
+
+            // Win rate percentage
+            if (tvWinRate != null) tvWinRate.setText(e.getWinRateFormatted());
+
+            // Total games played
+            if (tvGames != null) tvGames.setText(
+                    getString(R.string.leaderboard_games_played_format, e.gamesPlayed));
+
+            // Total points scored across all games
+            if (tvPoints != null) {
+                tvPoints.setText(getString(R.string.leaderboard_points_format, e.totalPointsScored));
+                tvPoints.setVisibility(View.VISIBLE);
+            }
+
+            // Highlight top 3 rows
+            if (i < 3) {
+                row.setAlpha(1f);
+                row.setElevation(getResources().getDimension(R.dimen.small_size_layout));
+            }
 
             rowContainer.addView(row);
         }
@@ -97,11 +133,5 @@ public class LeaderboardFragment extends BaseFragment {
                 })
                 .setNegativeButton(R.string.no_button, null)
                 .show();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        loadEntries();
     }
 }

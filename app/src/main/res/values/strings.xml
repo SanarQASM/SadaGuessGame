@@ -337,4 +337,104 @@ If you have any questions about this policy, please contact the developer.
     <!-- Content description when a category chip is not selected, e.g. "Food not selected" -->
     <string name="category_content_desc_not_selected">%1$s not selected</string>
 
+    <!-- ═══════════════════════════════════════════════════════════════════════
+             NEW STRINGS — Requirements 1-10
+             ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- ── Req 1: Learn Game Screen ──────────────────────────────────────── -->
+    <string name="learn_game_page_title">How to Play</string>
+
+    <string name="learn_section_overview_title">What is SadaGuess?</string>
+    <string name="learn_section_overview_desc">SadaGuess is a group guessing game. Split into two teams, take turns drawing a card, and act out or describe the word — without saying it! The team that guesses the most words wins.</string>
+
+    <string name="learn_section_new_game_title">Starting a New Game</string>
+    <string name="learn_section_new_game_desc">Tap "New Game" from the Home screen. Enter team names, choose categories, set the number of rounds, pick a difficulty level, and set the timer duration. Then tap "Start Game".</string>
+
+    <string name="learn_section_cards_title">The Card Screen</string>
+    <string name="learn_section_cards_desc">Tap the card to reveal the word. The active team must act out or describe the word while the timer counts down. Tap "Change Card" for a new word without resetting the timer. Tap "Restart Timer" to reset the clock only.</string>
+
+    <string name="learn_section_scoring_title">Scoring</string>
+    <string name="learn_section_scoring_desc">When time is up, a dialog asks if the team found the card. Choose Yes and pick a score (1–3 points). Build a consecutive streak for combo multipliers: 3 correct in a row = 1.5×, 5 in a row = 2×!</string>
+
+    <string name="learn_section_timer_title">Timer Tool</string>
+    <string name="learn_section_timer_desc">Access the standalone Timer tool from the Home screen. Set minutes and seconds, then tap Start. The timer plays a warning sound when time is almost up — just like in the main game.</string>
+
+    <string name="learn_section_dice_title">Dice Tool</string>
+    <string name="learn_section_dice_desc">Roll 1 or 2 dice from the Home screen. With 2 dice, set a \"double\" probability (25%–75%) to increase chances of matching numbers. A special sound plays when you roll doubles!</string>
+
+    <string name="learn_section_scoreboard_title">Score Board Tool</string>
+    <string name="learn_section_scoreboard_desc">Keep track of any game with the Score Board tool. Enter custom team names, tap a team\'s panel to add a point, pick their color, undo mistakes, or view the full history on a separate screen.</string>
+
+    <string name="learn_section_wordpacks_title">Word Packs</string>
+    <string name="learn_section_wordpacks_desc">Create custom word packs with your own words! Go to Settings → Manage Word Packs, or select one when creating a new game. Share packs with friends via text message.</string>
+
+    <string name="learn_section_difficulty_title">Difficulty Levels</string>
+    <string name="learn_section_difficulty_desc">Choose Easy, Medium, or Hard when starting a game. Difficulty affects which cards are shown — Easy cards are common, familiar objects; Hard cards are rare or complex.</string>
+
+    <string name="learn_section_streak_title">Streaks &amp; Combos</string>
+    <string name="learn_section_streak_desc">Guess multiple cards correctly in a row to build a streak. At 3 consecutive correct guesses the score is multiplied by 1.5×. At 5 in a row it doubles to 2×. A miss resets the streak.</string>
+
+    <string name="learn_section_hints_title">Hints</string>
+    <string name="learn_section_hints_desc">Each team gets 2 hints per game. Tap the hint button (before revealing the card) to see the first letter of the word. Use hints wisely — they don\'t refill!</string>
+
+    <string name="learn_section_leaderboard_title">Leaderboard</string>
+    <string name="learn_section_leaderboard_desc">The Leaderboard tracks each team\'s wins, losses, draws, best win streak, win rate, and total points scored — across ALL games ever played on this device. Play more games to climb the ranks!</string>
+
+    <string name="learn_section_voice_title">Voice Clue Mode</string>
+    <string name="learn_section_voice_desc">Enable Voice Clue Mode when creating a game (or in Settings). When the card is revealed, the app reads the word aloud using text-to-speech. Helpful for players who prefer to hear rather than read.</string>
+
+    <string name="learn_section_sudden_death_title">Sudden Death</string>
+    <string name="learn_section_sudden_death_desc">If both teams finish with an equal score, Sudden Death kicks in! Each team gets 30 seconds with one card. The first team to guess their card wins. No guesses = the game ends in a draw.</string>
+
+    <!-- ── Req 3: Score Board ──────────────────────────────────────────── -->
+    <string name="no_history_yet">No score history yet. Add points to see history.</string>
+    <string name="tap_to_add_score">Tap to add point</string>
+    <string name="group_a_color_btn">🎨 Team A Color</string>
+    <string name="group_b_color_btn">🎨 Team B Color</string>
+    <string name="score_card_height">160dp</string>
+    <string name="label_group_names">Team Names</string>
+
+    <!-- ── Req 4: Dice ────────────────────────────────────────────────── -->
+    <string name="dice_result_single">Rolled: %1$d</string>
+    <string name="dice_result_double">🎉 Double %1$d!</string>
+    <string name="dice_result_two">%1$d + %2$d = %3$d</string>
+    <string name="prob_0">0%%</string>
+    <string name="prob_25">25%%</string>
+    <string name="prob_50">50%%</string>
+    <string name="prob_75">75%%</string>
+
+    <!-- ── Req 6: Recently Fragment ───────────────────────────────────── -->
+    <string name="game_in_progress">▶ In Progress</string>
+    <string name="round_of_format">Round %1$d of %2$d</string>
+    <string name="empty_state_icon">🃏</string>
+
+    <!-- ── Req 7: Leaderboard ─────────────────────────────────────────── -->
+    <string name="leaderboard_subtitle">Tracks all-time wins, streaks, and points across every game played.</string>
+    <string name="leaderboard_col_games">Games</string>
+    <string name="leaderboard_col_points">Points</string>
+    <string name="leaderboard_empty_icon">🏆</string>
+    <string name="leaderboard_games_played_format">%1$d</string>
+    <string name="leaderboard_points_format">%1$d</string>
+
+    <!-- ── Req 8: Word Packs ──────────────────────────────────────────── -->
+    <string name="word_packs_subtitle">Create custom word lists for your games</string>
+    <string name="word_packs_empty_icon">📦</string>
+    <string name="word_packs_tap_fab_hint">Tap + to create your first word pack</string>
+    <string name="pack_times_played_format">Played: %1$d×</string>
+    <string name="word_pack_in_game_desc">Use a custom word list instead of built-in cards</string>
+
+    <!-- ── Req 9: Create New Game ─────────────────────────────────────── -->
+    <string name="label_game_settings">Game Settings</string>
+    <string name="voice_clue_how_to_use">When enabled, the word is read aloud when the card is revealed</string>
+    <string name="txt_start_game">Start Game →</string>
+    <string name="colon_separator">:</string>
+
+    <!-- ── Req 10: Cards Activity ─────────────────────────────────────── -->
+    <string name="txt_restart_timer">⏱ Reset Timer</string>
+    <string name="txt_change_card">🃏 New Card</string>
+    <string name="timer_default_display">01 : 00</string>
+    <string name="card_name_height">32dp</string>
+    <string name="winner_badge_label">🏆</string>
+
+
 </resources>

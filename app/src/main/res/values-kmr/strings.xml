@@ -275,4 +275,103 @@ SadaGuess چ پێزانینێن شەخصی یێن بکارهێنەری کوم ن
     <string name="onboarding_viewpager_desc">لاپەرێن دەسپێکێ</string>
     <string name="category_content_desc_selected">%1$s هاتە هەلبژارتن</string>
     <string name="category_content_desc_not_selected">%1$s نەهاتیە هەلبژارتن</string>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         NEW STRINGS — Requirements 1-10 (Kurdish Badini)
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- ── Req 1: Learn Game Screen ──────────────────────────────────────── -->
+    <string name="learn_game_page_title">چەوانیا یاریکرنێ</string>
+
+    <string name="learn_section_overview_title">SadaGuess چییە؟</string>
+    <string name="learn_section_overview_desc">‏SadaGuess یارییەکا کومەلایەتی یا مەزەندەکرنێیە. دابەش دبن بۆ دوو تیمان، ب نۆرە کارتەکی ڕادکێشن و وێ پەیڤێ دترێشن یان وەسف دکەن — بێی کو ناڤێ پەیڤێ بێژن! ئەو تیما زۆرترین پەیڤان مەزەندە بکەت، دێ بیتە براوە.</string>
+
+    <string name="learn_section_new_game_title">دەستپێکرنا یارییەکا نوو</string>
+    <string name="learn_section_new_game_desc">ل سەر شاشا سەرەکی کلیک ل سەر "New Game" بکە. ناڤێن تیمان بنویسە، جورێن پەیڤان (Categories) هەلبژێرە، ژمارا خولان و ئاستێ ب زەحمەت بوونێ دیار بکە، هەروەسا دەمێ یارییێ دانە. پاشان کلیک ل سەر "Start Game" بکە.</string>
+
+    <string name="learn_section_cards_title">شاشا کارتێ</string>
+    <string name="learn_section_cards_desc">پەنجێ ل کارتێ بدە دا کو پەیڤ دیار ببیت. تیما چالاک دڤێت وێ پەیڤێ ب نواندن یان وەسفکرن بدەتە دیارکرن بەری دەم تمام ببیت. بۆ گوهۆڕینا پەیڤێ بێی دەم بهێتە سفرکرن، کلیک ل سەر "Change Card" بکە. کلیک ل "Restart Timer" بکە تەنێ بۆ سفرکرنا کاتژمێری.</string>
+
+    <string name="learn_section_scoring_title">خالێن یارییێ</string>
+    <string name="learn_section_scoring_desc">دەمێ دەم ب دوماهی دهێت، پرسیارەک دێ هێتە کرن کا ئایا تیمێ پەیڤ دۆزییە؟ "Yes" هەلبژێرە و خالەکی دیار بکە (١-٣ خال). ئەگەر لدویف ئێک پەیڤان بدۆزنەڤە دێ خالێن زێدەتر هێنە هەژمارتن (Combo): ٣ پەیڤێن درست ل سەر ئێک = ١.٥ جاران، ٥ پەیڤ = ٢ جاران!</string>
+
+    <string name="learn_section_timer_title">ئامرازێ کاتژمێری</string>
+    <string name="learn_section_timer_desc">دۆشی ل شاشا سەرەکی تو دشێی ئامرازێ کاتژمێری (Timer) بکاربینی. خولەک و چرکان دیار بکە و "Start" دابگرە. دەمێ دەم نێزیک دبیت ب دوماهی بهێت، دەنگەکێ ئاگەهدارکرنێ دێ هێتە لێدان.</string>
+
+    <string name="learn_section_dice_title">ئامرازێ زاری</string>
+    <string name="learn_section_dice_desc">ژ شاشا سەرەکی ١ یان ٢ زاران باڤێژە. دەمێ تو ٢ زاران بکاردبینی، تو دشێی رێژەیا جووتبوونێ (Double) دیار بکەی (٢٥٪-٧٥٪). دەمێ زار دبنە جووت، دەنگەکێ تایبەت دێ هێتە لێدان!</string>
+
+    <string name="learn_section_scoreboard_title">تەختێ ئەنجامان</string>
+    <string name="learn_section_scoreboard_desc">ل سەر تەختێ ئەنجامان (Score Board) خالێن هەر یارییەکێ تومار بکە. ناڤێن تیمان بگوهۆڕە، پەنجێ ل پانێلا تیمێ بدە بۆ زێدەکرنا خالان، ڕەنگێ وان هەلبژێرە، یان مێژوویا یارییێ ببینە.</string>
+
+    <string name="learn_section_wordpacks_title">پاکێجێن پەیڤان</string>
+    <string name="learn_section_wordpacks_desc">پاکێجێن تایبەت ب پەیڤێن خۆ دروست بکە! هەرە Settings ← Manage Word Packs. تو دشێی ڤان پاکێجان ب ڕێکا نامەیان بۆ هەڤالێن خۆ فڕێ بکەی.</string>
+
+    <string name="learn_section_difficulty_title">ئاستێ ب زەحمەت بوونێ</string>
+    <string name="learn_section_difficulty_desc">ل دەمێ دەستپێکرنێ ئاستێ ب سانەهی، ناڤنجی، یان ب زەحمەت هەلبژێرە. ئاستێ ب سانەهی پەیڤێن بەرنیاس و سادەنە؛ ئاستێ ب زەحمەت پەیڤێن کێم و ئالۆزن.</string>
+
+    <string name="learn_section_streak_title">لدویف ئێک بوون (Streaks)</string>
+    <string name="learn_section_streak_desc">دۆزینەڤەیا چەند کارتەکێن درست لدویف ئێک، دێ خالێن تە زێدە کەت. ل ٣ کارتان خال دێ بنە ١.٥ جاران، ل ٥ کارتان دێ بنە ٢ جاران. هەر شاشیەک دێ وێ زنجیرێ بڕیت و خال دێ بنەڤە یێن ئاسایی.</string>
+
+    <string name="learn_section_hints_title">هاریکاری (Hints)</string>
+    <string name="learn_section_hints_desc">هەر تیمەکێ ٢ هاریکاری د هەر یارییەکێ دا هەنە. بەری کارت دیار ببیت، پەنجێ ل دوگما هاریکاریێ بدە دا کو پیتا ئێکێ یا پەیڤێ ببینی. ب هشیاری بکاربینە چونکی نوو نابنەڤە!</string>
+
+    <string name="learn_section_leaderboard_title">ڕیزبەندیا براوەیان</string>
+    <string name="learn_section_leaderboard_desc">لیستا ڕیزبەندیێ (Leaderboard) سەرکەفتن، دۆڕاندن، یەکسانبوون، و کۆما گشتی یا خالێن هەمی وان یارییان تومار دکەت یێن ل سەر ڤی ئامێری هاتینە کرن.</string>
+
+    <string name="learn_section_voice_title">مۆدێ دەنگێ پەیڤێ</string>
+    <string name="learn_section_voice_desc">ل دەمێ دروستکرنا یارییێ مۆدێ Voice Clue چالاک بکە. دەمێ کارت ڤەدبیت، ئەپ دێ پەیڤێ ب دەنگ خوینیت. ئەڤە بۆ وان یاریزانان باشە یێن حەز دکەن پەیڤێ ببهیسن نەک بخوینن.</string>
+
+    <string name="learn_section_sudden_death_title">مرنا ژ نیشکەکێ ڤە (Sudden Death)</string>
+    <string name="learn_section_sudden_death_desc">ئەگەر هەردوو تیم یەکسان بن، قۆناغا Sudden Death دێ دەستپێ کەت! هەر تیمەکێ ٣٠ چرکە دێ هەبن بۆ تەنێ ئێک کارتێ. ئێکەم تیما پەیڤێ ببینیت دێ بیتە براوە.</string>
+
+    <!-- ── Req 3: Score Board ──────────────────────────────────────────── -->
+    <string name="no_history_yet">تا نوکە چو مێژوو نینە. خالان زێدە بکە دا کو مێژوویێ ببینی.</string>
+    <string name="tap_to_add_score">پەنجێ دابگرە بۆ زێدەکرنا خالێ</string>
+    <string name="group_a_color_btn">🎨 ڕەنگێ تیما ئەی</string>
+    <string name="group_b_color_btn">🎨 ڕەنگێ تیما بی</string>
+    <string name="score_card_height">160dp</string>
+    <string name="label_group_names">ناڤێن تیمان</string>
+
+    <!-- ── Req 4: Dice ────────────────────────────────────────────────── -->
+    <string name="dice_result_single">ئەنجام: %1$d</string>
+    <string name="dice_result_double">🎉 جووت %1$d!</string>
+    <string name="dice_result_two">%1$d + %2$d = %3$d</string>
+    <string name="prob_0">0%%</string>
+    <string name="prob_25">25%%</string>
+    <string name="prob_50">50%%</string>
+    <string name="prob_75">75%%</string>
+
+    <!-- ── Req 6: Recently Fragment ───────────────────────────────────── -->
+    <string name="game_in_progress">▶ یا بەردەوامە</string>
+    <string name="round_of_format">خولا %1$d ژ %2$d</string>
+    <string name="empty_state_icon">🃏</string>
+
+    <!-- ── Req 7: Leaderboard ─────────────────────────────────────────── -->
+    <string name="leaderboard_subtitle">تومارکەرێ هەمی سەرکەفتن، زنجیرە، و خالێن هەمی یارییان.</string>
+    <string name="leaderboard_col_games">یاری</string>
+    <string name="leaderboard_col_points">خال</string>
+    <string name="leaderboard_empty_icon">🏆</string>
+    <string name="leaderboard_games_played_format">%1$d</string>
+    <string name="leaderboard_points_format">%1$d</string>
+
+    <!-- ── Req 8: Word Packs ──────────────────────────────────────────── -->
+    <string name="word_packs_subtitle">لیستا پەیڤێن تایبەت بۆ یارییێن خۆ دروست بکە</string>
+    <string name="word_packs_empty_icon">📦</string>
+    <string name="word_packs_tap_fab_hint">پەنجێ ل + بدە بۆ دروستکرنا ئێکەم پاکێجا پەیڤان</string>
+    <string name="pack_times_played_format">هاتییە یاریکرن: %1$d جاران</string>
+    <string name="word_pack_in_game_desc">لیستەکا تایبەت بکاربینە ل شوونا پەیڤێن ناڤ ئەپی</string>
+
+    <!-- ── Req 9: Create New Game ─────────────────────────────────────── -->
+    <string name="label_game_settings">ڕێکخستنێن یارییێ</string>
+    <string name="voice_clue_how_to_use">ئەگەر چالاک بیت، پەیڤ ب دەنگ دێ هێتە خاندن کاتێ کارت دیار دبیت</string>
+    <string name="txt_start_game">دەستپێکرنا یارییێ ←</string>
+    <string name="colon_separator">:</string>
+
+    <!-- ── Req 10: Cards Activity ─────────────────────────────────────── -->
+    <string name="txt_restart_timer">⏱ سفرکرنا دەمی</string>
+    <string name="txt_change_card">🃏 کارتا نوو</string>
+    <string name="timer_default_display">01 : 00</string>
+    <string name="card_name_height">32dp</string>
+    <string name="winner_badge_label">🏆</string>
 </resources>

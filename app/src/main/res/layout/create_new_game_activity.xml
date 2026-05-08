@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_linear_app_background_secondary"
-        android:paddingBottom="14dp">
+        android:paddingBottom="@dimen/big_size_layout">
 
         <!-- Header -->
         <LinearLayout
@@ -31,183 +31,281 @@
                 android:layout_width="@dimen/back_button_size"
                 android:layout_height="@dimen/back_button_size"
                 android:contentDescription="@string/home_page"
-                android:src="@drawable/ic_back" />
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:src="@drawable/ic_back"/>
 
             <View
                 android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginHorizontal="12dp"
-                android:background="?android:attr/listDivider" />
+                android:layout_height="32dp"
+                android:layout_marginHorizontal="@dimen/secondary_size_layout"
+                android:background="?android:attr/listDivider"/>
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:layout_width="@dimen/image_size"
                 android:layout_height="@dimen/image_size"
                 android:scaleType="centerCrop"
                 android:src="@drawable/sada_guess_main_image"
-                app:shapeAppearanceOverlay="@style/CircleImage" />
+                app:shapeAppearanceOverlay="@style/CircleImage"/>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:fontFamily="@font/primary_font"
-                android:text="@string/application_name"
-                android:textColor="@color/primary_text"
-                android:textSize="@dimen/primary_size" />
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/secondary_size_layout"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/primary_font"
+                    android:text="@string/application_name"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/primary_size"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/buttons_font"
+                    android:text="@string/txt_game_setting"
+                    android:textColor="@color/primary_button_color"
+                    android:textSize="@dimen/sub_font_size"/>
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- Game Settings Title -->
-        <TextView
-            android:id="@+id/game_setting"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/secondary_size_layout"
-            android:fontFamily="@font/secondary_font"
-            android:text="@string/txt_game_setting"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/secondary_size"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/logo_name_container" />
-
-        <!-- Divider -->
         <View
-            android:id="@+id/div_under_game_setting"
+            android:id="@+id/div_under_header"
             android:layout_width="0dp"
             android:layout_height="1dp"
-            android:layout_marginHorizontal="24dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/divider_color"
+            app:layout_constraintTop_toBottomOf="@id/logo_name_container"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/game_setting" />
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- ── Category section wrapper (shown/hidden for word pack) ── -->
+        <!-- ── SECTION: Group Names ── -->
+        <TextView
+            android:id="@+id/labelGroupNames"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/third_size_layout"
+            android:fontFamily="@font/secondary_font"
+            android:text="@string/label_group_names"
+            android:textColor="@color/primary_button_color"
+            android:textSize="@dimen/sub_font_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/div_under_header"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <LinearLayout
+            android:id="@+id/linearGroupNames"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/third_size_layout"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintTop_toBottomOf="@id/labelGroupNames"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/primary_size_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:hintEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/groupNameOne"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/txt_enter_first_group"
+                    android:imeOptions="actionNext"
+                    android:inputType="text|textCapSentences"
+                    android:maxLength="20"
+                    android:textColor="@color/primary_text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/primary_size_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:hintEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/groupNameTwo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/txt_enter_second_group"
+                    android:imeOptions="actionDone"
+                    android:inputType="text|textCapSentences"
+                    android:maxLength="20"
+                    android:textColor="@color/primary_text"/>
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <!-- ── SECTION DIVIDER ── -->
+        <View
+            android:id="@+id/div1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/third_size_layout"
+            android:layout_marginHorizontal="@dimen/third_size_layout"
+            android:background="@color/divider_color"
+            app:layout_constraintTop_toBottomOf="@id/linearGroupNames"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- ── SECTION: Category ── -->
         <LinearLayout
             android:id="@+id/categorySection"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/div1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/div_under_game_setting">
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <!-- Select Category label -->
             <TextView
-                android:id="@+id/select_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/secondary_size_layout"
+                android:layout_margin="@dimen/third_size_layout"
                 android:fontFamily="@font/secondary_font"
                 android:text="@string/txt_select_category"
                 android:textColor="@color/primary_button_color"
                 android:textSize="@dimen/sub_font_size"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
-            <!-- Category RecyclerView -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:layout_marginHorizontal="16dp"
-                android:padding="5dp" />
+                android:layout_marginHorizontal="@dimen/secondary_size_layout"
+                android:padding="4dp"/>
         </LinearLayout>
 
-        <!-- Select Round -->
-        <LinearLayout
-            android:id="@+id/select_round"
+        <!-- ── SECTION DIVIDER ── -->
+        <View
+            android:id="@+id/div2"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="@dimen/third_size_layout"
+            android:background="@color/divider_color"
+            app:layout_constraintTop_toBottomOf="@id/categorySection"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- ── SECTION: Game Settings (rounds, difficulty, time) ── -->
+        <TextView
+            android:id="@+id/labelSettings"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:gravity="center"
-            android:layoutDirection="locale"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="@dimen/third_size_layout"
+            android:fontFamily="@font/secondary_font"
+            android:text="@string/label_game_settings"
+            android:textColor="@color/primary_button_color"
+            android:textSize="@dimen/sub_font_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/div2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/categorySection">
+            app:layout_constraintEnd_toEndOf="parent"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/secondary_font"
-                android:gravity="start"
-                android:text="@string/txt_select_round"
-                android:textColor="@color/primary_button_color"
-                android:textSize="@dimen/sub_font_size"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/item_spinner"
-                android:layout_width="@dimen/primary_button_size_length"
-                android:layout_height="@dimen/primary_button_size_height"
-                android:layout_marginStart="15dp"
-                android:background="@drawable/spinner_bg_with_arrow"
-                android:spinnerMode="dropdown" />
-        </LinearLayout>
-
-        <!-- Select Difficulty (NEW v2) -->
+        <!-- Rounds + Difficulty side by side -->
         <LinearLayout
-            android:id="@+id/select_difficulty"
+            android:id="@+id/rowRoundDifficulty"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/third_size_layout"
-            android:gravity="center"
-            android:layoutDirection="locale"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="@dimen/third_size_layout"
+            android:gravity="center_vertical"
+            android:weightSum="2"
+            app:layout_constraintTop_toBottomOf="@id/labelSettings"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/select_round">
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Rounds -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/secondary_font"
-                android:gravity="start"
-                android:text="@string/txt_select_difficulty"
-                android:textColor="@color/primary_button_color"
-                android:textSize="@dimen/sub_font_size"
-                android:textStyle="bold" />
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/primary_size_layout"
+                android:orientation="vertical">
 
-            <Spinner
-                android:id="@+id/difficultySpinner"
-                android:layout_width="@dimen/primary_button_size_length"
-                android:layout_height="@dimen/primary_button_size_height"
-                android:layout_marginStart="15dp"
-                android:background="@drawable/spinner_bg_with_arrow"
-                android:spinnerMode="dropdown" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/subtext_font"
+                    android:text="@string/txt_select_round"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/normal_fond_size"/>
+
+                <Spinner
+                    android:id="@+id/item_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/primary_button_size_height"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/spinner_bg_with_arrow"
+                    android:spinnerMode="dropdown"/>
+            </LinearLayout>
+
+            <!-- Difficulty -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/primary_size_layout"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/subtext_font"
+                    android:text="@string/txt_select_difficulty"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/normal_fond_size"/>
+
+                <Spinner
+                    android:id="@+id/difficultySpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/primary_button_size_height"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/spinner_bg_with_arrow"
+                    android:spinnerMode="dropdown"/>
+            </LinearLayout>
         </LinearLayout>
 
-        <!-- Select Time -->
+        <!-- Time picker -->
         <LinearLayout
             android:id="@+id/select_time_alternative_with_labels"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/third_size_layout"
-            android:gravity="center"
+            android:layout_marginTop="@dimen/secondary_size_layout"
+            android:layout_marginHorizontal="@dimen/third_size_layout"
+            android:gravity="center_vertical"
             android:layoutDirection="locale"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rowRoundDifficulty"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/select_difficulty">
+            app:layout_constraintEnd_toEndOf="parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/secondary_font"
-                android:gravity="start"
+                android:fontFamily="@font/subtext_font"
                 android:text="@string/txt_select_time"
-                android:textColor="@color/primary_button_color"
-                android:textSize="@dimen/sub_font_size"
-                android:textStyle="bold" />
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/normal_fond_size"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/secondary_size_layout"
-                android:layout_marginEnd="@dimen/secondary_size_layout"
                 android:gravity="center"
                 android:layoutDirection="ltr"
-                android:orientation="horizontal"
-                android:textDirection="ltr">
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -220,18 +318,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/primary_button_size_length"
                         android:layoutDirection="ltr"
-                        android:textDirection="ltr" />
+                        android:textDirection="ltr"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/buttons_font"
-                        android:gravity="start"
-                        android:layoutDirection="ltr"
                         android:text="@string/txt_minute"
                         android:textColor="@color/primary_button_color"
-                        android:textDirection="ltr"
-                        android:textSize="@dimen/normal_fond_size" />
+                        android:textSize="@dimen/normal_fond_size"/>
                 </LinearLayout>
 
                 <TextView
@@ -239,10 +334,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:paddingHorizontal="@dimen/secondary_size_layout"
-                    android:text=":"
+                    android:text="@string/colon_separator"
                     android:textColor="@color/primary_button_color"
                     android:textSize="@dimen/buttons_size"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -255,119 +350,161 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/primary_button_size_length"
                         android:layoutDirection="ltr"
-                        android:textDirection="ltr" />
+                        android:textDirection="ltr"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/buttons_font"
-                        android:gravity="start"
-                        android:layoutDirection="ltr"
                         android:text="@string/txt_second"
                         android:textColor="@color/primary_button_color"
-                        android:textDirection="ltr"
-                        android:textSize="@dimen/normal_fond_size" />
+                        android:textSize="@dimen/normal_fond_size"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Voice Clue Switch (NEW v2) -->
-        <LinearLayout
-            android:id="@+id/voiceClueRow"
+        <!-- ── SECTION DIVIDER ── -->
+        <View
+            android:id="@+id/div3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/third_size_layout"
+            android:layout_marginHorizontal="@dimen/third_size_layout"
+            android:background="@color/divider_color"
+            app:layout_constraintTop_toBottomOf="@id/select_time_alternative_with_labels"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- ── SECTION: Voice Clue Mode ── -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/voiceClueCard"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/third_size_layout"
-            android:layout_marginHorizontal="@dimen/secondary_size_layout"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:layoutDirection="locale"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="@dimen/third_size_layout"
+            android:layout_marginTop="@dimen/secondary_size_layout"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="3dp"
+            app:cardBackgroundColor="@color/surface_card"
+            app:layout_constraintTop_toBottomOf="@id/div3"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/select_time_alternative_with_labels">
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/secondary_font"
-                android:text="@string/voice_clue_mode"
-                android:textColor="@color/primary_button_color"
-                android:textSize="@dimen/sub_font_size"
-                android:textStyle="bold" />
+                android:orientation="horizontal"
+                android:padding="@dimen/secondary_size_layout"
+                android:gravity="center_vertical">
 
-            <Switch
-                android:id="@+id/voiceClueSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="false" />
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-        <!-- Select Word Pack button (NEW v2) -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSelectWordPack"
-            style="@style/PrimaryButtonStyle"
-            android:layout_marginTop="@dimen/third_size_layout"
-            android:text="@string/btn_select_word_pack"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/voiceClueRow" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/secondary_font"
+                        android:text="@string/voice_clue_mode"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/sub_font_size"
+                        android:textStyle="bold"/>
 
-        <!-- Group name inputs -->
-        <LinearLayout
-            android:id="@+id/linearGroupNames"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/subtext_font"
+                        android:text="@string/voice_clue_desc"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/normal_fond_size"/>
+
+                    <!-- How to use explanation -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/subtext_font"
+                        android:text="@string/voice_clue_how_to_use"
+                        android:textColor="@color/primary_button_color"
+                        android:textSize="@dimen/normal_fond_size"
+                        android:textStyle="italic"/>
+                </LinearLayout>
+
+                <Switch
+                    android:id="@+id/voiceClueSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/secondary_size_layout"
+                    android:checked="false"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ── SECTION: Word Pack ── -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/wordPackCard"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/third_size_layout"
-            android:layoutDirection="locale"
-            android:orientation="vertical"
-            android:paddingEnd="@dimen/third_size_layout"
-            android:paddingStart="@dimen/third_size_layout"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginHorizontal="@dimen/third_size_layout"
+            android:layout_marginTop="@dimen/secondary_size_layout"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="3dp"
+            app:cardBackgroundColor="@color/surface_card"
+            app:layout_constraintTop_toBottomOf="@id/voiceClueCard"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btnSelectWordPack">
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:hintEnabled="true">
+                android:orientation="horizontal"
+                android:padding="@dimen/secondary_size_layout"
+                android:gravity="center_vertical">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/groupNameOne"
-                    style="@style/AppEditTextStyle"
-                    android:gravity="start"
-                    android:hint="@string/txt_enter_first_group"
-                    android:imeOptions="actionNext"
-                    android:inputType="text|textCapSentences|textMultiLine"
-                    android:layoutDirection="locale"
-                    android:textDirection="locale" />
-            </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:hintEnabled="true">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/secondary_font"
+                        android:text="@string/word_packs_title"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/sub_font_size"
+                        android:textStyle="bold"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/groupNameTwo"
-                    style="@style/AppEditTextStyle"
-                    android:gravity="start"
-                    android:hint="@string/txt_enter_second_group"
-                    android:imeOptions="actionDone"
-                    android:inputType="text|textCapSentences|textMultiLine"
-                    android:layoutDirection="locale"
-                    android:textDirection="locale" />
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/subtext_font"
+                        android:text="@string/word_pack_in_game_desc"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/normal_fond_size"/>
+                </LinearLayout>
 
-        <!-- Next Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSelectWordPack"
+                    style="@style/PrimaryButtonStyle"
+                    android:layout_marginStart="@dimen/secondary_size_layout"
+                    android:text="@string/btn_select_word_pack"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Start Game Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNext"
-            style="@style/PrimaryButtonStyle"
-            android:layout_margin="@dimen/third_size_layout"
-            android:text="@string/txt_next"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/linearGroupNames" />
+            style="@style/BigButtonStyle"
+            android:layout_marginHorizontal="@dimen/third_size_layout"
+            android:layout_marginTop="@dimen/third_size_layout"
+            android:text="@string/txt_start_game"
+            app:layout_constraintTop_toBottomOf="@id/wordPackCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

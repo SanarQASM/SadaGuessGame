@@ -275,4 +275,103 @@ SadaGuess زانیاری کەسیی بەکارهێنەر کۆناکاتەوە و
     <string name="onboarding_viewpager_desc">پەڕەکانی دەسپێک</string>
     <string name="category_content_desc_selected">%1$s هەڵبژێردرا</string>
     <string name="category_content_desc_not_selected">%1$s هەڵنەبژێردرا</string>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         NEW STRINGS — Requirements 1-10 (Kurdish Sorani)
+         ═══════════════════════════════════════════════════════════════════════ -->
+
+    <!-- ── Req 1: Learn Game Screen ──────────────────────────────────────── -->
+    <string name="learn_game_page_title">چۆنیەتی یاریکردن</string>
+
+    <string name="learn_section_overview_title">SadaGuess چییە؟</string>
+    <string name="learn_section_overview_desc">‏SadaGuess یارییەکی کۆمەڵایەتی مەزندەکردنە. دابەش دەبن بۆ دوو تیم، بە نۆرە کارتێک ڕادەکێشن و وشەکە دەنوێنن یان وەسفی دەکەن — بەبێ ئەوەی ناوی وشەکە بڵێن! ئەو تیمەی زۆرترین وشە مەزندە بکات، دەبێتە براوە.</string>
+
+    <string name="learn_section_new_game_title">دەستپێکردنی یارییەکی نوێ</string>
+    <string name="learn_section_new_game_desc">لەسەر شاشەی سەرەکی کلیک لەسەر "New Game" بکە. ناوی تیمەکان بنووسە، جۆری وشەکان (Categories) هەڵبژێرە، ژمارەی خولەکان و ئاستی زەحمەتی دیاری بکە، هەروەها کاتی یارییەکە دابنێ. پاشان کلیک لەسەر "Start Game" بکە.</string>
+
+    <string name="learn_section_cards_title">شاشەی کارتەکە</string>
+    <string name="learn_section_cards_desc">پەنجە بنێ بە کارتەکەدا بۆ دەرکەوتنی وشەکە. تیمی چالاک دەبێت وشەکە بنوێنێت یان وەسفی بکات پێش ئەوەی کاتەکە تەواو بێت. بۆ گۆڕینی وشەکە بەبێ سفرکردنەوەی کات، کلیک لە "Change Card" بکە. کلیک لە "Restart Timer" بکە تەنها بۆ سفرکردنەوەی کاتژمێرەکە.</string>
+
+    <string name="learn_section_scoring_title">خاڵبەندی</string>
+    <string name="learn_section_scoring_desc">کاتێک کات تەواو دەبێت، پرسیارێکت لێ دەکرێت کە ئایا تیمەکە وشەکەی دۆزیوەتەوە؟ "Yes" هەڵبژێرە و خاڵێک دیاری بکە (١-٣ خاڵ). ئەگەر بەدوای یەکدا وشەکان بدۆزنەوە خاڵەکان زیاد دەکەن (Combo): ٣ وشەی ڕاست لەسەریەک = ١.٥ هێندە، ٥ وشە = ٢ هێندە!</string>
+
+    <string name="learn_section_timer_title">ئامرازی کاتژمێر</string>
+    <string name="learn_section_timer_desc">دەتوانیت لە شاشەی سەرەکییەوە ئامرازی کاتژمێر (Timer) بەکاربهێنیت. خولەک و چرکەکان دیاری بکە و "Start" دابگرە. کاتێک کات خەریکە تەواو دەبێت، دەنگێکی ئاگادارکردنەوە لێ دەدات.</string>
+
+    <string name="learn_section_dice_title">ئامرازی زار</string>
+    <string name="learn_section_dice_desc">لە شاشەی سەرەکی ١ یان ٢ زار هەڵبدە. لە کاتی بەکارهێنانی ٢ زاردا، دەتوانیت ئەگەری جووتبوون (Double) دیاری بکەیت (٢٥٪-٧٥٪). کاتێک زارەکان جووت دەبن، دەنگێکی تایبەت لێ دەدات!</string>
+
+    <string name="learn_section_scoreboard_title">تەختەی ئەنجامەکان</string>
+    <string name="learn_section_scoreboard_desc">لەسەر تەختەی ئەنجامەکان (Score Board) خاڵی هەر یارییەک تۆمار بکە. ناوی تیمەکان بگۆڕە، پەنجە بنێ بە پانێڵی تیمەکەدا بۆ زیادکردنی خاڵ، ڕەنگیان هەڵبژێرە، یان مێژووی یارییەکە ببینە.</string>
+
+    <string name="learn_section_wordpacks_title">پاکێجی وشەکان</string>
+    <string name="learn_section_wordpacks_desc">پاکێجی تایبەت بە وشەکانی خۆت دروست بکە! بڕۆ بۆ Settings ← Manage Word Packs. دەتوانیت ئەم پاکێجانە لە ڕێگەی نامەوە بۆ هاوڕێکانت بنێریت.</string>
+
+    <string name="learn_section_difficulty_title">ئاستی زەحمەتی</string>
+    <string name="learn_section_difficulty_desc">لە کاتی دەستپێکردن ئاستی ئاسان، مامناوەند، یان قورس هەڵبژێرە. ئاستی ئاسان وشەی باو و ناسراون؛ ئاستی قورس وشەی دەگمەن و ئاڵۆزن.</string>
+
+    <string name="learn_section_streak_title">بەدوای یەکدا بوون (Streaks)</string>
+    <string name="learn_section_streak_desc">مەزندەکردنی چەند کارتێک بە دروستی و لەسەریەک، خاڵەکانت زیاد دەکات. لە ٣ کارتدا خاڵەکە دەبێتە ١.٥ هێندە، لە ٥ کارتدا دەبێتە ٢ هێندە. هەر هەڵەیەک زنجیرەکە دەپچڕێنێت و خاڵەکان ئاسایی دەبنەوە.</string>
+
+    <string name="learn_section_hints_title">ڕێنمایی (Hints)</string>
+    <string name="learn_section_hints_desc">هەر تیمێک ٢ ڕێنمایی هەیە لە هەر یارییەکدا. پێش دەرکەوتنی کارتەکە، پەنجە بنێ بە دوگمەی ڕێنماییدا بۆ بینینی پیتی یەکەمی وشەکە. بە وریایی بەکاریان بهێنە چونکە نوێ نابنەوە!</string>
+
+    <string name="learn_section_leaderboard_title">ڕیزبەندی براوەکان</string>
+    <string name="learn_section_leaderboard_desc">لیستی ڕیزبەندی (Leaderboard) سەرکەوتن، دۆڕان، یەکسانبوون، و کۆی گشتی خاڵەکانی هەموو ئەو یارییانە تۆمار دەکات کە لەسەر ئەم ئامێرە ئەنجام دراون.</string>
+
+    <string name="learn_section_voice_title">مۆدی دەنگی وشە</string>
+    <string name="learn_section_voice_desc">لەکاتی دروستکردنی یارییەکەدا مۆدی Voice Clue چالاک بکە. کاتێک کارتەکە دەکرێتەوە، ئەپەکە وشەکە بە دەنگ دەخوێنێتەوە. ئەمە یارمەتیدەرە بۆ ئەو یاریزانانەی حەز دەکەن وشەکە ببیستن نەک بیخوێننەوە.</string>
+
+    <string name="learn_section_sudden_death_title">مەرگی لەناکاو (Sudden Death)</string>
+    <string name="learn_section_sudden_death_desc">ئەگەر هەردوو تیم بە یەکسانی کۆتایییان پێ هات، قۆناغی Sudden Death دەست پێ دەکات! هەر تیمێک ٣٠ چرکەی هەیە بۆ تەنها یەک کارت. یەکەم تیم کە وشەکە بدۆزێتەوە دەبێتە براوە.</string>
+
+    <!-- ── Req 3: Score Board ──────────────────────────────────────────── -->
+    <string name="no_history_yet">تا ئێستا هیچ مێژوویەک نییە. خاڵ زیاد بکە بۆ بینینی مێژوو.</string>
+    <string name="tap_to_add_score">پەنجە دابگرە بۆ زیادکردنی خاڵ</string>
+    <string name="group_a_color_btn">🎨 ڕەنگی تیمی ئەی</string>
+    <string name="group_b_color_btn">🎨 ڕەنگی تیمی بی</string>
+    <string name="score_card_height">160dp</string>
+    <string name="label_group_names">ناوی تیمەکان</string>
+
+    <!-- ── Req 4: Dice ────────────────────────────────────────────────── -->
+    <string name="dice_result_single">ئەنجام: %1$d</string>
+    <string name="dice_result_double">🎉 جووت %1$d!</string>
+    <string name="dice_result_two">%1$d + %2$d = %3$d</string>
+    <string name="prob_0">0%%</string>
+    <string name="prob_25">25%%</string>
+    <string name="prob_50">50%%</string>
+    <string name="prob_75">75%%</string>
+
+    <!-- ── Req 6: Recently Fragment ───────────────────────────────────── -->
+    <string name="game_in_progress">▶ لە کاردایە</string>
+    <string name="round_of_format">خولی %1$d لە %2$d</string>
+    <string name="empty_state_icon">🃏</string>
+
+    <!-- ── Req 7: Leaderboard ─────────────────────────────────────────── -->
+    <string name="leaderboard_subtitle">تۆمارکەری هەموو سەرکەوتنەکان، زنجیرەکان، و خاڵەکانی هەموو یارییەکان.</string>
+    <string name="leaderboard_col_games">یارییەکان</string>
+    <string name="leaderboard_col_points">خاڵەکان</string>
+    <string name="leaderboard_empty_icon">🏆</string>
+    <string name="leaderboard_games_played_format">%1$d</string>
+    <string name="leaderboard_points_format">%1$d</string>
+
+    <!-- ── Req 8: Word Packs ──────────────────────────────────────────── -->
+    <string name="word_packs_subtitle">لیستی وشەی تایبەت بۆ یارییەکانت دروست بکە</string>
+    <string name="word_packs_empty_icon">📦</string>
+    <string name="word_packs_tap_fab_hint">پەنجە بنێ بە + بۆ دروستکردنی یەکەم پاکێجی وشە</string>
+    <string name="pack_times_played_format">یاریکراوە: %1$d جار</string>
+    <string name="word_pack_in_game_desc">لیستێکی تایبەت بەکاربهێنە لەبری وشەکانی ناو ئەپەکە</string>
+
+    <!-- ── Req 9: Create New Game ─────────────────────────────────────── -->
+    <string name="label_game_settings">ڕێکخستنەکانی یاری</string>
+    <string name="voice_clue_how_to_use">ئەگەر چالاک بێت، وشەکە بە دەنگ دەخوێندرێتەوە کاتێک کارتەکە دەردەکەوێت</string>
+    <string name="txt_start_game">دەستپێکردنی یاری ←</string>
+    <string name="colon_separator">:</string>
+
+    <!-- ── Req 10: Cards Activity ─────────────────────────────────────── -->
+    <string name="txt_restart_timer">⏱ سفرکردنەوەی کات</string>
+    <string name="txt_change_card">🃏 کارتی نوێ</string>
+    <string name="timer_default_display">01 : 00</string>
+    <string name="card_name_height">32dp</string>
+    <string name="winner_badge_label">🏆</string>
 </resources>

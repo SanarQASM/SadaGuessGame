@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -25,7 +26,7 @@
             android:layout_height="match_parent"
             android:background="@drawable/bg_linear_app_background_secondary">
 
-            <!-- FIXED HEADER - Won't scroll -->
+            <!-- FIXED HEADER -->
             <LinearLayout
                 android:id="@+id/logo_name_container"
                 android:layout_width="0dp"
@@ -44,24 +45,23 @@
                     android:layout_width="@dimen/back_button_size"
                     android:layout_height="@dimen/back_button_size"
                     android:contentDescription="@string/home_page"
-                    android:src="@drawable/ic_back" />
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_back"/>
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="12dp"
-                    android:background="?android:attr/listDivider" />
+                    android:background="?android:attr/listDivider"/>
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="@dimen/image_size"
                     android:layout_height="@dimen/image_size"
                     android:layout_margin="10dp"
-                    android:elevation="20dp"
-                    android:outlineAmbientShadowColor="@color/black"
-                    android:outlineSpotShadowColor="@color/black"
                     android:scaleType="centerCrop"
                     android:src="@drawable/sada_guess_main_image"
-                    app:shapeAppearanceOverlay="@style/CircleImage" />
+                    app:shapeAppearanceOverlay="@style/CircleImage"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -76,99 +76,130 @@
                         android:fontFamily="@font/primary_font"
                         android:text="@string/application_name"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/primary_size" />
+                        android:textSize="@dimen/primary_size"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/third_size_layout"
-                        android:layout_marginTop="@dimen/primary_size_layout"
                         android:fontFamily="@font/buttons_font"
                         android:text="@string/score_title"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/sub_font_size" />
-
+                        android:textSize="@dimen/sub_font_size"/>
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- SCROLLABLE CONTENT SECTION -->
+            <!-- SCROLLABLE CONTENT -->
             <ScrollView
                 android:id="@+id/scrollView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:fillViewport="true"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/logo_name_container"
-                app:layout_constraintBottom_toBottomOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/logo_name_container">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/big_size_layout">
 
-                    <!-- 🔹 Game Settings Title -->
-                    <TextView
-                        android:id="@+id/select_color"
+                    <!-- Group Name Inputs -->
+                    <LinearLayout
+                        android:id="@+id/groupNameInputContainer"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:fontFamily="@font/secondary_font"
-                        android:text="@string/txt_select_color_group"
-                        android:textColor="@color/primary_text"
-                        android:textSize="@dimen/buttons_size"
-                        android:textStyle="bold"
-                        android:gravity="start"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:orientation="horizontal"
+                        android:layout_margin="@dimen/third_size_layout"
+                        android:gravity="center"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent">
 
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="@dimen/secondary_size_layout"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etGroupOneName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/group_a_color"
+                                android:inputType="textCapSentences"
+                                android:maxLength="20"
+                                android:textColor="@color/primary_text"
+                                android:textColorHint="@color/primary_text"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etGroupTwoName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/group_b_color"
+                                android:inputType="textCapSentences"
+                                android:maxLength="20"
+                                android:textColor="@color/primary_text"
+                                android:textColorHint="@color/primary_text"/>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <!-- Color buttons -->
                     <LinearLayout
                         android:id="@+id/colorButtonsContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/third_size_layout"
                         android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/secondary_size_layout"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/select_color">
+                        app:layout_constraintTop_toBottomOf="@id/groupNameInputContainer">
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/groupAColor"
                             style="@style/PrimaryButtonStyle"
-                            android:text="@string/group_a_color"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            android:text="@string/group_a_color_btn"/>
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/groupBColor"
                             style="@style/PrimaryButtonStyle"
                             android:layout_marginStart="@dimen/secondary_size_layout"
-                            android:text="@string/group_b_color"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/startTimer" />
-
+                            android:text="@string/group_b_color_btn"/>
                     </LinearLayout>
 
+                    <!-- Score boards -->
                     <LinearLayout
                         android:id="@+id/scoreBoardContiner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/third_size_layout"
-                        android:orientation="vertical"
-                        android:padding="16dp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/secondary_size_layout"
+                        android:gravity="center"
+                        android:weightSum="2"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/colorButtonsContainer">
+                        app:layout_constraintTop_toBottomOf="@id/colorButtonsContainer">
 
-                        <!-- Group 1 -->
+                        <!-- Group A -->
                         <FrameLayout
                             android:id="@+id/frameGroupOne"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/game_icon_width"
-                            android:layout_marginBottom="@dimen/third_size_layout"
-                            android:background="@drawable/button_background"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/score_card_height"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="@dimen/secondary_size_layout"
+                            android:background="@drawable/bg_score_card_a"
                             android:clickable="true"
-                            android:focusable="true">
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -183,30 +214,43 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/buttons_font"
                                     android:text="@string/group_a_color"
-                                    android:textColor="@color/primary_color"
-                                    android:textSize="@dimen/secondary_size"
-                                    android:textStyle="bold" />
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="@dimen/sub_font_size"
+                                    android:textStyle="bold"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"/>
 
                                 <TextView
                                     android:id="@+id/tvGroupOneScore"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/buttons_font"
+                                    android:fontFamily="@font/primary_font"
                                     android:text="0"
-                                    android:textColor="@color/primary_color"
-                                    android:textSize="@dimen/secondary_size"
-                                    android:textStyle="bold" />
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="@dimen/score_display_size"
+                                    android:textStyle="bold"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/subtext_font"
+                                    android:text="@string/tap_to_add_score"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="@dimen/normal_fond_size"
+                                    android:alpha="0.7"/>
                             </LinearLayout>
                         </FrameLayout>
 
-                        <!-- Group 2 -->
+                        <!-- Group B -->
                         <FrameLayout
                             android:id="@+id/frameGroupTwo"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/game_icon_width"
-                            android:background="@drawable/button_background"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/score_card_height"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_score_card_b"
                             android:clickable="true"
-                            android:focusable="true">
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -220,71 +264,45 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/buttons_font"
-                                    android:text="@string/group_a_color"
-                                    android:textColor="@color/primary_color"
-                                    android:textSize="@dimen/secondary_size"
-                                    android:textStyle="bold" />
+                                    android:text="@string/group_b_color"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="@dimen/sub_font_size"
+                                    android:textStyle="bold"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"/>
 
                                 <TextView
                                     android:id="@+id/tvGroupTwoScore"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:fontFamily="@font/buttons_font"
+                                    android:fontFamily="@font/primary_font"
                                     android:text="0"
-                                    android:textColor="@color/primary_color"
-                                    android:textSize="@dimen/secondary_size"
-                                    android:textStyle="bold" />
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="@dimen/score_display_size"
+                                    android:textStyle="bold"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/subtext_font"
+                                    android:text="@string/tap_to_add_score"
+                                    android:textColor="@color/primary_text"
+                                    android:textSize="@dimen/normal_fond_size"
+                                    android:alpha="0.7"/>
                             </LinearLayout>
                         </FrameLayout>
-
                     </LinearLayout>
 
-                    <!-- 🔹 History Title -->
-                    <TextView
-                        android:id="@+id/history"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:fontFamily="@font/secondary_font"
-                        android:text="@string/history"
-                        android:textColor="@color/primary_text"
-                        android:textSize="@dimen/buttons_size"
-                        android:textStyle="bold"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/scoreBoardContiner" />
-
-                    <LinearLayout
-                        android:id="@+id/historyContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:layout_marginTop="@dimen/secondary_size_layout"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/history">
-
-                        <!-- History Container -->
-                        <LinearLayout
-                            android:id="@+id/historyContainerLinear"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical" />
-
-                    </LinearLayout>
-
+                    <!-- Action buttons row -->
                     <LinearLayout
                         android:id="@+id/buttonsController"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/secondary_size_layout"
-                        android:layout_marginBottom="@dimen/third_size_layout"
                         android:orientation="horizontal"
-                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/historyContainer">
+                        app:layout_constraintTop_toBottomOf="@id/scoreBoardContiner">
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/restartScore"
@@ -297,6 +315,11 @@
                             android:layout_marginStart="@dimen/secondary_size_layout"
                             android:text="@string/undo"/>
 
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/historyButton"
+                            style="@style/PrimaryButtonStyle"
+                            android:layout_marginStart="@dimen/secondary_size_layout"
+                            android:text="@string/history"/>
                     </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

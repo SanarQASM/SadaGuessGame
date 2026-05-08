@@ -12,47 +12,47 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
-
+import com.example.sadaguessgame.R;
 import com.example.sadaguessgame.activities.CardsActivity;
 import com.example.sadaguessgame.activities.CreateNewGameActivity;
 import com.example.sadaguessgame.activities.DiceActivity;
-import com.example.sadaguessgame.R;
+import com.example.sadaguessgame.activities.LearnGameActivity;
 import com.example.sadaguessgame.activities.ScoreBoardActivity;
 import com.example.sadaguessgame.activities.TimerActivity;
 import com.example.sadaguessgame.data.GameState;
 import com.example.sadaguessgame.data.ScoreStorage;
-import com.example.sadaguessgame.ui.NavigationActivity;
 import com.google.android.material.button.MaterialButton;
 
 public class HomeFragment extends BaseFragment {
 
     private LinearLayout continueGameContainer;
     private TextSwitcher textSwitcher;
-    private String[] texts;
+    private String[]     texts;
+
     private static final int SWITCHER_DELAY_MS = 3000;
-    private int textIndex = 0;
-    private final Handler handler = new Handler(Looper.getMainLooper());
+    private int      textIndex   = 0;
+    private final Handler  handler     = new Handler(Looper.getMainLooper());
     private Runnable textRunnable;
-    private boolean hasPreviousGame;
+    private boolean  hasPreviousGame;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment, container, false);
 
-        LinearLayout newGameContainer   = view.findViewById(R.id.NewGameContainer);
-        continueGameContainer           = view.findViewById(R.id.ContinueGameContainer);
-        LinearLayout timerContainer     = view.findViewById(R.id.Timer);
-        LinearLayout diceContainer      = view.findViewById(R.id.DiceContiner);
-        LinearLayout scoreContainer     = view.findViewById(R.id.scoreBoardContiner);
-        MaterialButton learnPlay        = view.findViewById(R.id.learnPlay);
-        textSwitcher                    = view.findViewById(R.id.home_text_switcher);
+        LinearLayout newGameContainer  = view.findViewById(R.id.NewGameContainer);
+        continueGameContainer          = view.findViewById(R.id.ContinueGameContainer);
+        LinearLayout timerContainer    = view.findViewById(R.id.Timer);
+        LinearLayout diceContainer     = view.findViewById(R.id.DiceContiner);
+        LinearLayout scoreContainer    = view.findViewById(R.id.scoreBoardContiner);
+        MaterialButton learnPlay       = view.findViewById(R.id.learnPlay);
+        textSwitcher                   = view.findViewById(R.id.home_text_switcher);
         texts = getResources().getStringArray(R.array.home_texts);
 
         setupTextSwitcher();
@@ -64,12 +64,14 @@ public class HomeFragment extends BaseFragment {
         continueGameContainer.setOnClickListener(v -> {
             if (hasPreviousGame) {
                 startActivity(new Intent(requireContext(), CardsActivity.class));
-                requireActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                requireActivity().overridePendingTransition(
+                        R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
 
+        // FIX Req 1: opens the new comprehensive LearnGameActivity
         learnPlay.setOnClickListener(v ->
-                startActivity(new Intent(requireContext(), NavigationActivity.class)));
+                startActivity(new Intent(requireContext(), LearnGameActivity.class)));
 
         timerContainer.setOnClickListener(v ->
                 startActivity(new Intent(requireContext(), TimerActivity.class)));
@@ -87,22 +89,21 @@ public class HomeFragment extends BaseFragment {
         if (textSwitcher == null || !isAdded()) return;
 
         textSwitcher.setFactory(() -> {
-            TextView textView = new TextView(requireContext());
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+            TextView tv = new TextView(requireContext());
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     getResources().getDimension(R.dimen.secondary_size));
-            textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary_button_color));
-            textView.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.secondary_font));
-            textView.setGravity(Gravity.START);
-            textView.setPaintFlags(textView.getPaintFlags() | android.graphics.Paint.UNDERLINE_TEXT_FLAG);
-            return textView;
+            tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary_button_color));
+            tv.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.secondary_font));
+            tv.setGravity(Gravity.START);
+            tv.setPaintFlags(tv.getPaintFlags() | android.graphics.Paint.UNDERLINE_TEXT_FLAG);
+            return tv;
         });
 
         textSwitcher.setInAnimation(requireContext(), android.R.anim.slide_in_left);
         textSwitcher.setOutAnimation(requireContext(), android.R.anim.slide_out_right);
 
         textRunnable = new Runnable() {
-            @Override
-            public void run() {
+            @Override public void run() {
                 if (textSwitcher == null || !isAdded()) return;
                 textSwitcher.setText(texts[textIndex]);
                 textIndex = (textIndex + 1) % texts.length;
@@ -112,14 +113,12 @@ public class HomeFragment extends BaseFragment {
         handler.post(textRunnable);
     }
 
-    @Override
-    public void onResume() {
+    @Override public void onResume() {
         super.onResume();
         refreshContinueButton();
     }
 
-    @Override
-    public void onDestroyView() {
+    @Override public void onDestroyView() {
         super.onDestroyView();
         if (textRunnable != null) {
             handler.removeCallbacks(textRunnable);

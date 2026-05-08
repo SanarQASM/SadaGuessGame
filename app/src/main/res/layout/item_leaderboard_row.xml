@@ -1,88 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingHorizontal="12dp"
-    android:paddingVertical="10dp"
-    android:layout_marginBottom="4dp"
-    android:background="@drawable/bg_category_unselected"
-    android:gravity="center_vertical">
+    android:layout_marginBottom="@dimen/primary_size_layout"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="3dp"
+    app:cardBackgroundColor="@color/surface_card">
 
-    <!-- Rank -->
-    <TextView
-        android:id="@+id/tvLbRank"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:text="1"
-        android:textSize="@dimen/sub_font_size"
-        android:textColor="@color/primary_text"
-        android:gravity="center"
-        android:fontFamily="@font/primary_font"/>
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/secondary_size_layout"
+        android:paddingVertical="@dimen/secondary_size_layout">
 
-    <!-- Name -->
-    <TextView
-        android:id="@+id/tvLbName"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="Group A"
-        android:textSize="@dimen/sub_font_size"
-        android:textColor="@color/primary_text"
-        android:textStyle="bold"
-        android:fontFamily="@font/secondary_font"
-        android:ellipsize="end"
-        android:maxLines="1"/>
+        <!-- Top row: rank + name + win rate -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-    <!-- W/L/D Record -->
-    <TextView
-        android:id="@+id/tvLbRecord"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.5"
-        android:text="5W 2L 1D"
-        android:textSize="@dimen/normal_fond_size"
-        android:textColor="@color/primary_text"
-        android:gravity="center"
-        android:fontFamily="@font/subtext_font"/>
+            <!-- Rank -->
+            <TextView
+                android:id="@+id/tvLbRank"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="1"
+                android:fontFamily="@font/primary_font"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/buttons_size"
+                android:gravity="center"/>
 
-    <!-- Best streak -->
-    <TextView
-        android:id="@+id/tvLbStreak"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.8"
-        android:text="🔥 3"
-        android:textSize="@dimen/normal_fond_size"
-        android:textColor="@color/primary_text"
-        android:gravity="center"
-        android:fontFamily="@font/subtext_font"/>
+            <!-- Name -->
+            <TextView
+                android:id="@+id/tvLbName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Group A"
+                android:fontFamily="@font/secondary_font"
+                android:textColor="@color/primary_text"
+                android:textStyle="bold"
+                android:textSize="@dimen/buttons_size"
+                android:ellipsize="end"
+                android:maxLines="1"/>
 
-    <!-- Win rate -->
-    <TextView
-        android:id="@+id/tvLbWinRate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.8"
-        android:text="71%"
-        android:textSize="@dimen/normal_fond_size"
-        android:textColor="@color/secondary_color"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:fontFamily="@font/subtext_font"/>
+            <!-- Win rate (most important metric) -->
+            <TextView
+                android:id="@+id/tvLbWinRate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.8"
+                android:text="71%"
+                android:fontFamily="@font/primary_font"
+                android:textColor="@color/primary_button_color"
+                android:textStyle="bold"
+                android:textSize="@dimen/buttons_size"
+                android:gravity="end"/>
+        </LinearLayout>
 
-    <!-- Points (hidden, for internal sort — shown as subtitle) -->
-    <TextView
-        android:id="@+id/tvLbPoints"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.8"
-        android:text="48"
-        android:textSize="@dimen/normal_fond_size"
-        android:textColor="@color/primary_button_color"
-        android:gravity="center"
-        android:fontFamily="@font/subtext_font"
-        android:visibility="gone"/>
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="@dimen/primary_size_layout"
+            android:background="@color/divider_color"/>
 
-</LinearLayout>
+        <!-- Bottom row: record + streak + games played + total points -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- W/L/D -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/leaderboard_col_record"
+                    android:fontFamily="@font/subtext_font"
+                    android:textColor="@color/primary_button_color"
+                    android:textSize="@dimen/normal_fond_size"/>
+
+                <TextView
+                    android:id="@+id/tvLbRecord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5W 2L 1D"
+                    android:fontFamily="@font/buttons_font"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/normal_fond_size"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <!-- Best streak -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/leaderboard_col_streak"
+                    android:fontFamily="@font/subtext_font"
+                    android:textColor="@color/primary_button_color"
+                    android:textSize="@dimen/normal_fond_size"/>
+
+                <TextView
+                    android:id="@+id/tvLbStreak"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🔥 3"
+                    android:fontFamily="@font/buttons_font"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/normal_fond_size"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <!-- Games played -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/leaderboard_col_games"
+                    android:fontFamily="@font/subtext_font"
+                    android:textColor="@color/primary_button_color"
+                    android:textSize="@dimen/normal_fond_size"/>
+
+                <TextView
+                    android:id="@+id/tvLbGamesPlayed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="8"
+                    android:fontFamily="@font/buttons_font"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/normal_fond_size"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <!-- Total points -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/leaderboard_col_points"
+                    android:fontFamily="@font/subtext_font"
+                    android:textColor="@color/primary_button_color"
+                    android:textSize="@dimen/normal_fond_size"/>
+
+                <TextView
+                    android:id="@+id/tvLbPoints"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="48"
+                    android:fontFamily="@font/buttons_font"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/normal_fond_size"
+                    android:textStyle="bold"
+                    android:visibility="visible"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

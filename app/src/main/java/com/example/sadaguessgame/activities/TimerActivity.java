@@ -2,33 +2,40 @@ package com.example.sadaguessgame.activities;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
-
 import com.example.sadaguessgame.R;
+import com.example.sadaguessgame.manager.HapticManager;
+import com.example.sadaguessgame.manager.SoundManager;
+import com.google.android.material.button.MaterialButton;
 
 public class TimerActivity extends BaseActivity {
 
-    private NumberPicker minutePicker, secondPicker;
-    private TextView timeDisplay;
-    private ProgressBar circularProgressBar;
-    private Button startTimer, stopTimer, restartTimer;
-    private ImageView backHomeButton;
+    private NumberPicker  minutePicker, secondPicker;
+    private TextView      timeDisplay;
+    private ProgressBar   circularProgressBar;
+    private MaterialButton startTimer, stopTimer, restartTimer;
+    private ImageView     backHomeButton;
 
-    private int totalTime = 0;
-    private int timeLeft  = 0;
-    private boolean isRunning = false;
+    private int     totalTime    = 0;
+    private int     timeLeft     = 0;
+    private boolean isRunning    = false;
+    private boolean warningPlayed = false;
     private CountDownTimer countDownTimer;
+
+    private SoundManager   soundManager;
+    private HapticManager  hapticManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.timer_activity);
+
+        soundManager  = SoundManager.getInstance(this);
+        hapticManager = HapticManager.getInstance(this);
 
         initViews();
         setupPickers();
@@ -64,6 +71,7 @@ public class TimerActivity extends BaseActivity {
         int seconds = secondPicker.getValue();
         totalTime = minutes * 60 + seconds;
         timeLeft  = totalTime;
+        warningPlayed = false;
         updateTimeText();
         updateButtonState(totalTime > 0);
     }
@@ -91,10 +99,9 @@ public class TimerActivity extends BaseActivity {
     }
 
     private void setupButtons() {
-        startTimer.setOnClickListener(v -> startTimerAction());
-        stopTimer.setOnClickListener(v -> stopTimerAction());
+        startTimer.setOnClickListener(v   -> startTimerAction());
+        stopTimer.setOnClickListener(v    -> stopTimerAction());
         restartTimer.setOnClickListener(v -> restartTimerAction());
-
         backHomeButton.setOnClickListener(v -> {
             stopTimerAction();
             finish();
@@ -109,13 +116,30 @@ public class TimerActivity extends BaseActivity {
             public void onTick(long millisUntilFinished) {
                 timeLeft = (int) (millisUntilFinished / 1000);
                 updateTimeText();
+
+                // Warning sound — mirrors CardsActivity logic
+                if (!warningPlayed && shouldPlayWarning()) {
+                    soundManager.playTimerWarning();
+                    hapticManager.warning();
+                    warningPlayed = true;
+                }
+
+                // Tick haptic in last 10 seconds
+                if (timeLeft <= 10) {
+                    hapticManager.tick();
+                }
             }
 
             @Override
             public void onFinish() {
                 timeLeft = 0;
                 updateTimeText();
-                isRunning = false;
+                circularProgressBar.setProgress(100);
+                isRunning     = false;
+                warningPlayed = false;
+                // Play winner sound to signal timer done
+                soundManager.playTimerWarning();
+                hapticManager.success();
             }
         }.start();
 
@@ -127,13 +151,29 @@ public class TimerActivity extends BaseActivity {
             countDownTimer.cancel();
             countDownTimer = null;
         }
-        isRunning = false;
+        soundManager.stopCurrent();
+        hapticManager.cancel();
+        isRunning     = false;
+        warningPlayed = false;
     }
 
     private void restartTimerAction() {
         stopTimerAction();
-        timeLeft = totalTime;
+        timeLeft      = totalTime;
+        warningPlayed = false;
         updateTimeText();
+    }
+
+    /**
+     * Mirrors CardsActivity.shouldPlayWarning() logic for consistency.
+     */
+    private boolean shouldPlayWarning() {
+        int mins = totalTime / 60;
+        if (totalTime < 60)  return timeLeft <= 10;
+        if (mins == 1)       return timeLeft <= 20;
+        if (mins == 2)       return timeLeft <= 25;
+        int threshold = Math.min(10 + mins * 5, 60);
+        return timeLeft <= threshold;
     }
 
     @Override

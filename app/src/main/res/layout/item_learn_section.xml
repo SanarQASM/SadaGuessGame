@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/third_size_layout"
+    android:layout_marginEnd="@dimen/third_size_layout"
+    android:layout_marginTop="@dimen/secondary_size_layout"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="6dp"
+    app:cardBackgroundColor="@color/surface_card">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/third_size_layout">
+
+        <!-- Step number badge -->
+        <TextView
+            android:id="@+id/learnStepNumber"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_category_selected"
+            android:gravity="center"
+            android:fontFamily="@font/primary_font"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/sub_font_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/learnSectionTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/secondary_size_layout"
+            android:fontFamily="@font/secondary_font"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/buttons_size"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/learnStepNumber"
+            app:layout_constraintBottom_toBottomOf="@id/learnStepNumber"
+            app:layout_constraintStart_toEndOf="@id/learnStepNumber"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Divider -->
+        <View
+            android:id="@+id/learnDivider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/secondary_size_layout"
+            android:background="@color/divider_color"
+            app:layout_constraintTop_toBottomOf="@id/learnStepNumber"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Image -->
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/learnSectionImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="@dimen/secondary_size_layout"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/CircleImage"
+            app:layout_constraintTop_toBottomOf="@id/learnDivider"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <!-- Description -->
+        <TextView
+            android:id="@+id/learnSectionDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/secondary_size_layout"
+            android:layout_marginTop="@dimen/secondary_size_layout"
+            android:fontFamily="@font/subtext_font"
+            android:lineSpacingExtra="4dp"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/sub_font_size"
+            app:layout_constraintTop_toBottomOf="@id/learnDivider"
+            app:layout_constraintStart_toEndOf="@id/learnSectionImage"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

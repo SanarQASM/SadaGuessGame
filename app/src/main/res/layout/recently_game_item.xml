@@ -1,128 +1,173 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="@dimen/secondary_size_layout"
+    android:orientation="vertical"
     android:layout_marginBottom="@dimen/secondary_size_layout"
-    android:background="@android:color/transparent"
-    android:gravity="center">
+    android:background="@drawable/bg_category_unselected">
 
-    <!-- Number -->
-    <TextView
-        android:id="@+id/tvIndex"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1 - "
-        android:fontFamily="@font/primary_font"
-        android:textColor="@color/primary_text"
-        android:textStyle="italic"
-        android:textSize="@dimen/buttons_size"/>
-
-    <!-- Vertical Container for Groups -->
+    <!-- Main row -->
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:orientation="horizontal"
+        android:padding="@dimen/secondary_size_layout"
+        android:gravity="center_vertical">
 
-        <!-- Group A -->
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="?android:attr/listDivider" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <!-- Index number -->
+        <TextView
+            android:id="@+id/tvIndex"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:text="1 - "
+            android:fontFamily="@font/primary_font"
+            android:textColor="@color/primary_text"
+            android:textStyle="italic"
+            android:textSize="@dimen/buttons_size"/>
 
-            <TextView
-                android:id="@+id/groupAName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/group_a_color"
-                android:fontFamily="@font/secondary_font"
-                android:textColor="@color/primary_text"
-                android:textStyle="bold"
-                android:textSize="@dimen/sub_font_size"
-                android:layout_marginStart="8dp"/>
+        <!-- Groups column -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" --> "
-                android:fontFamily="@font/primary_font"
-                android:textColor="@color/primary_text"
-                android:textStyle="bold|italic"
-                android:textSize="@dimen/sub_font_size"
-                android:layout_marginStart="@dimen/primary_size_layout"
-                android:layout_marginEnd="@dimen/primary_size_layout"/>
+            <!-- Divider -->
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?android:attr/listDivider"/>
 
-            <TextView
-                android:id="@+id/groupAScore"
-                android:layout_width="wrap_content"
+            <!-- Group A row -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/score_title"
-                android:fontFamily="@font/subtext_font"
-                android:textColor="@color/primary_text"
-                android:textStyle="italic"
-                android:textSize="@dimen/sub_font_size"
-                android:layout_marginStart="@dimen/primary_size_layout"/>
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp">
+
+                <TextView
+                    android:id="@+id/groupAName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/group_a_color"
+                    android:fontFamily="@font/secondary_font"
+                    android:textColor="@color/primary_text"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/sub_font_size"
+                    android:layout_marginStart="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" → "
+                    android:fontFamily="@font/primary_font"
+                    android:textColor="@color/primary_text"
+                    android:textStyle="bold|italic"
+                    android:textSize="@dimen/sub_font_size"
+                    android:layout_marginStart="@dimen/primary_size_layout"
+                    android:layout_marginEnd="@dimen/primary_size_layout"/>
+
+                <TextView
+                    android:id="@+id/groupAScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/score_title"
+                    android:fontFamily="@font/subtext_font"
+                    android:textColor="@color/primary_text"
+                    android:textStyle="italic"
+                    android:textSize="@dimen/sub_font_size"
+                    android:layout_marginStart="@dimen/primary_size_layout"/>
+            </LinearLayout>
+
+            <!-- Group B row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/primary_size_layout">
+
+                <TextView
+                    android:id="@+id/groupBName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/group_b_color"
+                    android:fontFamily="@font/secondary_font"
+                    android:textColor="@color/primary_text"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/sub_font_size"
+                    android:layout_marginStart="8dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" → "
+                    android:fontFamily="@font/primary_font"
+                    android:textColor="@color/primary_text"
+                    android:textStyle="bold|italic"
+                    android:textSize="@dimen/sub_font_size"
+                    android:layout_marginStart="@dimen/primary_size_layout"
+                    android:layout_marginEnd="@dimen/primary_size_layout"/>
+
+                <TextView
+                    android:id="@+id/groupBScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/score_title"
+                    android:fontFamily="@font/subtext_font"
+                    android:textColor="@color/primary_text"
+                    android:textStyle="italic"
+                    android:textSize="@dimen/sub_font_size"
+                    android:layout_marginStart="@dimen/primary_size_layout"/>
+            </LinearLayout>
+
         </LinearLayout>
 
-        <!-- Group B -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/primary_size_layout">
-
-            <TextView
-                android:id="@+id/groupBName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/group_b_color"
-                android:fontFamily="@font/secondary_font"
-                android:textColor="@color/primary_text"
-                android:textStyle="bold"
-                android:textSize="@dimen/sub_font_size"
-                android:layout_marginStart="8dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" --> "
-                android:fontFamily="@font/primary_font"
-                android:textColor="@color/primary_text"
-                android:textStyle="bold|italic"
-                android:textSize="@dimen/sub_font_size"
-                android:layout_marginStart="@dimen/primary_size_layout"
-                android:layout_marginEnd="@dimen/primary_size_layout"/>
-
-            <TextView
-                android:id="@+id/groupBScore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/score_title"
-                android:fontFamily="@font/subtext_font"
-                android:textColor="@color/primary_text"
-                android:textStyle="italic"
-                android:textSize="@dimen/sub_font_size"
-                android:layout_marginStart="@dimen/primary_size_layout"/>
-        </LinearLayout>
+        <!-- Delete button -->
+        <ImageView
+            android:id="@+id/delete_game"
+            android:layout_width="@dimen/back_button_size"
+            android:layout_height="@dimen/back_button_size"
+            android:layout_gravity="end|center_vertical"
+            android:layout_margin="@dimen/primary_size_layout"
+            android:contentDescription="@string/content_desc_delete_game"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
+            android:src="@drawable/delete"/>
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/delete_game"
-        android:layout_width="@dimen/back_button_size"
-        android:layout_height="@dimen/back_button_size"
-        android:layout_gravity="end|center_vertical"
-        android:layout_margin="@dimen/primary_size_layout"
-        android:contentDescription="@string/content_desc_delete_game"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:padding="8dp"
-        android:src="@drawable/delete" />
+    <!-- Winner badge row — shown at the bottom of each game card -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/secondary_size_layout"
+        android:paddingEnd="@dimen/secondary_size_layout"
+        android:paddingBottom="@dimen/primary_size_layout"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/winner_badge_label"
+            android:fontFamily="@font/subtext_font"
+            android:textColor="@color/primary_button_color"
+            android:textSize="@dimen/normal_fond_size"/>
+
+        <TextView
+            android:id="@+id/tvWinnerBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:background="@drawable/bg_category_selected"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="2dp"
+            android:fontFamily="@font/buttons_font"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/normal_fond_size"
+            android:textStyle="bold"
+            android:visibility="gone"/>
+
+    </LinearLayout>
 
 </LinearLayout>

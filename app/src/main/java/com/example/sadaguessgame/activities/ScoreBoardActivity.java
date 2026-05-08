@@ -1,45 +1,48 @@
 package com.example.sadaguessgame.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.core.content.ContextCompat;
-
 import com.example.sadaguessgame.R;
 import com.google.android.material.button.MaterialButton;
-
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
-
 import yuku.ambilwarna.AmbilWarnaDialog;
 
 public class ScoreBoardActivity extends BaseActivity {
 
-    private FrameLayout frameGroupOne, frameGroupTwo;
-    private TextView tvGroupOneScore, tvGroupTwoScore, tvGroupOneName, tvGroupTwoName;
-    private LinearLayout historyContainerLinear;
+    public static final String EXTRA_HISTORY = "history_json";
+
+    private FrameLayout  frameGroupOne, frameGroupTwo;
+    private TextView     tvGroupOneScore, tvGroupTwoScore;
+    private EditText     etGroupOneName, etGroupTwoName;
+    private TextView     tvGroupOneLabelDisplay, tvGroupTwoLabelDisplay;
 
     private int scoreGroupA = 0, scoreGroupB = 0;
     private int colorGroupA, colorGroupB;
 
-    private final List<HistoryItem> historyList = new ArrayList<>();
-    private int currentHistoryIndex = -1;
+    final List<HistoryItem> historyList  = new ArrayList<>();
+    int currentHistoryIndex = -1;
 
-    static class HistoryItem {
-        boolean isGroupA;
-        int scoreAdded;
+    public static class HistoryItem {
+        public boolean isGroupA;
+        public int     scoreAdded;
+        public String  groupName;
 
-        HistoryItem(boolean isGroupA, int scoreAdded) {
-            this.isGroupA = isGroupA;
+        public HistoryItem(boolean isGroupA, int scoreAdded, String groupName) {
+            this.isGroupA  = isGroupA;
             this.scoreAdded = scoreAdded;
+            this.groupName = groupName;
         }
     }
 
@@ -51,33 +54,57 @@ public class ScoreBoardActivity extends BaseActivity {
         colorGroupA = ContextCompat.getColor(this, R.color.primary_color);
         colorGroupB = ContextCompat.getColor(this, R.color.secondary_color);
 
-        frameGroupOne           = findViewById(R.id.frameGroupOne);
-        frameGroupTwo           = findViewById(R.id.frameGroupTwo);
-        tvGroupOneScore         = findViewById(R.id.tvGroupOneScore);
-        tvGroupTwoScore         = findViewById(R.id.tvGroupTwoScore);
-        tvGroupOneName          = findViewById(R.id.tvGroupOneName);
-        tvGroupTwoName          = findViewById(R.id.tvGroupTwoName);
-        historyContainerLinear  = findViewById(R.id.historyContainerLinear);
+        initViews();
+        setupButtons();
+    }
 
-        tvGroupOneName.setText(getString(R.string.group_a_color));
-        tvGroupTwoName.setText(getString(R.string.group_b_color));
+    private void initViews() {
+        frameGroupOne         = findViewById(R.id.frameGroupOne);
+        frameGroupTwo         = findViewById(R.id.frameGroupTwo);
+        tvGroupOneScore       = findViewById(R.id.tvGroupOneScore);
+        tvGroupTwoScore       = findViewById(R.id.tvGroupTwoScore);
+        etGroupOneName        = findViewById(R.id.etGroupOneName);
+        etGroupTwoName        = findViewById(R.id.etGroupTwoName);
+        tvGroupOneLabelDisplay = findViewById(R.id.tvGroupOneName);
+        tvGroupTwoLabelDisplay = findViewById(R.id.tvGroupTwoName);
+
+        // Init display labels from hints
+        if (tvGroupOneLabelDisplay != null)
+            tvGroupOneLabelDisplay.setText(getString(R.string.group_a_color));
+        if (tvGroupTwoLabelDisplay != null)
+            tvGroupTwoLabelDisplay.setText(getString(R.string.group_a_color));
+    }
+
+    private void setupButtons() {
+        View backBtn = findViewById(R.id.back_home_activity_button);
+        if (backBtn != null) backBtn.setOnClickListener(v -> finish());
 
         MaterialButton groupAColorBtn  = findViewById(R.id.groupAColor);
         MaterialButton groupBColorBtn  = findViewById(R.id.groupBColor);
         MaterialButton restartScoreBtn = findViewById(R.id.restartScore);
         MaterialButton undoButton      = findViewById(R.id.undoButton);
+        MaterialButton historyButton   = findViewById(R.id.historyButton);
 
-        View backBtn = findViewById(R.id.back_home_activity_button);
-        if (backBtn != null) backBtn.setOnClickListener(v -> finish());
-
-        groupAColorBtn.setOnClickListener(v -> openColorPicker(true));
-        groupBColorBtn.setOnClickListener(v -> openColorPicker(false));
+        if (groupAColorBtn  != null) groupAColorBtn.setOnClickListener(v -> openColorPicker(true));
+        if (groupBColorBtn  != null) groupBColorBtn.setOnClickListener(v -> openColorPicker(false));
+        if (restartScoreBtn != null) restartScoreBtn.setOnClickListener(v -> restartScores());
+        if (undoButton      != null) undoButton.setOnClickListener(v -> undoLastScore());
+        if (historyButton   != null) historyButton.setOnClickListener(v -> openHistory());
 
         frameGroupOne.setOnClickListener(v -> addScore(true));
         frameGroupTwo.setOnClickListener(v -> addScore(false));
+    }
 
-        restartScoreBtn.setOnClickListener(v -> restartScores());
-        undoButton.setOnClickListener(v -> undoLastScore());
+    private String getGroupAName() {
+        if (etGroupOneName == null) return getString(R.string.group_a_color);
+        String name = etGroupOneName.getText().toString().trim();
+        return TextUtils.isEmpty(name) ? getString(R.string.group_a_color) : name;
+    }
+
+    private String getGroupBName() {
+        if (etGroupTwoName == null) return getString(R.string.group_b_color);
+        String name = etGroupTwoName.getText().toString().trim();
+        return TextUtils.isEmpty(name) ? getString(R.string.group_b_color) : name;
     }
 
     private void addScore(boolean isGroupA) {
@@ -89,30 +116,13 @@ public class ScoreBoardActivity extends BaseActivity {
             tvGroupTwoScore.setText(String.valueOf(scoreGroupB));
         }
 
-        historyList.add(new HistoryItem(isGroupA, 1));
+        String groupName = isGroupA ? getGroupAName() : getGroupBName();
+        historyList.add(new HistoryItem(isGroupA, 1, groupName));
         currentHistoryIndex = historyList.size() - 1;
-        rebuildHistoryView();
-    }
 
-    private void rebuildHistoryView() {
-        historyContainerLinear.removeAllViews();
-
-        for (int i = 0; i <= currentHistoryIndex; i++) {
-            HistoryItem item = historyList.get(i);
-
-            View view = LayoutInflater.from(this)
-                    .inflate(R.layout.item_score_linear, historyContainerLinear, false);
-
-            TextView tvIndex = view.findViewById(R.id.tvIndex);
-            TextView tvGroup = view.findViewById(R.id.tvGroup);
-
-            tvIndex.setText(getString(R.string.history_item_index_format, i + 1));
-            tvGroup.setText(item.isGroupA
-                    ? getString(R.string.group_a_color)
-                    : getString(R.string.group_b_color));
-
-            historyContainerLinear.addView(view);
-        }
+        // Update display labels
+        if (tvGroupOneLabelDisplay != null) tvGroupOneLabelDisplay.setText(getGroupAName());
+        if (tvGroupTwoLabelDisplay != null) tvGroupTwoLabelDisplay.setText(getGroupBName());
     }
 
     private void undoLastScore() {
@@ -122,7 +132,6 @@ public class ScoreBoardActivity extends BaseActivity {
         }
 
         HistoryItem item = historyList.get(currentHistoryIndex);
-
         if (item.isGroupA) {
             scoreGroupA = Math.max(0, scoreGroupA - item.scoreAdded);
             tvGroupOneScore.setText(String.valueOf(scoreGroupA));
@@ -133,8 +142,6 @@ public class ScoreBoardActivity extends BaseActivity {
 
         historyList.remove(currentHistoryIndex);
         currentHistoryIndex--;
-
-        rebuildHistoryView();
     }
 
     private void restartScores() {
@@ -144,7 +151,17 @@ public class ScoreBoardActivity extends BaseActivity {
         tvGroupTwoScore.setText(getString(R.string.score_zero));
         historyList.clear();
         currentHistoryIndex = -1;
-        historyContainerLinear.removeAllViews();
+    }
+
+    private void openHistory() {
+        if (historyList.isEmpty()) {
+            Toast.makeText(this, getString(R.string.no_history_yet), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Intent intent = new Intent(this, ScoreBoardHistoryActivity.class);
+        intent.putExtra(EXTRA_HISTORY, new Gson().toJson(historyList));
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     private void openColorPicker(boolean isGroupA) {
@@ -156,16 +173,14 @@ public class ScoreBoardActivity extends BaseActivity {
                         if (isGroupA) {
                             colorGroupA = color;
                             setFrameColor(frameGroupOne, colorGroupA);
-                            setTextColorForVisibility(tvGroupOneName, tvGroupOneScore, colorGroupA);
+                            setTextColorForVisibility(tvGroupOneLabelDisplay, tvGroupOneScore, colorGroupA);
                         } else {
                             colorGroupB = color;
                             setFrameColor(frameGroupTwo, colorGroupB);
-                            setTextColorForVisibility(tvGroupTwoName, tvGroupTwoScore, colorGroupB);
+                            setTextColorForVisibility(tvGroupTwoLabelDisplay, tvGroupTwoScore, colorGroupB);
                         }
                     }
-
-                    @Override
-                    public void onCancel(AmbilWarnaDialog dialog) { }
+                    @Override public void onCancel(AmbilWarnaDialog dialog) {}
                 });
         colorPicker.show();
     }
@@ -184,7 +199,7 @@ public class ScoreBoardActivity extends BaseActivity {
                 + 0.587 * Color.green(bgColor)
                 + 0.114 * Color.blue(bgColor)) / 255;
         int textColor = darkness < 0.5 ? Color.BLACK : Color.WHITE;
-        name.setTextColor(textColor);
-        score.setTextColor(textColor);
+        if (name  != null) name.setTextColor(textColor);
+        if (score != null) score.setTextColor(textColor);
     }
 }

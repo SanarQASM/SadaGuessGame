@@ -97,6 +97,16 @@
             android:configChanges="orientation|screenSize|layoutDirection|locale"
             android:windowSoftInputMode="adjustResize"/>
 
+        <activity
+            android:name="com.example.sadaguessgame.activities.LearnGameActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|layoutDirection|locale"/>
+
+        <activity
+            android:name="com.example.sadaguessgame.activities.ScoreBoardHistoryActivity"
+            android:exported="false"
+            android:configChanges="orientation|screenSize|layoutDirection|locale"/>
+
         <!-- ── FileProvider for sharing summary images ── -->
         <provider
             android:name="androidx.core.content.FileProvider"
