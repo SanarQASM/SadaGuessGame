@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/secondary_size_layout"
+    app:cardCornerRadius="@dimen/radius_card"
+    app:cardElevation="@dimen/elevation_card"
+    app:cardBackgroundColor="@color/surface_card">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/third_size_layout"
+        android:gravity="center_vertical"
+        android:weightSum="2">
+
+        <!-- Group A total -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_score_card_a"
+            android:padding="@dimen/secondary_size_layout"
+            android:layout_marginEnd="@dimen/primary_size_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/group_a_color"
+                android:fontFamily="@font/subtext_font"
+                android:textColor="@color/white"
+                android:textSize="@dimen/normal_fond_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvFinalScoreA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:fontFamily="@font/primary_font"
+                android:textColor="@color/white"
+                android:textSize="@dimen/secondary_size"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- VS separator -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/share_vs_separator"
+            android:fontFamily="@font/primary_font"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/sub_font_size"
+            android:textStyle="bold"
+            android:paddingHorizontal="@dimen/secondary_size_layout" />
+
+        <!-- Group B total -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/bg_score_card_b"
+            android:padding="@dimen/secondary_size_layout"
+            android:layout_marginStart="@dimen/primary_size_layout">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/group_b_color"
+                android:fontFamily="@font/subtext_font"
+                android:textColor="@color/white"
+                android:textSize="@dimen/normal_fond_size"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvFinalScoreB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:fontFamily="@font/primary_font"
+                android:textColor="@color/white"
+                android:textSize="@dimen/secondary_size"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

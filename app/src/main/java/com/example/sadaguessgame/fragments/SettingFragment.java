@@ -12,39 +12,30 @@ import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import com.example.sadaguessgame.R;
+import com.example.sadaguessgame.activities.LearnGameActivity;
 import com.example.sadaguessgame.activities.MainActivity;
 import com.example.sadaguessgame.activities.PrivacyPolicyActivity;
 import com.example.sadaguessgame.activities.WordPackActivity;
 import com.example.sadaguessgame.enums.SoundTheme;
 import com.example.sadaguessgame.manager.SoundManager;
 import com.example.sadaguessgame.manager.VoiceClueManager;
-import com.example.sadaguessgame.ui.NavigationActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
-/**
- * Settings screen.
- *
- * NEW in v2:
- *  • Sound theme selector (Classic / Dabke / Silent) via RadioGroup.
- *  • Global voice clue toggle (persisted in SharedPreferences).
- *  • "Manage Word Packs" button → WordPackActivity.
- */
 public class SettingFragment extends BaseFragment {
 
-    private SwitchMaterial   darkModeSwitch;
-    private SwitchMaterial   voiceClueSwitch;
-    private Spinner          languageSpinner;
-    private RadioGroup       soundThemeGroup;
-    private RadioButton      rbClassic, rbDabke, rbSilent;
-    private TextView         appVersion;
-    private MaterialButton   learnPlay, privacyPolicyBtn, manageWordPacksBtn;
+    private SwitchMaterial darkModeSwitch;
+    private SwitchMaterial voiceClueSwitch;
+    private Spinner        languageSpinner;
+    private RadioGroup     soundThemeGroup;
+    private RadioButton    rbClassic, rbDabke, rbSilent;
+    private TextView       appVersion;
+    private MaterialButton learnPlay, privacyPolicyBtn, manageWordPacksBtn;
 
     private SharedPreferences prefs;
     private boolean           spinnerInitialized = false;
@@ -75,37 +66,44 @@ public class SettingFragment extends BaseFragment {
     // ─── Bind ────────────────────────────────────────────────────────────────
 
     private void bindViews(View view) {
-        darkModeSwitch    = view.findViewById(R.id.customSwitch);
-        voiceClueSwitch   = view.findViewById(R.id.voiceClueSettingSwitch);
-        languageSpinner   = view.findViewById(R.id.languageSpinner);
-        soundThemeGroup   = view.findViewById(R.id.soundThemeGroup);
-        rbClassic         = view.findViewById(R.id.rbClassic);
-        rbDabke           = view.findViewById(R.id.rbDabke);
-        rbSilent          = view.findViewById(R.id.rbSilent);
-        appVersion        = view.findViewById(R.id.appVersion);
-        learnPlay         = view.findViewById(R.id.learnPlay);
-        privacyPolicyBtn  = view.findViewById(R.id.privacyPolicyBtn);
-        manageWordPacksBtn= view.findViewById(R.id.btnManageWordPacks);
+        darkModeSwitch     = view.findViewById(R.id.customSwitch);
+        voiceClueSwitch    = view.findViewById(R.id.voiceClueSettingSwitch);
+        languageSpinner    = view.findViewById(R.id.languageSpinner);
+        soundThemeGroup    = view.findViewById(R.id.soundThemeGroup);
+        rbClassic          = view.findViewById(R.id.rbClassic);
+        rbDabke            = view.findViewById(R.id.rbDabke);
+        rbSilent           = view.findViewById(R.id.rbSilent);
+        appVersion         = view.findViewById(R.id.appVersion);
+        learnPlay          = view.findViewById(R.id.learnPlay);
+        privacyPolicyBtn   = view.findViewById(R.id.privacyPolicyBtn);
+        manageWordPacksBtn = view.findViewById(R.id.btnManageWordPacks);
     }
 
-    // ─── Learn / Privacy / Word packs ────────────────────────────────────────
+    // ─── Learn / Privacy / Word packs ─────────────────────────────────────────
 
+    /**
+     * Both Settings and Home page "Learn" buttons open the SAME LearnGameActivity.
+     * No duplication — single source of truth.
+     */
     private void setupLearnPlay() {
-        if (learnPlay != null)
+        if (learnPlay != null) {
             learnPlay.setOnClickListener(v ->
-                    startActivity(new Intent(requireContext(), NavigationActivity.class)));
+                    startActivity(new Intent(requireContext(), LearnGameActivity.class)));
+        }
     }
 
     private void setupPrivacyPolicy() {
-        if (privacyPolicyBtn != null)
+        if (privacyPolicyBtn != null) {
             privacyPolicyBtn.setOnClickListener(v ->
                     startActivity(new Intent(requireContext(), PrivacyPolicyActivity.class)));
+        }
     }
 
     private void setupWordPacks() {
-        if (manageWordPacksBtn != null)
+        if (manageWordPacksBtn != null) {
             manageWordPacksBtn.setOnClickListener(v ->
                     startActivity(new Intent(requireContext(), WordPackActivity.class)));
+        }
     }
 
     // ─── Dark mode ───────────────────────────────────────────────────────────
@@ -143,12 +141,15 @@ public class SettingFragment extends BaseFragment {
             languageSpinner.setOnItemSelectedListener(
                     new android.widget.AdapterView.OnItemSelectedListener() {
                         @Override public void onItemSelected(
-                                android.widget.AdapterView<?> parent, View v, int position, long id) {
+                                android.widget.AdapterView<?> parent,
+                                View v, int position, long id) {
                             if (!spinnerInitialized) return;
-                            String lang = position == 1 ? "ku" : position == 2 ? "kmr" : "en";
+                            String lang = position == 1 ? "ku"
+                                    : position == 2 ? "kmr" : "en";
                             setLanguage(lang);
                         }
-                        @Override public void onNothingSelected(android.widget.AdapterView<?> p) {}
+                        @Override public void onNothingSelected(
+                                android.widget.AdapterView<?> p) {}
                     });
         });
     }
@@ -163,7 +164,7 @@ public class SettingFragment extends BaseFragment {
         requireActivity().finish();
     }
 
-    // ─── Sound theme (NEW) ───────────────────────────────────────────────────
+    // ─── Sound theme ─────────────────────────────────────────────────────────
 
     private void setupSoundTheme() {
         if (soundThemeGroup == null) return;
@@ -178,14 +179,14 @@ public class SettingFragment extends BaseFragment {
 
         soundThemeGroup.setOnCheckedChangeListener((group, checkedId) -> {
             SoundTheme theme;
-            if (checkedId == R.id.rbDabke)       theme = SoundTheme.DABKE;
+            if      (checkedId == R.id.rbDabke)  theme = SoundTheme.DABKE;
             else if (checkedId == R.id.rbSilent) theme = SoundTheme.SILENT;
             else                                  theme = SoundTheme.CLASSIC;
             sm.setTheme(theme);
         });
     }
 
-    // ─── Voice clue global toggle (NEW) ──────────────────────────────────────
+    // ─── Voice clue ──────────────────────────────────────────────────────────
 
     private void setupVoiceClue() {
         if (voiceClueSwitch == null) return;

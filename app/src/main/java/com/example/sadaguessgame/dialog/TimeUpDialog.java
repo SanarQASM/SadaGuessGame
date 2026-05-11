@@ -18,11 +18,13 @@ import com.google.android.material.button.MaterialButton;
 import java.util.Objects;
 
 /**
- * "Time is up!" dialog — shown when the countdown reaches zero.
+ * "Time is up!" dialog.
  *
- * Changes in v2:
- *  • "No" path calls game.recordMiss() to reset the streak counter.
- *  • Groups' names are shown in the dialog text dynamically.
+ * v3 changes:
+ *  - cancelable = false always (user MUST choose Yes or No when time is up).
+ *  - Tapping outside shakes the dialog to reinforce non-dismissibility.
+ *  - Groups' names shown dynamically in dialog text.
+ *  - "No" records miss and resets streak.
  */
 public class TimeUpDialog {
 
@@ -34,6 +36,8 @@ public class TimeUpDialog {
 
         dialog = new Dialog(context);
         dialog.setContentView(R.layout.time_up_dialog);
+
+        // Always non-cancelable — user MUST answer whether card was found
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
 
@@ -57,7 +61,6 @@ public class TimeUpDialog {
         if (dialogTitle != null) dialogTitle.setText(R.string.time_up);
 
         if (dialogText != null) {
-            // Show group name + question
             String groupName = game.getCurrentGroupName();
             String question  = context.getString(
                     game.groupTurn == GameState.GROUP_A
@@ -73,15 +76,13 @@ public class TimeUpDialog {
         MaterialButton btnYes = dialog.findViewById(R.id.btn_yes);
         MaterialButton btnNo  = dialog.findViewById(R.id.btn_no);
 
-        // YES → open score picker
         btnYes.setOnClickListener(v -> {
             dismiss();
             new ScoreDialog(context)
-                    .setOnScoreSavedListener(() -> navigateToScore())
+                    .setOnScoreSavedListener(this::navigateToScore)
                     .show();
         });
 
-        // NO → record miss (streak reset), score 0
         btnNo.setOnClickListener(v -> {
             addZeroScoreAndResetStreak();
             dismiss();
@@ -112,7 +113,7 @@ public class TimeUpDialog {
         context.startActivity(intent);
     }
 
-    // ─── Outside shake ───────────────────────────────────────────────────────
+    // ─── Outside shake (reinforces non-dismissibility) ───────────────────────
 
     @SuppressLint("ClickableViewAccessibility")
     private void setupOutsideShake() {

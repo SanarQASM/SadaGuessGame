@@ -1,5 +1,6 @@
 package com.example.sadaguessgame.manager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,13 +23,15 @@ import java.io.FileOutputStream;
 
 /**
  * Generates a shareable game-summary bitmap and fires an ACTION_SEND intent.
- * All user-visible strings are loaded via context.getString() — no hardcoded literals.
+ *
+ * v3: Plain-text body is now a beautiful human-readable format,
+ *     NOT raw JSON. All strings loaded via context.getString().
  */
 public class ShareManager {
 
-    private static final int   W          = 800;
-    private static final int   H          = 480;
-    private static final float PADDING    = 40f;
+    private static final int    W         = 800;
+    private static final int    H         = 500;
+    private static final float  PADDING   = 40f;
     private static final String AUTHORITY = ".fileprovider";
 
     // ─── Public API ──────────────────────────────────────────────────────────
@@ -41,14 +44,68 @@ public class ShareManager {
         Uri uri = saveBitmapAndGetUri(context, bmp);
         if (uri == null) return false;
 
+        String shareText = buildBeautifulShareText(context, game);
+
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("image/png");
         intent.putExtra(Intent.EXTRA_STREAM, uri);
-        intent.putExtra(Intent.EXTRA_TEXT, buildShareText(context, game));
+        intent.putExtra(Intent.EXTRA_TEXT, shareText);
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         context.startActivity(Intent.createChooser(intent,
                 context.getString(R.string.share_chooser_title)));
         return true;
+    }
+
+    // ─── Beautiful plain-text share body ─────────────────────────────────────
+
+    /**
+     * Produces a readable, emoji-rich share message.
+     * Example output:
+     *
+     *   🎮 SadaGuess Game Result
+     *
+     *   🏅 Team Alpha  —  12 pts
+     *   🏅 Team Beta   —   9 pts
+     *
+     *   📊 Rounds played: 10
+     *   🔥 Best streak — A: 4 | B: 2
+     *
+     *   🏆 Winner: Team Alpha!
+     *
+     *   #SadaGuess #GuessingGame
+     */
+    @SuppressLint("StringFormatMatches")
+    @NonNull
+    private static String buildBeautifulShareText(@NonNull Context context,
+                                                  @NonNull GameState game) {
+        int scoreA = game.getTotalScoreA();
+        int scoreB = game.getTotalScoreB();
+
+        // Determine result line
+        String resultLine;
+        if (game.suddenDeathWinner != GameState.NO_WINNER) {
+            String sdWinner = game.suddenDeathWinner == GameState.GROUP_A
+                    ? safe(game.groupAName) : safe(game.groupBName);
+            resultLine = context.getString(
+                    R.string.share_sudden_death_line_format, sdWinner);
+        } else if (scoreA > scoreB) {
+            resultLine = context.getString(
+                    R.string.share_winner_line_format, safe(game.groupAName));
+        } else if (scoreB > scoreA) {
+            resultLine = context.getString(
+                    R.string.share_winner_line_format, safe(game.groupBName));
+        } else {
+            resultLine = context.getString(R.string.share_draw_line);
+        }
+
+        return context.getString(
+                R.string.share_text_format,
+                safe(game.groupAName), scoreA,
+                safe(game.groupBName), scoreB,
+                game.totalRounds,
+                game.maxStreakA,
+                game.maxStreakB,
+                resultLine);
     }
 
     // ─── Bitmap builder ──────────────────────────────────────────────────────
@@ -64,63 +121,66 @@ public class ShareManager {
             Paint bgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             bgPaint.setShader(new LinearGradient(
                     0, 0, W, H,
-                    new int[]{0xFF0F2137, 0xFF1D426F, 0xFF9CDFEA},
+                    new int[]{0xFF0F2137, 0xFF1D426F, 0xFF2A5590},
                     null, Shader.TileMode.CLAMP));
             canvas.drawRect(0, 0, W, H, bgPaint);
 
-            // 2. Rounded card overlay
+            // 2. Card overlay
             Paint cardPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             cardPaint.setColor(0x22FFFFFF);
-            canvas.drawRoundRect(new RectF(PADDING, PADDING, W - PADDING, H - PADDING),
-                    30f, 30f, cardPaint);
+            canvas.drawRoundRect(
+                    new RectF(PADDING, PADDING, W - PADDING, H - PADDING),
+                    24f, 24f, cardPaint);
 
-            Paint textPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-            textPaint.setColor(Color.WHITE);
-            textPaint.setTypeface(Typeface.DEFAULT_BOLD);
+            Paint text = new Paint(Paint.ANTI_ALIAS_FLAG);
+            text.setColor(Color.WHITE);
+            text.setTypeface(Typeface.DEFAULT_BOLD);
 
             // 3. App title
-            textPaint.setTextSize(28f);
-            textPaint.setAlpha(180);
+            text.setTextSize(22f);
+            text.setAlpha(180);
             canvas.drawText(context.getString(R.string.share_app_name),
-                    PADDING + 10, PADDING + 45, textPaint);
+                    PADDING + 12, PADDING + 36, text);
 
-            // 4. Group names + "vs"
-            textPaint.setAlpha(255);
-            textPaint.setTextSize(36f);
+            // 4. Group names
+            text.setAlpha(255);
+            text.setTextSize(32f);
+            canvas.drawText(safe(game.groupAName), PADDING + 12, 140, text);
+            text.setTextSize(24f);
             float centerX = W / 2f;
-            canvas.drawText(safe(game.groupAName), PADDING + 10, 160, textPaint);
-            textPaint.setTextSize(28f);
             canvas.drawText(context.getString(R.string.share_vs_separator),
-                    centerX - 22, 155, textPaint);
-            textPaint.setTextSize(36f);
-            float bNameX = W - PADDING - measureText(safe(game.groupBName), 36f) - 10;
-            canvas.drawText(safe(game.groupBName), bNameX, 160, textPaint);
+                    centerX - measureText(context.getString(R.string.share_vs_separator), 24f) / 2,
+                    135, text);
+            text.setTextSize(32f);
+            float bNameW = measureText(safe(game.groupBName), 32f);
+            canvas.drawText(safe(game.groupBName),
+                    W - PADDING - 12 - bNameW, 140, text);
 
             // 5. Scores
-            textPaint.setTextSize(72f);
-            textPaint.setColor(0xFFB2A2D0);
-            canvas.drawText(String.valueOf(game.getTotalScoreA()), PADDING + 10, 270, textPaint);
-            textPaint.setColor(0xFF9CDFEA);
-            float bScoreX = W - PADDING - measureText(
-                    String.valueOf(game.getTotalScoreB()), 72f) - 10;
-            canvas.drawText(String.valueOf(game.getTotalScoreB()), bScoreX, 270, textPaint);
+            int scoreA = game.getTotalScoreA();
+            int scoreB = game.getTotalScoreB();
+            text.setTextSize(72f);
+            text.setColor(0xFFB2A2D0);
+            canvas.drawText(String.valueOf(scoreA), PADDING + 12, 250, text);
+            text.setColor(0xFF9CDFEA);
+            float bScoreW = measureText(String.valueOf(scoreB), 72f);
+            canvas.drawText(String.valueOf(scoreB),
+                    W - PADDING - 12 - bScoreW, 250, text);
 
             // 6. Divider
-            Paint divPaint = new Paint();
-            divPaint.setColor(0x55FFFFFF);
-            divPaint.setStrokeWidth(1.5f);
-            canvas.drawLine(PADDING, 295, W - PADDING, 295, divPaint);
+            Paint div = new Paint();
+            div.setColor(0x55FFFFFF);
+            div.setStrokeWidth(1.5f);
+            canvas.drawLine(PADDING, 275, W - PADDING, 275, div);
 
-            // 7. Winner line
-            textPaint.setTextSize(26f);
-            textPaint.setColor(Color.WHITE);
-            int scoreA = game.getTotalScoreA(), scoreB = game.getTotalScoreB();
+            // 7. Result line
+            text.setTextSize(24f);
+            text.setColor(Color.WHITE);
             String resultLine;
             if (game.suddenDeathWinner != GameState.NO_WINNER) {
-                String winner = game.suddenDeathWinner == GameState.GROUP_A
-                        ? game.groupAName : game.groupBName;
-                resultLine = context.getString(
-                        R.string.share_sudden_death_winner_format, safe(winner));
+                String w = game.suddenDeathWinner == GameState.GROUP_A
+                        ? safe(game.groupAName) : safe(game.groupBName);
+                resultLine = context.getString(R.string.share_sudden_death_winner_format, w);
             } else if (scoreA > scoreB) {
                 resultLine = context.getString(
                         R.string.share_winner_format, safe(game.groupAName));
@@ -130,20 +190,22 @@ public class ShareManager {
             } else {
                 resultLine = context.getString(R.string.share_draw_label);
             }
-            canvas.drawText(resultLine, PADDING + 10, 335, textPaint);
+            canvas.drawText(resultLine, PADDING + 12, 315, text);
 
             // 8. Streak + rounds
-            textPaint.setTextSize(20f);
-            textPaint.setAlpha(180);
+            text.setTextSize(18f);
+            text.setAlpha(180);
             String streakLine = context.getString(R.string.share_streak_format,
                     game.maxStreakA, game.maxStreakB, game.totalRounds);
-            canvas.drawText(streakLine, PADDING + 10, 375, textPaint);
+            canvas.drawText(streakLine, PADDING + 12, 355, text);
 
             // 9. Watermark
-            textPaint.setTextSize(16f);
-            textPaint.setAlpha(100);
-            canvas.drawText(context.getString(R.string.share_hashtag_watermark),
-                    W - PADDING - 110, H - PADDING + 10, textPaint);
+            text.setTextSize(14f);
+            text.setAlpha(100);
+            String wm = context.getString(R.string.share_hashtag_watermark);
+            canvas.drawText(wm,
+                    W - PADDING - measureText(wm, 14f) - 8,
+                    H - PADDING + 8, text);
 
             return bmp;
         } catch (Exception e) {
@@ -154,12 +216,14 @@ public class ShareManager {
     // ─── File + URI ──────────────────────────────────────────────────────────
 
     @Nullable
-    private static Uri saveBitmapAndGetUri(@NonNull Context ctx, @NonNull Bitmap bmp) {
+    private static Uri saveBitmapAndGetUri(@NonNull Context ctx,
+                                           @NonNull Bitmap bmp) {
         try {
             File dir = new File(ctx.getCacheDir(), "images");
             //noinspection ResultOfMethodCallIgnored
             dir.mkdirs();
-            File file = new File(dir, "game_result_" + System.currentTimeMillis() + ".png");
+            File file = new File(dir,
+                    "game_result_" + System.currentTimeMillis() + ".png");
             FileOutputStream fos = new FileOutputStream(file);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.flush();
@@ -171,18 +235,9 @@ public class ShareManager {
         }
     }
 
-    // ─── Share text ──────────────────────────────────────────────────────────
-
-    private static String buildShareText(@NonNull Context context,
-                                         @NonNull GameState game) {
-        return context.getString(R.string.share_text_format,
-                safe(game.groupAName), game.getTotalScoreA(),
-                safe(game.groupBName), game.getTotalScoreB(),
-                game.totalRounds);
-    }
-
     // ─── Helpers ─────────────────────────────────────────────────────────────
 
+    @NonNull
     private static String safe(@Nullable String s) {
         return s != null ? s : "";
     }

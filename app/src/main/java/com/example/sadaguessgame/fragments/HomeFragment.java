@@ -29,9 +29,9 @@ import com.google.android.material.button.MaterialButton;
 
 public class HomeFragment extends BaseFragment {
 
-    private LinearLayout continueGameContainer;
-    private TextSwitcher textSwitcher;
-    private String[]     texts;
+    private LinearLayout  continueGameContainer;
+    private TextSwitcher  textSwitcher;
+    private String[]      texts;
 
     private static final int SWITCHER_DELAY_MS = 3000;
     private int      textIndex   = 0;
@@ -58,29 +58,41 @@ public class HomeFragment extends BaseFragment {
         setupTextSwitcher();
         refreshContinueButton();
 
-        newGameContainer.setOnClickListener(v ->
-                startActivity(new Intent(requireContext(), CreateNewGameActivity.class)));
+        if (newGameContainer != null) {
+            newGameContainer.setOnClickListener(v ->
+                    startActivity(new Intent(requireContext(), CreateNewGameActivity.class)));
+        }
 
-        continueGameContainer.setOnClickListener(v -> {
-            if (hasPreviousGame) {
-                startActivity(new Intent(requireContext(), CardsActivity.class));
-                requireActivity().overridePendingTransition(
-                        R.anim.slide_in_right, R.anim.slide_out_left);
-            }
-        });
+        if (continueGameContainer != null) {
+            continueGameContainer.setOnClickListener(v -> {
+                if (hasPreviousGame) {
+                    startActivity(new Intent(requireContext(), CardsActivity.class));
+                    requireActivity().overridePendingTransition(
+                            R.anim.slide_in_right, R.anim.slide_out_left);
+                }
+            });
+        }
 
-        // FIX Req 1: opens the new comprehensive LearnGameActivity
-        learnPlay.setOnClickListener(v ->
-                startActivity(new Intent(requireContext(), LearnGameActivity.class)));
+        // Both Home and Settings "Learn" buttons open the SAME LearnGameActivity
+        if (learnPlay != null) {
+            learnPlay.setOnClickListener(v ->
+                    startActivity(new Intent(requireContext(), LearnGameActivity.class)));
+        }
 
-        timerContainer.setOnClickListener(v ->
-                startActivity(new Intent(requireContext(), TimerActivity.class)));
+        if (timerContainer != null) {
+            timerContainer.setOnClickListener(v ->
+                    startActivity(new Intent(requireContext(), TimerActivity.class)));
+        }
 
-        diceContainer.setOnClickListener(v ->
-                startActivity(new Intent(requireContext(), DiceActivity.class)));
+        if (diceContainer != null) {
+            diceContainer.setOnClickListener(v ->
+                    startActivity(new Intent(requireContext(), DiceActivity.class)));
+        }
 
-        scoreContainer.setOnClickListener(v ->
-                startActivity(new Intent(requireContext(), ScoreBoardActivity.class)));
+        if (scoreContainer != null) {
+            scoreContainer.setOnClickListener(v ->
+                    startActivity(new Intent(requireContext(), ScoreBoardActivity.class)));
+        }
 
         return view;
     }
@@ -92,10 +104,14 @@ public class HomeFragment extends BaseFragment {
             TextView tv = new TextView(requireContext());
             tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     getResources().getDimension(R.dimen.secondary_size));
-            tv.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary_button_color));
-            tv.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.secondary_font));
+            tv.setTextColor(ContextCompat.getColor(requireContext(),
+                    R.color.primary_button_color));
+            try {
+                tv.setTypeface(ResourcesCompat.getFont(requireContext(), R.font.secondary_font));
+            } catch (Exception ignored) {}
             tv.setGravity(Gravity.START);
-            tv.setPaintFlags(tv.getPaintFlags() | android.graphics.Paint.UNDERLINE_TEXT_FLAG);
+            tv.setPaintFlags(tv.getPaintFlags()
+                    | android.graphics.Paint.UNDERLINE_TEXT_FLAG);
             return tv;
         });
 
@@ -129,8 +145,9 @@ public class HomeFragment extends BaseFragment {
 
     private void refreshContinueButton() {
         if (continueGameContainer == null || !isAdded()) return;
-        GameState unfinishedGame = ScoreStorage.getInstance(requireContext()).getLastUnfinishedGame();
-        hasPreviousGame = unfinishedGame != null;
+        GameState unfinished =
+                ScoreStorage.getInstance(requireContext()).getLastUnfinishedGame();
+        hasPreviousGame = unfinished != null;
         setContinueButtonEnabled(hasPreviousGame);
     }
 

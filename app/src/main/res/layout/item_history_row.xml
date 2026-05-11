@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingStart="@dimen/third_size_layout"
+    android:paddingEnd="@dimen/third_size_layout"
+    android:paddingTop="@dimen/secondary_size_layout"
+    android:paddingBottom="@dimen/secondary_size_layout"
+    android:minHeight="@dimen/min_touch_target">
+
+    <!-- Color dot indicator -->
+    <View
+        android:id="@+id/viewHistoryColorDot"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginEnd="@dimen/secondary_size_layout"
+        android:background="@drawable/circle_dot" />
+
+    <!-- Index -->
+    <TextView
+        android:id="@+id/tvHistoryIndex"
+        android:layout_width="32dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/primary_font"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/normal_fond_size"
+        android:textStyle="italic" />
+
+    <!-- Group name -->
+    <TextView
+        android:id="@+id/tvHistoryGroupName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/secondary_font"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/sub_font_size"
+        android:textStyle="bold"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_marginStart="@dimen/primary_size_layout" />
+
+    <!-- Score added -->
+    <TextView
+        android:id="@+id/tvHistoryScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/buttons_font"
+        android:textColor="@color/primary_button_color"
+        android:textSize="@dimen/sub_font_size"
+        android:textStyle="bold"
+        android:layout_marginEnd="@dimen/secondary_size_layout" />
+
+    <!-- Running total -->
+    <TextView
+        android:id="@+id/tvHistoryRunningTotal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/subtext_font"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/normal_fond_size"
+        android:alpha="0.7" />
+
+</LinearLayout>

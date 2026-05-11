@@ -1,189 +1,246 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- ── App identity ── -->
     <string name="app_name" translatable="false">Sada Guess Game</string>
     <string name="application_name" translatable="true">SadaGuess</string>
+
+    <!-- ── Navigation / tabs ── -->
     <string name="home_page">Home</string>
+    <string name="recently_page">Recently</string>
+    <string name="setting_page">Settings</string>
+    <string name="leaderboard_page">Leaderboard</string>
+    <string name="cards_page">Cards</string>
+    <string name="scors_page">Scores</string>
+    <string name="back">Back</string>
+
+    <!-- ── Tool titles ── -->
     <string name="timer_title">Countdown Timer</string>
     <string name="dice_title">Dice</string>
     <string name="score_title">Score</string>
-    <string name="back">Back</string>
-    <string name="cards_page">Cards</string>
-    <string name="scors_page">Scors</string>
-    <string name="recently_page">Recently</string>
-    <string name="setting_page">Setting</string>
+    <string name="txt_timer">Timer</string>
+    <string name="txt_Dice">Dice</string>
+    <string name="txt_Score">Score</string>
+
+    <!-- ── Home ── -->
     <string name="learn_game">New here? Learn how to play!</string>
+    <string name="learn_button"> Learn </string>
+    <string name="tools">Tools: </string>
+    <string name="tool_disc">(Can also be used for other games)</string>
+    <string name="new_game">New Game</string>
+    <string name="continue_game">Continue Game</string>
+
+    <!-- ── Settings ── -->
     <string name="how_to_play">How to Play</string>
     <string name="dark_mode">Dark Mode</string>
     <string name="language">Language</string>
     <string name="about">About</string>
     <string name="about_app_description">SadaGuess is a fun group guessing game designed to bring friends and families together.</string>
-    <string name="new_game">New Game</string>
-    <string name="continue_game">Continue Game</string>
-    <string name="game_score">Game Score</string>
-    <string name="tools">Tools: </string>
-    <string name="tool_disc">(Can be Use for another game)</string>
-    <string name="txt_timer">Timer</string>
-    <string name="txt_Dice">Dice</string>
-    <string name="txt_Score">Score</string>
-    <string name="learn_button"> Learn </string>
-    <string name="no_button">No</string>
-    <string name="yes_button">Yes</string>
+    <string name="app_version_prefix">Version</string>
+    <string name="manage_word_packs">Manage Word Packs</string>
+
+    <!-- ── Onboarding ── -->
     <string name="wel_title">Welcome to SadaGuess</string>
-    <string name="wel_disc">Pick a card, guess it, \n have fun with your friends!</string>
+    <string name="wel_disc">Pick a card, guess it,\nhave fun with your friends!</string>
     <string name="txt_get_start">Get Started</string>
     <string name="txt_skip">Skip</string>
-    <string name="txt_start">Start</string>
-    <string name="txt_stop">Stop</string>
-    <string name="txt_restart">Restart</string>
-    <string name="txt_end">End</string>
     <string name="txt_next">Next</string>
     <string name="txt_finish">Finish</string>
     <string name="txt_back">Back</string>
-    <string name="txt_end_game">End Game</string>
-    <string name="txt_play_again">Play Again</string>
-    <string name="txt_continue_game">Continue</string>
     <string name="txt_view_page">View Page</string>
-    <string name="cards_page_title">Guess The Card!</string>
-    <string name="txt_tip">Tap Card To Reveal</string>
-    <string name="timer_tip">Tap to Start Timer</string>
+    <string name="onboarding_viewpager_desc">Onboarding pages</string>
 
-    <string name="turn_label">\'s Turn!</string>
-    <string name="group_turn_A">Turn: Group A!</string>
-    <string name="group_turn_B">Turn: Group B!</string>
-
-    <string name="group_turn_found_A">Did Group A find the card?</string>
-    <string name="group_turn_found_B">Did Group B find the card?</string>
-    <string name="no_recently_game">No Recent Games</string>
-    <string name="game_deleted">Game Deleted</string>
-    <string name="all_game_deleted">All Games Deleted</string>
-    <string name="delete_title">Delete Game</string>
-    <string name="deletes_title">Delete All Games</string>
-    <string name="detele_disc">Are you sure you want to delete this game?</string>
-    <string name="deteles_disc">Are you sure you want to delete All Games?</string>
-
-    <string name="winner_title">Congratulations!</string>
-    <string name="winner_desc">Winner is: </string>
-    <string name="draw">It\'s a Draw!</string>
-    <string name="delete">Delete</string>
-    <string name="winner_group_name">Group Name</string>
-    <string name="txt_no_recently_game_tip">Play a game to see history!</string>
-    <string name="txt_all_recently_game">All Recent Games</string>
-    <string name="txt_delete_all">Delete All</string>
-    <string name="txt_go_create_new_game">Go to Create New Game</string>
-    <string name="txt_home_page">Home Page</string>
-    <string name="time_up">Time is Up!</string>
-    <string name="card_word">No Card Found!</string>
-    <string name="score_dialog_title">Give a Score:</string>
+    <!-- ── Game setup ── -->
     <string name="txt_game_setting">Game Settings</string>
-    <string name="txt_select_dice">Select No. of Dice:</string>
-    <string name="txt_select_color_group">Select Color for Group:</string>
-    <string name="history">Score History</string>
-    <string name="group_b_color">Group B</string>
-    <string name="group_a_color">Group A</string>
-    <string name="undo">Undo</string>
-    <string name="score_added">+1 Score</string>
-    <string name="dice1">1 Die</string>
-    <string name="dice2">2 Dice</string>
-    <string name="start_roll_dice">Roll Dice</string>
-    <string name="skip_animation">Skip Animation</string>
-    <string name="probability_double">Probability Double</string>
-    <string name="txt_group_name">Group Name</string>
-    <string name="round">Round</string>
     <string name="txt_select_category">Select Category:</string>
     <string name="txt_select_round">Select Rounds:</string>
+    <string name="txt_select_time">Select Time:</string>
+    <string name="txt_select_difficulty">Select Difficulty:</string>
     <string name="txt_minute">Min</string>
     <string name="txt_second">Sec</string>
-    <string name="txt_select_time">Select Time:</string>
     <string name="txt_enter_group_name">Group Name</string>
     <string name="txt_enter_first_group">First Group Name (A):</string>
     <string name="txt_enter_second_group">Second Group Name (B):</string>
     <string name="error_group_name">Name cannot be empty (max 20 chars)</string>
+    <string name="label_group_names">Team Names</string>
+    <string name="label_game_settings">Game Settings</string>
+    <string name="txt_start_game">Start Game →</string>
+    <string name="colon_separator">:</string>
+    <string name="voice_clue_how_to_use">When enabled, the word is read aloud when the card is revealed</string>
+    <string name="word_pack_in_game_desc">Use a custom word list instead of built-in cards</string>
 
-    <string name="privacy_policy">Privacy Policy</string>
+    <!-- ── Difficulty ── -->
+    <string name="difficulty_easy">Easy</string>
+    <string name="difficulty_medium">Medium</string>
+    <string name="difficulty_hard">Hard</string>
 
-    <string name="privacy_intro">
-SadaGuess respects your privacy. This policy explains how information is handled while using the app.
-    </string>
+    <!-- ── Cards activity ── -->
+    <string name="cards_page_title">Guess The Card!</string>
+    <string name="txt_tip">Tap Card To Reveal</string>
+    <string name="card_word">No Card Found!</string>
+    <string name="card_back_placeholder">/?</string>
+    <string name="timer_tip">Tap to Start Timer</string>
+    <string name="timer_default_display">01 : 00</string>
+    <string name="txt_start">Start</string>
+    <string name="txt_stop">Stop</string>
+    <string name="txt_restart">Restart</string>
+    <string name="txt_restart_timer">⏱ Reset Timer</string>
+    <string name="txt_change_card">🃏 New Card</string>
+    <string name="txt_end">End Game</string>
+    <string name="group_turn_A">Turn: Group A!</string>
+    <string name="group_turn_B">Turn: Group B!</string>
+    <string name="turn_label">\'s Turn!</string>
+    <string name="confirm_leave_game_title">Leave Game?</string>
+    <string name="confirm_leave_game">The game is in progress. Are you sure you want to leave?</string>
+    <string name="confirm_leave_yes">End Game</string>
+    <string name="confirm_leave_no">Keep Playing</string>
 
-    <string name="privacy_data_title">Data Collection</string>
-    <string name="privacy_data_desc">
-SadaGuess does not collect or store personal user data.
-    </string>
+    <!-- ── Timer sound toggle ── -->
+    <string name="timer_sound_enabled">Timer Sound: On</string>
+    <string name="timer_sound_disabled">Timer Sound: Off</string>
+    <string name="timer_sound_title">Timer Sound</string>
+    <string name="timer_sound_desc">Play warning sound when timer is near end</string>
 
-    <string name="privacy_permission_title">Permissions</string>
-    <string name="privacy_permission_desc">
-The app only requests permissions required for gameplay and functionality.
-    </string>
+    <!-- ── Hint system ── -->
+    <string name="hint_button_desc">Use Hint</string>
+    <string name="no_hints_left">No hints remaining!</string>
+    <string name="hints_remaining">Hints: %1$d</string>
+    <string name="hint_display_format">💡 %1$s _ _ _</string>
+    <string name="hint_second_letter_format">💡 _ %1$s _ _</string>
+    <string name="hint_count_label">Hint tokens per game:</string>
+    <string name="hint_count_desc">Each team gets this many hints</string>
+    <!-- hint_used_format shown when nth letter is shown -->
+    <string name="hint_letter_format">Letter %1$d: %2$s</string>
+    <string name="hint_warning_last">Last hint! Use it wisely.</string>
 
-    <string name="privacy_third_party_title">Third-Party Services</string>
-    <string name="privacy_third_party_desc">
-The app may use third-party services such as Google Play Services.
-    </string>
+    <!-- ── Time up / score dialog ── -->
+    <string name="time_up">Time is Up!</string>
+    <string name="score_dialog_title">Give a Score:</string>
+    <string name="no_button">No</string>
+    <string name="yes_button">Yes</string>
 
-    <string name="privacy_contact">
-If you have any questions about this policy, please contact the developer.
-    </string>
+    <!-- ── Timer finish dialog ── -->
+    <string name="timer_finished_title">Time is Up!</string>
+    <string name="timer_finished_message">The countdown has ended.</string>
+    <string name="timer_restart_action">Restart</string>
+    <string name="timer_close_action">Close</string>
+    <string name="timer_set_new_action">Set New Time</string>
 
-    <string-array name="home_texts">
-        <item>Welcome to SadaGuess!</item>
-        <item>Pick a card!</item>
-        <item>Guess and have fun!</item>
-        <item>Challenge your friends!</item>
-    </string-array>
+    <!-- ── Group names ── -->
+    <string name="group_a_color">Group A</string>
+    <string name="group_b_color">Group B</string>
+    <string name="group_turn_found_A">Did Group A find the card?</string>
+    <string name="group_turn_found_B">Did Group B find the card?</string>
+    <string name="txt_group_name">Group Name</string>
 
-    <string-array name="language_txt">
-        <item>English</item>
-        <item>Sorani</item>
-        <item>Badini</item>
-    </string-array>
+    <!-- ── Score / game ── -->
+    <string name="game_score">Game Score</string>
+    <string name="round">Round</string>
+    <string name="round_of_format">Round %1$d of %2$d</string>
+    <string name="txt_continue_game">Continue</string>
+    <string name="txt_end_game">End Game</string>
+    <string name="txt_play_again">Play Again</string>
+    <string name="txt_home_page">Home Page</string>
+    <string name="total_label">Total</string>
+    <string name="combo_star_char">★</string>
+    <string name="combo_star_tip">★ = Combo bonus applied</string>
+    <string name="score_placeholder">--</string>
+    <string name="score_table_streak_icon">🔥</string>
+    <string name="streak_best_format">Best %1$d×</string>
+    <string name="no_score_yet">0</string>
+    <string name="score_zero">0</string>
+    <string name="score_added">+1 Score</string>
+    <string name="score_added_format">+%1$d</string>
+    <string name="winner_badge_label">🏆</string>
 
-    <string-array name="round">
-        <item>1</item>
-        <item>5</item>
-        <item>10</item>
-        <item>15</item>
-        <item>20</item>
-        <item>35</item>
-        <item>50</item>
-        <item>100</item>
-    </string-array>
+    <!-- ── Combo / streak ── -->
+    <string name="combo_label">COMBO!</string>
+    <string name="streak_label">🔥 %1$d streak</string>
+    <string name="streak_fire_format">🔥 x%1$d Streak!</string>
+    <string name="streak_two_in_row_format">⚡ %1$d in a row</string>
+    <string name="streak_badge_format">🔥 %1$d</string>
+    <string name="streak_best_format_long">Best streak</string>
+    <string name="streak_summary_format">🔥 Best streak — %1$s: %2$d  |  %3$s: %4$d</string>
 
-    <string name="category_animal">Animal</string>
-    <string name="category_people">People</string>
-    <string name="category_food">Food</string>
-    <string name="category_challenge">Challenge</string>
-    <string name="category_place">Place</string>
-    <string name="category_occupation">Occupation</string>
-    <string name="category_behavior">Behaviour</string>
-    <string name="category_equipment">Equipment</string>
-    <string name="category_general">General</string>
-    <string name="category_select_all">Select All</string>
+    <!-- ── Winner ── -->
+    <string name="winner_title">Congratulations!</string>
+    <string name="winner_desc">Winner is: </string>
+    <string name="draw">It\'s a Draw!</string>
+    <string name="draw_subtitle">Both teams scored equally — well played!</string>
+    <string name="winner_group_name">Group Name</string>
+    <string name="winner_sudden_death_format">⚡ %1$s</string>
 
-    <string-array name="slider_all_title">
-        <item>Home Page</item>
-        <item>Recently Page</item>
-        <item>Setting Page</item>
-    </string-array>
+    <!-- ── Recently ── -->
+    <string name="no_recently_game">No Recent Games</string>
+    <string name="txt_no_recently_game_tip">Play a game to see history!</string>
+    <string name="txt_all_recently_game">All Recent Games</string>
+    <string name="txt_delete_all">Delete All</string>
+    <string name="txt_go_create_new_game">Go to Create New Game</string>
+    <string name="game_in_progress">▶ In Progress</string>
+    <string name="empty_state_icon">🃏</string>
 
-    <string-array name="slider_all_desc">
-        <item>Create New | Continue Last Game:\nStart a new game or resume the previous.\nLearn Button:\nGuides users to learn how to use the app.\nTools Section:\nContains three tools to enhance gameplay or interact with other games.</item>
-        <item>Contains all previous games with the name and score of each group.</item>
-        <item>How to Play: Learn the game rules and how to play.\n Dark Mode: Switch between light and dark themes.\n Language: Change the app language (English, Sorani, Badini).\n Privacy Policy: View how your data is handled.</item>
-    </string-array>
-
+    <!-- ── Delete dialogs ── -->
+    <string name="delete">Delete</string>
+    <string name="delete_title">Delete Game</string>
+    <string name="deletes_title">Delete All Games</string>
+    <string name="detele_disc">Are you sure you want to delete this game?</string>
+    <string name="deteles_disc">Are you sure you want to delete all games?</string>
+    <string name="game_deleted">Game Deleted</string>
+    <string name="all_game_deleted">All Games Deleted</string>
     <string name="no_games_to_delete">No games to delete</string>
     <string name="failed_to_delete_game">Failed to delete game</string>
     <string name="failed_to_delete_all">Failed to delete games</string>
     <string name="content_desc_delete_game">Delete this game</string>
-    <string name="app_version_prefix">Version</string>
-    <string name="no_score_yet">0</string>
-    <string name="score_added_format">+%1$d</string>
-    <string name="confirm_leave_game">Timer is running. Leave the game?</string>
-    <string name="draw_subtitle">Both teams scored equally — well played!</string>
 
-    <string name="leaderboard_page">Leaderboard</string>
+    <!-- ── Privacy ── -->
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_intro">SadaGuess respects your privacy. This policy explains how information is handled while using the app.</string>
+    <string name="privacy_data_title">Data Collection</string>
+    <string name="privacy_data_desc">SadaGuess does not collect or store personal user data.</string>
+    <string name="privacy_permission_title">Permissions</string>
+    <string name="privacy_permission_desc">The app only requests permissions required for gameplay and functionality.</string>
+    <string name="privacy_third_party_title">Third-Party Services</string>
+    <string name="privacy_third_party_desc">The app may use third-party services such as Google Play Services.</string>
+    <string name="privacy_contact">If you have any questions about this policy, please contact the developer.</string>
+
+    <!-- ── Timer ── -->
+    <string name="txt_select_time_label">Select Time:</string>
+    <string name="time_format_mmss">%1$02d : %2$02d</string>
+    <string name="time_format_ss">%1$02d</string>
+    <string name="timer_tip_touch">Tap to Start Timer</string>
+
+    <!-- ── Dice ── -->
+    <string name="txt_select_dice">Select No. of Dice:</string>
+    <string name="dice1">1 Die</string>
+    <string name="dice2">2 Dice</string>
+    <string name="start_roll_dice">Roll Dice</string>
+    <string name="skip_animation">Skip Animation</string>
+    <string name="probability_double">Probability of Doubles</string>
+    <string name="dice_result_single">Rolled: %1$d</string>
+    <string name="dice_result_double">🎉 Double %1$d!</string>
+    <string name="dice_result_two">%1$d + %2$d = %3$d</string>
+    <string name="prob_0">0%</string>
+    <string name="prob_25">25%</string>
+    <string name="prob_50">50%</string>
+    <string name="prob_75">75%</string>
+
+    <!-- ── Score board ── -->
+    <string name="txt_select_color_group">Select Color for Group:</string>
+    <string name="history">Score History</string>
+    <string name="undo">Undo</string>
+    <string name="no_history_yet">No score history yet. Add points to see history.</string>
+    <string name="tap_to_add_score">Tap to add point</string>
+    <string name="group_a_color_btn">🎨 Team A Color</string>
+    <string name="group_b_color_btn">🎨 Team B Color</string>
+    <string name="score_card_click_sound_desc">Point added</string>
+    <string name="restart_confirm_title">Restart Scores?</string>
+    <string name="restart_confirm_message">Are you sure you want to reset all scores to zero?</string>
+    <string name="restart_confirm_yes">Yes, Reset</string>
+
+    <!-- ── Leaderboard ── -->
     <string name="leaderboard_title">🏆 Hall of Fame</string>
+    <string name="leaderboard_subtitle">Tracks all-time wins, streaks, and points across every game played.</string>
     <string name="leaderboard_empty">No games played yet.\nPlay your first game to appear here!</string>
+    <string name="leaderboard_empty_icon">🏆</string>
     <string name="leaderboard_clear_title">Clear Leaderboard</string>
     <string name="leaderboard_clear_message">Are you sure you want to clear all leaderboard data?</string>
     <string name="leaderboard_cleared">Leaderboard cleared</string>
@@ -191,31 +248,35 @@ If you have any questions about this policy, please contact the developer.
     <string name="leaderboard_col_record">W/L/D</string>
     <string name="leaderboard_col_streak">Streak</string>
     <string name="leaderboard_col_winrate">Win%</string>
+    <string name="leaderboard_col_games">Games</string>
+    <string name="leaderboard_col_points">Points</string>
+    <string name="leaderboard_rank_gold">🥇</string>
+    <string name="leaderboard_rank_silver">🥈</string>
+    <string name="leaderboard_rank_bronze">🥉</string>
+    <string name="leaderboard_record_format">%1$dW  %2$dL  %3$dD</string>
+    <string name="leaderboard_streak_format">🔥 %1$d</string>
+    <string name="leaderboard_games_played_format">%1$d</string>
+    <string name="leaderboard_points_format">%1$d</string>
 
+    <!-- ── Sudden death ── -->
     <string name="sudden_death_title">⚡ Sudden Death!</string>
     <string name="sudden_death_desc">It\'s a draw! First group to guess wins.</string>
 
-    <string name="difficulty_easy">Easy</string>
-    <string name="difficulty_medium">Medium</string>
-    <string name="difficulty_hard">Hard</string>
-    <string name="txt_select_difficulty">Select Difficulty: </string>
-
+    <!-- ── Voice clue ── -->
     <string name="voice_clue_mode">Voice Clue Mode</string>
     <string name="voice_clue_desc">Read card word aloud using TTS</string>
 
+    <!-- ── Sound theme ── -->
     <string name="sound_theme_title">Sound Theme</string>
     <string name="sound_theme_classic">Classic</string>
     <string name="sound_theme_dabke">Dabke 🥁</string>
     <string name="sound_theme_silent">Silent 🔇</string>
 
-    <string name="no_hints_left">No hints remaining!</string>
-    <string name="hint_button_desc">Use Hint</string>
-    <string name="hints_remaining">Hints: %1$d</string>
-
-    <string name="combo_label">COMBO!</string>
-    <string name="streak_label">🔥 %1$d streak</string>
-
+    <!-- ── Word packs ── -->
     <string name="word_packs_title">Word Packs</string>
+    <string name="word_packs_subtitle">Create custom word lists for your games</string>
+    <string name="word_packs_empty_icon">📦</string>
+    <string name="word_packs_tap_fab_hint">Tap + to create your first word pack</string>
     <string name="no_word_packs">No word packs yet.\nTap + to create your first pack!</string>
     <string name="create_word_pack">Create Word Pack</string>
     <string name="edit_word_pack">Edit Word Pack</string>
@@ -232,209 +293,134 @@ If you have any questions about this policy, please contact the developer.
     <string name="pack_min_words">Add at least 3 words</string>
     <string name="pack_saved">Word pack saved!</string>
     <string name="share_pack_title">Share Word Pack</string>
-    <string name="manage_word_packs">Manage Word Packs</string>
-
-    <string name="share_result">Share Result</string>
-    <string name="share_failed">Could not generate share image</string>
-
-    <string name="total_label">Total</string>
-    <string name="combo_star_tip">★ = Combo bonus applied</string>
-
-    <string name="save_label">Save</string>
-
-    <!-- ═══════════════════════════════════════════════════════════════════════
-         NEW KEYS — extracted from hardcoded strings during refactoring (v3)
-         ═══════════════════════════════════════════════════════════════════════ -->
-
-    <!-- ── ScoreBoardActivity ───────────────────────────────────────────────── -->
-    <!-- History row index label, e.g. "3 -" -->
-    <string name="history_item_index_format">%1$d -</string>
-    <!-- Zero score displayed after restart / undo reaches bottom -->
-    <string name="score_zero">0</string>
-
-    <!-- ── RecentlyFragment ─────────────────────────────────────────────────── -->
-    <!-- Unfinished game row label, e.g. "1 - [Continue Game]" -->
-    <string name="status_index_continue_format">%1$d - [%2$s]</string>
-    <!-- Finished game row label, e.g. "2 - " -->
-    <string name="status_index_simple_format">%1$d - </string>
-
-    <!-- ── ScoreDialog ──────────────────────────────────────────────────────── -->
-    <!-- Streak badge when streak >= 3, e.g. "🔥 x4 Streak!" -->
-    <string name="streak_fire_format">🔥 x%1$d Streak!</string>
-    <!-- Streak badge when streak == 2, e.g. "⚡ 2 in a row" -->
-    <string name="streak_two_in_row_format">⚡ %1$d in a row</string>
-
-    <!-- ── CardsActivity ────────────────────────────────────────────────────── -->
-    <!-- Back-of-card placeholder for custom word pack cards -->
-    <string name="card_back_placeholder">\?</string>
-    <!-- Live streak badge on the card screen, e.g. "🔥 3" -->
-    <string name="streak_badge_format">🔥 %1$d</string>
-    <!-- Timer display format for minutes and seconds, e.g. "01 : 30" -->
-    <string name="time_format_mmss">%1$02d : %2$02d</string>
-    <!-- Hint toast text, e.g. "💡 L _ _ _" -->
-    <string name="hint_display_format">💡 %1$s _ _ _</string>
-
-    <!-- ── SuddenDeathActivity ──────────────────────────────────────────────── -->
-    <!-- Two-digit seconds display, e.g. "08" -->
-    <string name="time_format_ss">%1$02d</string>
-
-    <!-- ── GameScoreActivity ────────────────────────────────────────────────── -->
-    <!-- Streak summary row icon -->
-    <string name="score_table_streak_icon">🔥</string>
-    <!-- Per-group best-streak cell in score table, e.g. "Best 4×" -->
-    <string name="streak_best_format">Best %1$d×</string>
-    <!-- Combo star appended to a score cell, e.g. "3★" -->
-    <string name="combo_star_char">★</string>
-    <!-- Placeholder shown when a group has no score for a given round -->
-    <string name="score_placeholder">--</string>
-
-    <!-- ── ShareManager ──────────────────────────────────────────────────────── -->
-    <!-- App name drawn on the share-card bitmap (not translatable) -->
-    <string name="share_app_name" translatable="false">SadaGuess</string>
-    <!-- "vs" separator drawn between group names on the share bitmap -->
-    <string name="share_vs_separator">vs</string>
-    <!-- Sudden-death winner line on share card, e.g. "⚡ Sudden Death Winner: Team A" -->
-    <string name="share_sudden_death_winner_format">⚡ Sudden Death Winner: %1$s</string>
-    <!-- Regular winner line on share card, e.g. "🏆 Winner: Team A" -->
-    <string name="share_winner_format">🏆 Winner: %1$s</string>
-    <!-- Draw result line on share card -->
-    <string name="share_draw_label">🤝 Draw!</string>
-    <!-- Streak + rounds line on share card -->
-    <string name="share_streak_format">🔥 Best streak A: %1$d   B: %2$d   Rounds: %3$d</string>
-    <!-- Hashtag watermark on share card (not translatable) -->
-    <string name="share_hashtag_watermark" translatable="false">#SadaGuess</string>
-    <!-- System share-sheet chooser title -->
-    <string name="share_chooser_title">Share result</string>
-    <!-- Plain-text body of the share intent -->
-    <string name="share_text_format">🎮 SadaGuess Result\n%1$s: %2$d\n%3$s: %4$d\nRounds: %5$d\n#SadaGuess #Kurdish</string>
-
-    <!-- ── WinnerActivity ────────────────────────────────────────────────────── -->
-    <!-- Sudden-death winner label shown in winner screen, e.g. "⚡ Team A" -->
-    <string name="winner_sudden_death_format">⚡ %1$s</string>
-    <!-- Streak summary line below scores, e.g. "🔥 Best streak — A: 3  |  B: 2" -->
-    <string name="streak_summary_format">🔥 Best streak — %1$s: %2$d  |  %3$s: %4$d</string>
-
-    <!-- ── LeaderboardFragment ──────────────────────────────────────────────── -->
-    <string name="leaderboard_rank_gold">🥇</string>
-    <string name="leaderboard_rank_silver">🥈</string>
-    <string name="leaderboard_rank_bronze">🥉</string>
-    <!-- W/L/D record cell, e.g. "4W  2L  1D" -->
-    <string name="leaderboard_record_format">%1$dW  %2$dL  %3$dD</string>
-    <!-- Best-streak cell in leaderboard, e.g. "🔥 5" -->
-    <string name="leaderboard_streak_format">🔥 %1$d</string>
-
-    <!-- ── WordPackActivity ──────────────────────────────────────────────────── -->
-    <!-- Live word-count label in the create-pack dialog, e.g. "12 words" -->
+    <string name="pack_times_played_format">Played: %1$d×</string>
     <string name="word_count_format">%1$d words</string>
 
-    <!-- ── NavigationActivity ───────────────────────────────────────────────── -->
-    <!-- Accessibility content description for the onboarding ViewPager -->
-    <string name="onboarding_viewpager_desc">Onboarding pages</string>
+    <!-- ── Sharing (beautiful format, not JSON) ── -->
+    <string name="share_result">Share Result</string>
+    <string name="share_failed">Could not generate share image</string>
+    <string name="share_chooser_title">Share result via</string>
+    <string name="share_app_name" translatable="false">SadaGuess</string>
+    <string name="share_vs_separator">vs</string>
+    <string name="share_winner_format">🏆 Winner: %1$s</string>
+    <string name="share_draw_label">🤝 It\'s a Draw!</string>
+    <string name="share_sudden_death_winner_format">⚡ Sudden Death Winner: %1$s</string>
+    <string name="share_streak_format">🔥 Best streak A: %1$d   B: %2$d   Rounds: %3$d</string>
+    <string name="share_hashtag_watermark" translatable="false">#SadaGuess</string>
+    <!-- Beautiful plain-text share format (not JSON) -->
+    <string name="share_text_format">🎮 SadaGuess Game Result\n\n🏅 %1$s  —  %2$d pts\n🏅 %3$s  —  %4$d pts\n\n📊 Rounds played: %5$d\n🔥 Best streak — A: %6$d | B: %7$d\n\n%8$s\n\n#SadaGuess #GuessingGame</string>
+    <string name="share_winner_line_format">🏆 Winner: %1$s!</string>
+    <string name="share_draw_line">🤝 Result: Draw!</string>
+    <string name="share_sudden_death_line_format">⚡ Sudden Death Winner: %1$s!</string>
 
-    <!-- ── CategoryAdapter (accessibility) ─────────────────────────────────── -->
-    <!-- Content description when a category chip is selected, e.g. "Animal selected" -->
-    <string name="category_content_desc_selected">%1$s selected</string>
-    <!-- Content description when a category chip is not selected, e.g. "Food not selected" -->
-    <string name="category_content_desc_not_selected">%1$s not selected</string>
-
-    <!-- ═══════════════════════════════════════════════════════════════════════
-             NEW STRINGS — Requirements 1-10
-             ═══════════════════════════════════════════════════════════════════════ -->
-
-    <!-- ── Req 1: Learn Game Screen ──────────────────────────────────────── -->
+    <!-- ── Learn how to play ── -->
     <string name="learn_game_page_title">How to Play</string>
-
     <string name="learn_section_overview_title">What is SadaGuess?</string>
     <string name="learn_section_overview_desc">SadaGuess is a group guessing game. Split into two teams, take turns drawing a card, and act out or describe the word — without saying it! The team that guesses the most words wins.</string>
-
     <string name="learn_section_new_game_title">Starting a New Game</string>
     <string name="learn_section_new_game_desc">Tap "New Game" from the Home screen. Enter team names, choose categories, set the number of rounds, pick a difficulty level, and set the timer duration. Then tap "Start Game".</string>
-
     <string name="learn_section_cards_title">The Card Screen</string>
-    <string name="learn_section_cards_desc">Tap the card to reveal the word. The active team must act out or describe the word while the timer counts down. Tap "Change Card" for a new word without resetting the timer. Tap "Restart Timer" to reset the clock only.</string>
-
+    <string name="learn_section_cards_desc">Tap the card to reveal the word. The active team must act out or describe the word while the timer counts down. Tap "New Card" for a new word without resetting the timer. Tap "Reset Timer" to reset the clock only.</string>
     <string name="learn_section_scoring_title">Scoring</string>
     <string name="learn_section_scoring_desc">When time is up, a dialog asks if the team found the card. Choose Yes and pick a score (1–3 points). Build a consecutive streak for combo multipliers: 3 correct in a row = 1.5×, 5 in a row = 2×!</string>
-
     <string name="learn_section_timer_title">Timer Tool</string>
-    <string name="learn_section_timer_desc">Access the standalone Timer tool from the Home screen. Set minutes and seconds, then tap Start. The timer plays a warning sound when time is almost up — just like in the main game.</string>
-
+    <string name="learn_section_timer_desc">Access the standalone Timer tool from the Home screen. Set minutes and seconds, then tap Start. A warning sound plays when time is almost up.</string>
     <string name="learn_section_dice_title">Dice Tool</string>
-    <string name="learn_section_dice_desc">Roll 1 or 2 dice from the Home screen. With 2 dice, set a \"double\" probability (25%–75%) to increase chances of matching numbers. A special sound plays when you roll doubles!</string>
-
+    <string name="learn_section_dice_desc">Roll 1 or 2 dice from the Home screen. With 2 dice, set a doubles probability (25%–75%). A special sound plays when you roll doubles!</string>
     <string name="learn_section_scoreboard_title">Score Board Tool</string>
-    <string name="learn_section_scoreboard_desc">Keep track of any game with the Score Board tool. Enter custom team names, tap a team\'s panel to add a point, pick their color, undo mistakes, or view the full history on a separate screen.</string>
-
+    <string name="learn_section_scoreboard_desc">Keep track of any game with the Score Board tool. Enter custom team names, tap a team\'s panel to add a point, pick their color, undo mistakes, or view the full history.</string>
     <string name="learn_section_wordpacks_title">Word Packs</string>
     <string name="learn_section_wordpacks_desc">Create custom word packs with your own words! Go to Settings → Manage Word Packs, or select one when creating a new game. Share packs with friends via text message.</string>
-
     <string name="learn_section_difficulty_title">Difficulty Levels</string>
-    <string name="learn_section_difficulty_desc">Choose Easy, Medium, or Hard when starting a game. Difficulty affects which cards are shown — Easy cards are common, familiar objects; Hard cards are rare or complex.</string>
-
+    <string name="learn_section_difficulty_desc">Choose Easy, Medium, or Hard when starting a game. Difficulty affects which cards are shown — Easy cards are common objects; Hard cards are rare or complex.</string>
     <string name="learn_section_streak_title">Streaks &amp; Combos</string>
     <string name="learn_section_streak_desc">Guess multiple cards correctly in a row to build a streak. At 3 consecutive correct guesses the score is multiplied by 1.5×. At 5 in a row it doubles to 2×. A miss resets the streak.</string>
-
     <string name="learn_section_hints_title">Hints</string>
-    <string name="learn_section_hints_desc">Each team gets 2 hints per game. Tap the hint button (before revealing the card) to see the first letter of the word. Use hints wisely — they don\'t refill!</string>
-
+    <string name="learn_section_hints_desc">Each team gets a set number of hints per game. Tap the hint button (before revealing the card) to see the next unrevealed letter of the word. Each tap reveals the next letter. Use hints wisely — they don\'t refill!</string>
     <string name="learn_section_leaderboard_title">Leaderboard</string>
-    <string name="learn_section_leaderboard_desc">The Leaderboard tracks each team\'s wins, losses, draws, best win streak, win rate, and total points scored — across ALL games ever played on this device. Play more games to climb the ranks!</string>
-
     <string name="learn_section_voice_title">Voice Clue Mode</string>
-    <string name="learn_section_voice_desc">Enable Voice Clue Mode when creating a game (or in Settings). When the card is revealed, the app reads the word aloud using text-to-speech. Helpful for players who prefer to hear rather than read.</string>
-
+    <string name="learn_section_voice_desc">Enable Voice Clue Mode when creating a game (or in Settings). When the card is revealed, the app reads the word aloud using text-to-speech.</string>
     <string name="learn_section_sudden_death_title">Sudden Death</string>
-    <string name="learn_section_sudden_death_desc">If both teams finish with an equal score, Sudden Death kicks in! Each team gets 30 seconds with one card. The first team to guess their card wins. No guesses = the game ends in a draw.</string>
+    <string name="learn_section_sudden_death_desc">If both teams finish with an equal score, Sudden Death kicks in! Each team gets 30 seconds with one card. The first team to guess their card wins.</string>
 
-    <!-- ── Req 3: Score Board ──────────────────────────────────────────── -->
-    <string name="no_history_yet">No score history yet. Add points to see history.</string>
-    <string name="tap_to_add_score">Tap to add point</string>
-    <string name="group_a_color_btn">🎨 Team A Color</string>
-    <string name="group_b_color_btn">🎨 Team B Color</string>
-    <string name="score_card_height">160dp</string>
-    <string name="label_group_names">Team Names</string>
+    <!-- ── History ── -->
+    <string name="history_item_index_format">%1$d -</string>
+    <string name="status_index_continue_format">%1$d - [%2$s]</string>
+    <string name="status_index_simple_format">%1$d - </string>
 
-    <!-- ── Req 4: Dice ────────────────────────────────────────────────── -->
-    <string name="dice_result_single">Rolled: %1$d</string>
-    <string name="dice_result_double">🎉 Double %1$d!</string>
-    <string name="dice_result_two">%1$d + %2$d = %3$d</string>
-    <string name="prob_0">0%%</string>
-    <string name="prob_25">25%%</string>
-    <string name="prob_50">50%%</string>
-    <string name="prob_75">75%%</string>
+    <!-- ── Categories ── -->
+    <string name="category_animal">Animal</string>
+    <string name="category_people">People</string>
+    <string name="category_food">Food</string>
+    <string name="category_challenge">Challenge</string>
+    <string name="category_place">Place</string>
+    <string name="category_occupation">Occupation</string>
+    <string name="category_behavior">Behaviour</string>
+    <string name="category_equipment">Equipment</string>
+    <string name="category_general">General</string>
+    <string name="category_select_all">Select All</string>
+    <string name="category_content_desc_selected">%1$s selected</string>
+    <string name="category_content_desc_not_selected">%1$s not selected</string>
 
-    <!-- ── Req 6: Recently Fragment ───────────────────────────────────── -->
-    <string name="game_in_progress">▶ In Progress</string>
-    <string name="round_of_format">Round %1$d of %2$d</string>
-    <string name="empty_state_icon">🃏</string>
+    <!-- ── Slider / onboarding ── -->
+    <string-array name="slider_all_title">
+        <item>Home Page</item>
+        <item>Recently Page</item>
+        <item>Settings Page</item>
+    </string-array>
+    <string-array name="slider_all_desc">
+        <item>Create New | Continue Last Game:\nStart a new game or resume the previous.\nLearn Button:\nGuides you to learn how to use the app.\nTools Section:\nTimer, Dice, and Score Board.</item>
+        <item>View all previous games with names and scores of each group.</item>
+        <item>How to Play · Dark Mode · Language · Privacy Policy · Word Packs · Sound Theme.</item>
+    </string-array>
 
-    <!-- ── Req 7: Leaderboard ─────────────────────────────────────────── -->
-    <string name="leaderboard_subtitle">Tracks all-time wins, streaks, and points across every game played.</string>
-    <string name="leaderboard_col_games">Games</string>
-    <string name="leaderboard_col_points">Points</string>
-    <string name="leaderboard_empty_icon">🏆</string>
-    <string name="leaderboard_games_played_format">%1$d</string>
-    <string name="leaderboard_points_format">%1$d</string>
+    <!-- ── Home texts ── -->
+    <string-array name="home_texts">
+        <item>Welcome to SadaGuess!</item>
+        <item>Pick a card!</item>
+        <item>Guess and have fun!</item>
+        <item>Challenge your friends!</item>
+    </string-array>
 
-    <!-- ── Req 8: Word Packs ──────────────────────────────────────────── -->
-    <string name="word_packs_subtitle">Create custom word lists for your games</string>
-    <string name="word_packs_empty_icon">📦</string>
-    <string name="word_packs_tap_fab_hint">Tap + to create your first word pack</string>
-    <string name="pack_times_played_format">Played: %1$d×</string>
-    <string name="word_pack_in_game_desc">Use a custom word list instead of built-in cards</string>
+    <!-- ── Language options ── -->
+    <string-array name="language_txt">
+        <item>English</item>
+        <item>Sorani</item>
+        <item>Badini</item>
+    </string-array>
 
-    <!-- ── Req 9: Create New Game ─────────────────────────────────────── -->
-    <string name="label_game_settings">Game Settings</string>
-    <string name="voice_clue_how_to_use">When enabled, the word is read aloud when the card is revealed</string>
-    <string name="txt_start_game">Start Game →</string>
-    <string name="colon_separator">:</string>
+    <!-- ── Round options ── -->
+    <string-array name="round">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>35</item>
+        <item>50</item>
+        <item>100</item>
+    </string-array>
 
-    <!-- ── Req 10: Cards Activity ─────────────────────────────────────── -->
-    <string name="txt_restart_timer">⏱ Reset Timer</string>
-    <string name="txt_change_card">🃏 New Card</string>
-    <string name="timer_default_display">01 : 00</string>
-    <string name="card_name_height">32dp</string>
-    <string name="winner_badge_label">🏆</string>
+    <!-- ── Hint count options (configurable) ── -->
+    <string-array name="hint_count_options">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
 
+    <!-- ── Misc ── -->
+    <string name="save_label">Save</string>
+    <string name="confirm_leave_game_old">Timer is running. Leave the game?</string>
+    <string name="draw_activity_title">Draw!</string>
+    <string name="sudden_death_30s">30</string>
 
+    <!-- ── Accessibility ── -->
+    <string name="timer_sound_toggle_desc">Toggle timer warning sound</string>
+    <string name="hint_button_accessibility">Use hint — reveals next letter of the word</string>
+    <string name="card_reveal_accessibility">Tap to reveal card word</string>
+    <string name="score_card_accessibility_a">Group A score card. Tap to add a point.</string>
+    <string name="score_card_accessibility_b">Group B score card. Tap to add a point.</string>
 </resources>

@@ -1,26 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    Base dimensions — applies to "normal" phones (~360 dp wide, sw360dp).
-    Override in sw320dp / sw400dp / sw480dp / sw600dp / sw720dp buckets.
-
-    Grid: 4dp base unit, 8dp standard spacing step.
-    Touch targets: minimum 48×48dp (Material Design spec).
--->
+<!-- Default dimensions: sw360dp baseline (~5" phones) -->
 <resources>
-
     <!-- ── Typography ── -->
-    <dimen name="primary_size">30sp</dimen>
-    <dimen name="secondary_size">24sp</dimen>
-    <dimen name="buttons_size">20sp</dimen>
-    <dimen name="sub_font_size">16sp</dimen>
+    <dimen name="primary_size">28sp</dimen>
+    <dimen name="secondary_size">22sp</dimen>
+    <dimen name="buttons_size">18sp</dimen>
+    <dimen name="sub_font_size">15sp</dimen>
     <dimen name="normal_fond_size">12sp</dimen>
+    <dimen name="score_display_size">48sp</dimen>
 
-    <!-- ── Icon / control sizes ── -->
-    <dimen name="back_button_size">48dp</dimen>   <!-- min touch target -->
-    <dimen name="image_size">72dp</dimen>
+    <!-- ── Icon / Image sizes ── -->
+    <dimen name="back_button_size">48dp</dimen>
+    <dimen name="image_size">64dp</dimen>
+    <dimen name="image_get_started_size">260dp</dimen>
 
-    <!-- ── Button sizes (≥ 48dp height → accessible touch target) ── -->
-    <dimen name="primary_button_size_length">144dp</dimen>
+    <!-- ── Button sizes ── -->
+    <dimen name="primary_button_size_length">140dp</dimen>
     <dimen name="primary_button_size_height">48dp</dimen>
     <dimen name="big_button_height">56dp</dimen>
     <dimen name="big_button_min_width">160dp</dimen>
@@ -28,48 +23,65 @@
     <dimen name="button_horizontal_padding_large">24dp</dimen>
     <dimen name="button_horizontal_padding_small">8dp</dimen>
 
-    <!-- ── Progress bar ── -->
-    <dimen name="progress_bar_size">192dp</dimen>
+    <!-- ── Progress / Card ── -->
+    <dimen name="progress_bar_size">180dp</dimen>
+    <dimen name="card_width">220dp</dimen>
+    <dimen name="card_height">310dp</dimen>
+    <dimen name="card_name_height">36dp</dimen>
 
-    <!-- ── Splash / get-started image ── -->
-    <dimen name="image_get_started_size">280dp</dimen>
+    <!-- ── Game icon ── -->
+    <dimen name="game_icon_width">140dp</dimen>
+    <dimen name="game_icon_higth">185dp</dimen>
 
-    <!-- ── Card sizes ── -->
-    <dimen name="card_width">240dp</dimen>
-    <dimen name="card_height">340dp</dimen>
+    <!-- ── Tool icon ── -->
+    <dimen name="tool_icon_width">88dp</dimen>
+    <dimen name="tool_icon_higth">115dp</dimen>
 
-    <!-- ── Game icon sizes ── -->
-    <dimen name="game_icon_width">144dp</dimen>
-    <dimen name="game_icon_higth">192dp</dimen>
+    <!-- ── Category chip ── -->
+    <dimen name="category_width_size">56dp</dimen>
+    <dimen name="category_height_size">74dp</dimen>
 
-    <!-- ── Tool icon sizes ── -->
-    <dimen name="tool_icon_width">96dp</dimen>
-    <dimen name="tool_icon_higth">124dp</dimen>
+    <!-- ── Input ── -->
+    <dimen name="text_input_length">220dp</dimen>
+    <dimen name="text_input_lenght">220dp</dimen>
 
-    <!-- ── Category grid ── -->
-    <dimen name="category_width_size">60dp</dimen>
-    <dimen name="category_height_size">80dp</dimen>
+    <!-- ── Score card ── -->
+    <dimen name="score_card_height">140dp</dimen>
 
-    <!-- ── Text input ── -->
-    <dimen name="text_input_length">240dp</dimen>
-    <!-- Legacy alias kept so existing code compiles -->
-    <dimen name="text_input_lenght">240dp</dimen>
-
-    <!-- ── Spacing system (4 / 8 dp grid) ── -->
+    <!-- ── Spacing scale (4dp base) ── -->
     <dimen name="small_size_layout">4dp</dimen>
     <dimen name="primary_size_layout">8dp</dimen>
     <dimen name="secondary_size_layout">12dp</dimen>
     <dimen name="third_size_layout">16dp</dimen>
-    <dimen name="fourth_size_layout">20dp</dimen>
-    <dimen name="fifth_size_layout">24dp</dimen>
+    <dimen name="fourth_size_layout">24dp</dimen>
+    <dimen name="fifth_size_layout">28dp</dimen>
     <dimen name="big_size_layout">48dp</dimen>
     <dimen name="very_big_size_layout">64dp</dimen>
 
-    <!-- ── Secondary size (used standalone in some places) ── -->
-    <dimen name="secondary_size_layout_alias">12dp</dimen>
+    <!-- ── Touch targets (min 48dp per Material) ── -->
+    <dimen name="min_touch_target">48dp</dimen>
+    <dimen name="icon_touch_target">48dp</dimen>
 
-    <dimen name="score_card_height">160dp</dimen>
-    <dimen name="score_display_size">48sp</dimen>
-    <dimen name="card_name_height">32dp</dimen>
+    <!-- ── Bottom nav ── -->
+    <dimen name="bottom_nav_height">64dp</dimen>
+    <dimen name="bottom_nav_icon_size">24dp</dimen>
 
+    <!-- ── Corner radii ── -->
+    <dimen name="radius_small">8dp</dimen>
+    <dimen name="radius_medium">12dp</dimen>
+    <dimen name="radius_large">20dp</dimen>
+    <dimen name="radius_xl">28dp</dimen>
+    <dimen name="radius_card">16dp</dimen>
+
+    <!-- ── Elevation ── -->
+    <dimen name="elevation_card">4dp</dimen>
+    <dimen name="elevation_dialog">8dp</dimen>
+    <dimen name="elevation_fab">6dp</dimen>
+
+    <!-- ── Divider ── -->
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="divider_thick">2dp</dimen>
+
+    <!-- ── Hint count configuration (configurable default) ── -->
+    <dimen name="default_hint_count">2dp</dimen>
 </resources>

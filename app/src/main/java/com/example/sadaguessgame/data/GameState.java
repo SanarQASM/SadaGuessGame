@@ -7,55 +7,63 @@ import java.util.List;
  * Central model representing the complete state of one game session.
  * Serialized to JSON via Gson and persisted in SharedPreferences.
  *
- * NEW FIELDS (v2):
- *  - streakA / streakB           → current consecutive-correct streak per group
- *  - maxStreakA / maxStreakB      → best streak achieved this game
- *  - hintsRemainingA/B           → hint tokens left (default 2 each)
- *  - comboScoresA/B              → parallel list: whether each score had combo applied
- *  - difficultyLevel             → "easy" | "medium" | "hard"
- *  - voiceClueModeEnabled        → TTS toggle
- *  - isSuddenDeath               → flag for tie-breaker round
- *  - suddenDeathWinner           → GROUP_A | GROUP_B | -1
- *  - wordPackId                  → -1 = built-in assets, else custom pack Room ID
+ * v3 changes:
+ *  - hintsRemainingA/B now initialised from configurable hintCount field
+ *  - hintsRevealedLettersA/B track how many letters have been revealed per card
+ *  - timerSoundEnabled per-game toggle
  */
 public class GameState {
 
     // ─── Group constants ──────────────────────────────────────────────────────
-    public static final int GROUP_A    = 0;
-    public static final int GROUP_B    = 1;
-    public static final int NO_WINNER  = -1;
+    public static final int GROUP_A   = 0;
+    public static final int GROUP_B   = 1;
+    public static final int NO_WINNER = -1;
+
+    /** Default hint tokens when the user has not configured a custom value. */
+    public static final int DEFAULT_HINT_COUNT = 2;
 
     // ─── Identity ─────────────────────────────────────────────────────────────
     public String gameId = "";
 
     // ─── Scores ───────────────────────────────────────────────────────────────
-    public List<Integer> scoresA        = new ArrayList<>();
-    public List<Integer> scoresB        = new ArrayList<>();
-    public List<Boolean> comboScoresA   = new ArrayList<>();   // NEW: was combo applied?
-    public List<Boolean> comboScoresB   = new ArrayList<>();   // NEW
+    public List<Integer> scoresA      = new ArrayList<>();
+    public List<Integer> scoresB      = new ArrayList<>();
+    public List<Boolean> comboScoresA = new ArrayList<>();
+    public List<Boolean> comboScoresB = new ArrayList<>();
 
-    // ─── Streak (NEW) ─────────────────────────────────────────────────────────
+    // ─── Streak ───────────────────────────────────────────────────────────────
     public int streakA    = 0;
     public int streakB    = 0;
     public int maxStreakA = 0;
     public int maxStreakB = 0;
 
-    // ─── Hints (NEW) ──────────────────────────────────────────────────────────
-    public int hintsRemainingA = 2;
-    public int hintsRemainingB = 2;
+    // ─── Hints ────────────────────────────────────────────────────────────────
+    /** Total hint tokens configured for this game (set by the user before start). */
+    public int hintCount       = DEFAULT_HINT_COUNT;
+    public int hintsRemainingA = DEFAULT_HINT_COUNT;
+    public int hintsRemainingB = DEFAULT_HINT_COUNT;
+    /**
+     * How many letters have already been revealed for the CURRENT card
+     * for each group.  Reset to 0 each time a new card is loaded.
+     */
+    public int hintsRevealedLettersA = 0;
+    public int hintsRevealedLettersB = 0;
 
-    // ─── Difficulty (NEW) ─────────────────────────────────────────────────────
-    public String difficultyLevel = "medium";   // "easy" | "medium" | "hard"
+    // ─── Difficulty ───────────────────────────────────────────────────────────
+    public String difficultyLevel = "medium";
 
-    // ─── Voice clue (NEW) ─────────────────────────────────────────────────────
+    // ─── Voice clue ───────────────────────────────────────────────────────────
     public boolean voiceClueModeEnabled = false;
 
-    // ─── Sudden death (NEW) ───────────────────────────────────────────────────
-    public boolean isSuddenDeath      = false;
-    public int     suddenDeathWinner  = NO_WINNER;
+    // ─── Timer sound toggle (per-game) ───────────────────────────────────────
+    public boolean timerSoundEnabled = true;
 
-    // ─── Custom word pack (NEW) ───────────────────────────────────────────────
-    public long wordPackId = -1L;   // -1 = use built-in assets
+    // ─── Sudden death ─────────────────────────────────────────────────────────
+    public boolean isSuddenDeath     = false;
+    public int     suddenDeathWinner = NO_WINNER;
+
+    // ─── Custom word pack ─────────────────────────────────────────────────────
+    public long wordPackId = -1L;
 
     // ─── Categories & cards ───────────────────────────────────────────────────
     public List<String> categories    = new ArrayList<>();
@@ -75,9 +83,9 @@ public class GameState {
     public int    groupBColor = 0;
 
     // ─── Turn flags ───────────────────────────────────────────────────────────
-    public boolean isFinished        = false;
-    public boolean turnGroupAFinish  = false;
-    public boolean turnGroupBFinish  = false;
+    public boolean isFinished       = false;
+    public boolean turnGroupAFinish = false;
+    public boolean turnGroupBFinish = false;
 
     // ═════════════════════════════════════════════════════════════════════════
     // Score helpers
@@ -98,13 +106,9 @@ public class GameState {
     }
 
     // ═════════════════════════════════════════════════════════════════════════
-    // Streak helpers (NEW)
+    // Streak helpers
     // ═════════════════════════════════════════════════════════════════════════
 
-    /**
-     * Call after a correct guess.  Returns the combo multiplier to apply:
-     * streak 1-2 → 1.0x,  streak 3-4 → 1.5x,  streak 5+ → 2.0x
-     */
     public float recordCorrectGuess(int group) {
         if (group == GROUP_A) {
             streakA++;
@@ -119,7 +123,6 @@ public class GameState {
         }
     }
 
-    /** Call after a miss (score = 0). */
     public void recordMiss(int group) {
         if (group == GROUP_A) streakA = 0;
         else                  streakB = 0;
@@ -136,20 +139,47 @@ public class GameState {
     }
 
     // ═════════════════════════════════════════════════════════════════════════
-    // Hint helpers (NEW)
+    // Hint helpers (v3 — progressive letter reveal)
     // ═════════════════════════════════════════════════════════════════════════
 
     public boolean canUseHint(int group) {
         return group == GROUP_A ? hintsRemainingA > 0 : hintsRemainingB > 0;
     }
 
+    /**
+     * Consume one hint token for the given group and return which letter
+     * index (0-based) should be revealed next.
+     * Returns -1 if no hints are available.
+     */
+    public int consumeHintAndGetLetterIndex(int group) {
+        if (!canUseHint(group)) return -1;
+
+        int letterIndex;
+        if (group == GROUP_A) {
+            letterIndex = hintsRevealedLettersA;
+            hintsRevealedLettersA++;
+            hintsRemainingA--;
+        } else {
+            letterIndex = hintsRevealedLettersB;
+            hintsRevealedLettersB++;
+            hintsRemainingB--;
+        }
+        return letterIndex;
+    }
+
+    /** Legacy single-consume (kept for compatibility). */
     public void consumeHint(int group) {
-        if (group == GROUP_A && hintsRemainingA > 0) hintsRemainingA--;
-        else if (group == GROUP_B && hintsRemainingB > 0) hintsRemainingB--;
+        consumeHintAndGetLetterIndex(group);
     }
 
     public int getHintsRemaining(int group) {
         return group == GROUP_A ? hintsRemainingA : hintsRemainingB;
+    }
+
+    /** Called when a new card is loaded — resets letter-reveal counters. */
+    public void resetHintLetterCounters() {
+        hintsRevealedLettersA = 0;
+        hintsRevealedLettersB = 0;
     }
 
     // ═════════════════════════════════════════════════════════════════════════
@@ -164,9 +194,6 @@ public class GameState {
         return currentRound >= totalRounds && isRoundComplete();
     }
 
-    /**
-     * True if the trailing group cannot catch up even with max score (3) per remaining round.
-     */
     public boolean canSkipRemainingRounds() {
         if (isFinished) return false;
         int roundsLeft = totalRounds - currentRound;
@@ -176,9 +203,6 @@ public class GameState {
         return (a > b + maxPossible) || (b > a + maxPossible);
     }
 
-    /**
-     * True when the game ends in an exact draw — triggers sudden death.
-     */
     public boolean isExactDraw() {
         return isGameOver() && getTotalScoreA() == getTotalScoreB();
     }
@@ -211,16 +235,18 @@ public class GameState {
     }
 
     // ═════════════════════════════════════════════════════════════════════════
-    // Null-safety guard — call after Gson deserialization
+    // Null-safety guard
     // ═════════════════════════════════════════════════════════════════════════
 
     public void ensureNonNullLists() {
-        if (scoresA      == null) scoresA      = new ArrayList<>();
-        if (scoresB      == null) scoresB      = new ArrayList<>();
-        if (comboScoresA == null) comboScoresA = new ArrayList<>();
-        if (comboScoresB == null) comboScoresB = new ArrayList<>();
-        if (categories   == null) categories   = new ArrayList<>();
-        if (usedCardPaths== null) usedCardPaths= new ArrayList<>();
+        if (scoresA       == null) scoresA       = new ArrayList<>();
+        if (scoresB       == null) scoresB       = new ArrayList<>();
+        if (comboScoresA  == null) comboScoresA  = new ArrayList<>();
+        if (comboScoresB  == null) comboScoresB  = new ArrayList<>();
+        if (categories    == null) categories    = new ArrayList<>();
+        if (usedCardPaths == null) usedCardPaths = new ArrayList<>();
         if (difficultyLevel == null) difficultyLevel = "medium";
+        // Migrate old games that didn't have hintCount
+        if (hintCount <= 0) hintCount = DEFAULT_HINT_COUNT;
     }
 }

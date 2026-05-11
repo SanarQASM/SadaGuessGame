@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
@@ -28,31 +27,22 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Game setup screen.
- *
- * NEW in v2:
- *  • Difficulty level spinner (Easy / Medium / Hard).
- *  • Voice clue toggle switch.
- *  • "Use Word Pack" button that opens WordPackActivity.
- *    If a pack is selected its id is stored in GameState.wordPackId
- *    and the category RecyclerView is hidden (not needed for custom packs).
- */
 public class CreateNewGameActivity extends BaseActivity {
 
     // ─── Views ───────────────────────────────────────────────────────────────
-    private NumberPicker      secondPicker, minutePicker;
-    private EditText          groupNameOne, groupNameTwo;
-    private Spinner           roundSpinner, difficultySpinner;
+    private NumberPicker    secondPicker, minutePicker;
+    private EditText        groupNameOne, groupNameTwo;
+    private Spinner         roundSpinner, difficultySpinner, hintCountSpinner;
     @SuppressWarnings("deprecation")
-    private Switch            voiceClueSwitch;
-    private CategoryAdapter   categoryAdapter;
-    private MaterialButton    btnWordPack;
-    private View              categorySection;
+    private Switch          voiceClueSwitch;
+    private CategoryAdapter categoryAdapter;
+    private MaterialButton  btnWordPack;
+    private View            categorySection;
 
     // ─── State ───────────────────────────────────────────────────────────────
     private GameState newGame;
-    private long      selectedWordPackId = -1L;   // -1 = use built-in assets
+    private long      selectedWordPackId = -1L;
+    private int       selectedHintCount  = GameState.DEFAULT_HINT_COUNT;
 
     // ─────────────────────────────────────────────────────────────────────────
 
@@ -61,14 +51,12 @@ public class CreateNewGameActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_new_game_activity);
 
-        if (getSupportActionBar() != null)
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         newGame = new GameState();
 
         initPickers();
         initRoundSpinner();
         initDifficultySpinner();
+        initHintCountSpinner();
         initRecycler();
         initGroupInputs();
         initVoiceClueSwitch();
@@ -80,7 +68,7 @@ public class CreateNewGameActivity extends BaseActivity {
 
     private void initBackButton() {
         ImageView btn = findViewById(R.id.back_home_activity_button);
-        btn.setOnClickListener(v -> finish());
+        if (btn != null) btn.setOnClickListener(v -> finish());
     }
 
     // ─── Pickers ─────────────────────────────────────────────────────────────
@@ -88,12 +76,17 @@ public class CreateNewGameActivity extends BaseActivity {
     private void initPickers() {
         minutePicker = findViewById(R.id.minutePicker2);
         secondPicker = findViewById(R.id.secondPicker2);
+
         minutePicker.setMinValue(0); minutePicker.setMaxValue(59);
         secondPicker.setMinValue(0); secondPicker.setMaxValue(59);
         minutePicker.setWrapSelectorWheel(true);
         secondPicker.setWrapSelectorWheel(true);
         minutePicker.setValue(1);
         secondPicker.setValue(0);
+
+        // Always LTR regardless of app language
+        minutePicker.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+        secondPicker.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
     }
 
     // ─── Round spinner ───────────────────────────────────────────────────────
@@ -105,16 +98,17 @@ public class CreateNewGameActivity extends BaseActivity {
                 android.R.layout.simple_spinner_item, roundsStr);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         roundSpinner.setAdapter(adapter);
-        roundSpinner.setSelection(2);   // default 10
+        roundSpinner.setSelection(2); // default 10
         roundSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override public void onItemSelected(AdapterView<?> p, View v, int pos, long id) {
-                newGame.totalRounds = Integer.parseInt(roundsStr[pos]);
+                try { newGame.totalRounds = Integer.parseInt(roundsStr[pos]); }
+                catch (NumberFormatException ignored) {}
             }
             @Override public void onNothingSelected(AdapterView<?> p) {}
         });
     }
 
-    // ─── Difficulty spinner (NEW) ─────────────────────────────────────────────
+    // ─── Difficulty spinner ───────────────────────────────────────────────────
 
     private void initDifficultySpinner() {
         difficultySpinner = findViewById(R.id.difficultySpinner);
@@ -129,7 +123,7 @@ public class CreateNewGameActivity extends BaseActivity {
                 android.R.layout.simple_spinner_item, labels);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         difficultySpinner.setAdapter(adapter);
-        difficultySpinner.setSelection(1);   // default Medium
+        difficultySpinner.setSelection(1); // default Medium
         difficultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override public void onItemSelected(AdapterView<?> p, View v, int pos, long id) {
                 switch (pos) {
@@ -142,7 +136,33 @@ public class CreateNewGameActivity extends BaseActivity {
         });
     }
 
-    // ─── Voice clue switch (NEW) ──────────────────────────────────────────────
+    // ─── Hint count spinner (NEW) ─────────────────────────────────────────────
+
+    private void initHintCountSpinner() {
+        hintCountSpinner = findViewById(R.id.hintCountSpinner);
+        if (hintCountSpinner == null) return;
+
+        String[] options = getResources().getStringArray(R.array.hint_count_options);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, options);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        hintCountSpinner.setAdapter(adapter);
+        // Default: index 2 = "2"
+        hintCountSpinner.setSelection(GameState.DEFAULT_HINT_COUNT);
+        selectedHintCount = GameState.DEFAULT_HINT_COUNT;
+
+        hintCountSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override public void onItemSelected(AdapterView<?> p, View v, int pos, long id) {
+                try { selectedHintCount = Integer.parseInt(options[pos]); }
+                catch (NumberFormatException ignored) {
+                    selectedHintCount = GameState.DEFAULT_HINT_COUNT;
+                }
+            }
+            @Override public void onNothingSelected(AdapterView<?> p) {}
+        });
+    }
+
+    // ─── Voice clue switch ───────────────────────────────────────────────────
 
     @SuppressWarnings("deprecation")
     private void initVoiceClueSwitch() {
@@ -152,15 +172,14 @@ public class CreateNewGameActivity extends BaseActivity {
                 newGame.voiceClueModeEnabled = checked);
     }
 
-    // ─── Word pack button (NEW) ───────────────────────────────────────────────
+    // ─── Word pack button ─────────────────────────────────────────────────────
 
     private void initWordPackButton() {
-        btnWordPack    = findViewById(R.id.btnSelectWordPack);
+        btnWordPack     = findViewById(R.id.btnSelectWordPack);
         categorySection = findViewById(R.id.categorySection);
         if (btnWordPack == null) return;
 
         btnWordPack.setOnClickListener(v -> {
-            // Open WordPackActivity for selection; result comes back in onActivityResult
             Intent intent = new Intent(this, WordPackActivity.class);
             intent.putExtra(WordPackActivity.EXTRA_SELECT_MODE, true);
             startActivityForResult(intent, WordPackActivity.REQ_SELECT_PACK);
@@ -174,16 +193,13 @@ public class CreateNewGameActivity extends BaseActivity {
                 && resultCode == RESULT_OK && data != null) {
             selectedWordPackId = data.getLongExtra(WordPackActivity.RESULT_PACK_ID, -1L);
             if (selectedWordPackId >= 0) {
-                WordPack pack = WordPackStorage.getInstance(this)
-                        .getPackById(selectedWordPackId);
+                WordPack pack = WordPackStorage.getInstance(this).getPackById(selectedWordPackId);
                 if (pack != null) {
                     btnWordPack.setText(pack.name);
-                    // Hide category grid — not needed for custom packs
                     if (categorySection != null)
                         categorySection.setVisibility(View.GONE);
                 }
             } else {
-                // User deselected
                 selectedWordPackId = -1L;
                 btnWordPack.setText(R.string.btn_select_word_pack);
                 if (categorySection != null)
@@ -197,26 +213,34 @@ public class CreateNewGameActivity extends BaseActivity {
     private void initGroupInputs() {
         groupNameOne = findViewById(R.id.groupNameOne);
         groupNameTwo = findViewById(R.id.groupNameTwo);
-        Button btnNext = findViewById(R.id.btnNext);
-        btnNext.setOnClickListener(v -> {
-            if (validateGroupNames()) {
-                buildAndSaveGame();
-                openCardActivity();
-            }
-        });
+
+        MaterialButton btnNext = findViewById(R.id.btnNext);
+        if (btnNext != null) {
+            btnNext.setOnClickListener(v -> {
+                if (validateGroupNames()) {
+                    buildAndSaveGame();
+                    openCardActivity();
+                }
+            });
+        }
     }
 
     private void buildAndSaveGame() {
-        newGame.gameId        = "game_" + System.currentTimeMillis();
-        newGame.groupAName    = groupNameOne.getText().toString().trim();
-        newGame.groupBName    = groupNameTwo.getText().toString().trim();
-        newGame.minutePicker  = minutePicker.getValue();
-        newGame.secondPicker  = secondPicker.getValue();
-        newGame.totalRounds   = Integer.parseInt(roundSpinner.getSelectedItem().toString());
-        newGame.wordPackId    = selectedWordPackId;
+        newGame.gameId       = "game_" + System.currentTimeMillis();
+        newGame.groupAName   = groupNameOne.getText().toString().trim();
+        newGame.groupBName   = groupNameTwo.getText().toString().trim();
+        newGame.minutePicker = minutePicker.getValue();
+        newGame.secondPicker = secondPicker.getValue();
+        newGame.totalRounds  = Integer.parseInt(
+                roundSpinner.getSelectedItem().toString());
+        newGame.wordPackId   = selectedWordPackId;
+
+        // Set configurable hint count
+        newGame.hintCount        = selectedHintCount;
+        newGame.hintsRemainingA  = selectedHintCount;
+        newGame.hintsRemainingB  = selectedHintCount;
 
         if (selectedWordPackId < 0) {
-            // Use selected categories
             newGame.categories = categoryAdapter.getSelectedCategoryNames();
         }
 
@@ -258,19 +282,26 @@ public class CreateNewGameActivity extends BaseActivity {
     // ─── Defaults ────────────────────────────────────────────────────────────
 
     private void applyDefaultsIfNeeded() {
-        if (newGame.wordPackId < 0 && categoryAdapter.getSelectedCategoryNames().isEmpty())
+        if (newGame.wordPackId < 0 &&
+                (newGame.categories == null || newGame.categories.isEmpty())) {
             categoryAdapter.selectAll();
-        if (minutePicker.getValue() == 0 && secondPicker.getValue() == 0)
+            newGame.categories = categoryAdapter.getSelectedCategoryNames();
+        }
+        if (minutePicker.getValue() == 0 && secondPicker.getValue() == 0) {
             minutePicker.setValue(1);
+            newGame.minutePicker = 1;
+        }
     }
 
     // ─── Recycler ────────────────────────────────────────────────────────────
 
     private void initRecycler() {
         RecyclerView recycler = findViewById(R.id.recyclerCategory);
-        CategoryCards[]  cats  = CategoryCards.values();
-        CategoryType[]   types = CategoryType.values();
-        List<Category>   list  = new ArrayList<>();
+        if (recycler == null) return;
+
+        CategoryCards[] cats  = CategoryCards.values();
+        CategoryType[]  types = CategoryType.values();
+        List<Category>  list  = new ArrayList<>();
         for (int i = 0; i < cats.length; i++) {
             list.add(new Category(
                     cats[i].getDisplayName(this),

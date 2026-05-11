@@ -21,27 +21,27 @@
             android:text="@string/cards_page_title"
             android:textColor="@color/primary_text"
             android:textSize="@dimen/primary_size"
+            android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <!-- ── Divider ── -->
         <View
             android:id="@+id/div_under_title"
             android:layout_width="0dp"
-            android:layout_height="1dp"
+            android:layout_height="@dimen/divider_height"
             android:background="@color/divider_color"
             android:layout_marginTop="4dp"
             app:layout_constraintTop_toBottomOf="@id/cardsTitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!--
-             ── Card container ──
-             FIXED dimensions via card_width / card_height dimens.
-             scaleType="centerCrop" ensures image fills without resizing the view.
-             The FrameLayout wrapper prevents any constraint re-measurement
-             from changing the ShapeableImageView's size.
+            ── Card container ──
+            CRITICAL: width and height are FIXED via dimens — never wrap_content.
+            This prevents the card from changing size when image content changes.
+            scaleType="centerCrop" ensures the bitmap fills the fixed area.
         -->
         <FrameLayout
             android:id="@+id/cardFrameContainer"
@@ -64,9 +64,14 @@
                 android:outlineSpotShadowColor="@color/black"
                 android:clickable="true"
                 android:focusable="true"
-                android:foreground="?attr/selectableItemBackground">
+                android:foreground="?attr/selectableItemBackground"
+                android:contentDescription="@string/card_reveal_accessibility">
 
-                <!-- FIXED SIZE card image — never changes dimensions -->
+                <!--
+                    FIXED SIZE: android:layout_width and android:layout_height
+                    use explicit dimen tokens — NEVER match_parent or wrap_content.
+                    scaleType=centerCrop ensures bitmap fills without resizing the view.
+                -->
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/cardImage"
                     android:layout_width="@dimen/card_width"
@@ -74,9 +79,9 @@
                     android:layout_margin="10dp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/cards"
-                    app:shapeAppearanceOverlay="@style/RoundedCard"/>
+                    app:shapeAppearanceOverlay="@style/RoundedCard" />
 
-                <!-- Card name — fixed height so it cannot push card size -->
+                <!-- Fixed height so it cannot push the card's dimensions -->
                 <TextView
                     android:id="@+id/cardName"
                     android:layout_width="@dimen/card_width"
@@ -89,7 +94,8 @@
                     android:layout_marginBottom="5dp"
                     android:gravity="center"
                     android:ellipsize="end"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:singleLine="true" />
             </LinearLayout>
         </FrameLayout>
 
@@ -106,7 +112,7 @@
             android:layout_marginTop="4dp"
             app:layout_constraintTop_toBottomOf="@id/cardFrameContainer"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- ── Streak badge ── -->
         <TextView
@@ -124,7 +130,7 @@
             android:layout_marginTop="4dp"
             app:layout_constraintTop_toBottomOf="@id/warningTip"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- ── Group turn ── -->
         <TextView
@@ -139,7 +145,7 @@
             android:layout_marginTop="4dp"
             app:layout_constraintTop_toBottomOf="@id/streakBadge"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <!-- ── Hint row ── -->
         <LinearLayout
@@ -155,13 +161,13 @@
 
             <ImageButton
                 android:id="@+id/hintButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="@dimen/min_touch_target"
+                android:layout_height="@dimen/min_touch_target"
                 android:src="@drawable/ic_close"
                 android:background="@drawable/bg_category_unselected"
                 android:padding="6dp"
-                android:contentDescription="@string/hint_button_desc"
-                android:scaleType="centerInside"/>
+                android:contentDescription="@string/hint_button_accessibility"
+                android:scaleType="centerInside" />
 
             <TextView
                 android:id="@+id/hintCountTv"
@@ -172,7 +178,7 @@
                 android:fontFamily="@font/subtext_font"
                 android:textSize="@dimen/sub_font_size"
                 android:textStyle="bold"
-                android:layout_marginStart="6dp"/>
+                android:layout_marginStart="6dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -181,16 +187,17 @@
                 android:textColor="@color/primary_text"
                 android:fontFamily="@font/subtext_font"
                 android:textSize="@dimen/normal_fond_size"
-                android:layout_marginStart="4dp"/>
+                android:layout_marginStart="4dp" />
         </LinearLayout>
 
-        <!-- ── Timer circle ── -->
+        <!-- ── Timer circle — always LTR ── -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/timerContainer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:layout_marginTop="@dimen/secondary_size_layout"
+            android:layoutDirection="ltr"
             app:layout_constraintTop_toBottomOf="@id/hintRow"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/colorButtonsContainer">
@@ -207,23 +214,29 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent" />
 
+            <!--
+                Timer text: textDirection + layoutDirection forced LTR in XML AND code.
+                This prevents RTL languages (Kurdish) from reversing "01 : 30".
+            -->
             <TextView
                 android:id="@+id/timeDisplay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/buttons_font"
                 android:textDirection="ltr"
+                android:layoutDirection="ltr"
                 android:padding="5dp"
                 android:text="@string/timer_default_display"
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/buttons_size"
                 android:textStyle="bold"
+                android:gravity="center"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -233,10 +246,11 @@
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/normal_fond_size"
                 android:textStyle="bold"
+                android:gravity="center"
                 app:layout_constraintTop_toBottomOf="@id/circularProgressBar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_margin="8dp"/>
+                android:layout_margin="8dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- ── Control buttons column ── -->
@@ -252,39 +266,42 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/startTimer"
                 style="@style/PrimaryButtonStyle"
-                android:text="@string/txt_start"/>
+                android:text="@string/txt_start" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/stopTimer"
                 style="@style/PrimaryButtonStyle"
                 android:layout_marginTop="5dp"
-                android:text="@string/txt_stop"/>
+                android:text="@string/txt_stop" />
 
-            <!--
-                RESTART TIMER: resets the countdown only.
-                Does NOT change the card.
-            -->
+            <!-- Restart timer ONLY — does NOT change the card -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/restartTimer"
                 style="@style/PrimaryButtonStyle"
                 android:layout_marginTop="5dp"
-                android:text="@string/txt_restart_timer"/>
+                android:text="@string/txt_restart_timer" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/endTimer"
                 style="@style/PrimaryButtonStyle"
                 android:layout_marginTop="5dp"
-                android:text="@string/txt_end"/>
+                android:text="@string/txt_end" />
 
-            <!--
-                CHANGE CARD: loads a new card.
-                Does NOT touch the timer.
-            -->
+            <!-- Change card — does NOT touch the timer -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/changeCardButton"
                 style="@style/PrimaryButtonStyle"
                 android:layout_marginTop="5dp"
-                android:text="@string/txt_change_card"/>
+                android:text="@string/txt_change_card" />
+
+            <!-- Timer sound toggle -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/timerSoundToggleBtn"
+                style="@style/SecondaryButtonStyle"
+                android:layout_marginTop="5dp"
+                android:text="@string/timer_sound_enabled"
+                android:maxLines="1"
+                android:ellipsize="end" />
 
         </LinearLayout>
 

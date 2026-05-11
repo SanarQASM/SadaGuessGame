@@ -1,37 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Medium phones: sw400dp (~5"–5.5") -->
 <resources>
-    <!-- HomeFragment TextSwitcher text size -->
-    <dimen name="primary_size">32sp</dimen>
-    <dimen name="secondary_size">26sp</dimen>
-    <dimen name="buttons_size">22sp</dimen>
-    <dimen name="sub_font_size">18sp</dimen>
-    <dimen name="normal_fond_size">12sp</dimen>
-    <dimen name="back_button_size">40dp</dimen>
+    <dimen name="primary_size">26sp</dimen>
+    <dimen name="secondary_size">21sp</dimen>
+    <dimen name="buttons_size">17sp</dimen>
+    <dimen name="sub_font_size">14sp</dimen>
+    <dimen name="normal_fond_size">11sp</dimen>
+    <dimen name="score_display_size">44sp</dimen>
 
-    <dimen name="primary_button_size_length">150dp</dimen>
-    <dimen name="primary_button_size_height">50dp</dimen>
-    <dimen name="progress_bar_size">210dp</dimen>
+    <dimen name="back_button_size">48dp</dimen>
+    <dimen name="image_size">60dp</dimen>
+    <dimen name="image_get_started_size">240dp</dimen>
 
-    <dimen name="image_get_started_size">300dp</dimen>
-    <dimen name="card_width">250dp</dimen>
-    <dimen name="card_height">350dp</dimen>
-    <dimen name="game_icon_width">160dp</dimen>
-    <dimen name="game_icon_higth">210dp</dimen>
-    <dimen name="tool_icon_width">100dp</dimen>
-    <dimen name="tool_icon_higth">130dp</dimen>
+    <dimen name="primary_button_size_length">130dp</dimen>
+    <dimen name="primary_button_size_height">48dp</dimen>
+    <dimen name="big_button_height">52dp</dimen>
+    <dimen name="big_button_min_width">148dp</dimen>
+    <dimen name="button_horizontal_padding">14dp</dimen>
+    <dimen name="button_horizontal_padding_large">20dp</dimen>
+    <dimen name="button_horizontal_padding_small">8dp</dimen>
 
-    <dimen name="text_input_lenght">250dp</dimen>
+    <dimen name="progress_bar_size">170dp</dimen>
+    <dimen name="card_width">210dp</dimen>
+    <dimen name="card_height">295dp</dimen>
+    <dimen name="card_name_height">34dp</dimen>
 
-    <dimen name="image_size">80dp</dimen>
+    <dimen name="game_icon_width">130dp</dimen>
+    <dimen name="game_icon_higth">172dp</dimen>
+
+    <dimen name="tool_icon_width">84dp</dimen>
+    <dimen name="tool_icon_higth">108dp</dimen>
+
+    <dimen name="category_width_size">52dp</dimen>
+    <dimen name="category_height_size">70dp</dimen>
+
+    <dimen name="text_input_length">210dp</dimen>
+    <dimen name="text_input_lenght">210dp</dimen>
+
+    <dimen name="score_card_height">130dp</dimen>
+
     <dimen name="small_size_layout">3dp</dimen>
-    <dimen name="primary_size_layout">5dp</dimen>
+    <dimen name="primary_size_layout">6dp</dimen>
     <dimen name="secondary_size_layout">10dp</dimen>
-    <dimen name="third_size_layout">15dp</dimen>
+    <dimen name="third_size_layout">14dp</dimen>
     <dimen name="fourth_size_layout">20dp</dimen>
-    <dimen name="fifth_size_layout">25dp</dimen>
-    <dimen name="big_size_layout">50dp</dimen>
-    <dimen name="very_big_size_layout">70dp</dimen>
+    <dimen name="fifth_size_layout">24dp</dimen>
+    <dimen name="big_size_layout">44dp</dimen>
+    <dimen name="very_big_size_layout">58dp</dimen>
 
-    <dimen name="category_width_size">60dp</dimen>
-    <dimen name="category_height_size">80dp</dimen>
+    <dimen name="min_touch_target">48dp</dimen>
+    <dimen name="icon_touch_target">48dp</dimen>
+    <dimen name="bottom_nav_height">62dp</dimen>
+    <dimen name="bottom_nav_icon_size">24dp</dimen>
+
+    <dimen name="radius_small">7dp</dimen>
+    <dimen name="radius_medium">11dp</dimen>
+    <dimen name="radius_large">18dp</dimen>
+    <dimen name="radius_xl">24dp</dimen>
+    <dimen name="radius_card">14dp</dimen>
+
+    <dimen name="elevation_card">4dp</dimen>
+    <dimen name="elevation_dialog">7dp</dimen>
+    <dimen name="elevation_fab">5dp</dimen>
+
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="divider_thick">2dp</dimen>
 </resources>

@@ -1,46 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- ── Fixed ── -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="app_icon_background">#FBFDFC</color>
+    <color name="transparent">#00000000</color>
 
-    <!-- Base theme — inherit Material3 DayNight, no action bar -->
-    <style name="Base.Theme.SadaGuessGame" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Window -->
-        <item name="android:windowIsTranslucent">false</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
+    <!--
+        Dark-mode palette
+        primary_text        = light sky    (readable on dark bg, high contrast)
+        primary_button_color= soft purple  (buttons & interactive elements on dark)
+        primary_color       = deep navy    (backgrounds, card surfaces)
+        secondary_color     = dark navy    (secondary surfaces / nav bar)
+    -->
+    <color name="primary_text">#9CDFEA</color>
+    <color name="primary_button_color">#C5B8E8</color>
+    <color name="primary_color">#0F2137</color>
+    <color name="secondary_color">#162D4A</color>
 
-        <!-- Status bar: translucent so gradient backgrounds show through -->
-        <item name="android:windowTranslucentStatus">false</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
-        <item name="android:windowLightStatusBar">false</item>
+    <!-- ── Semantic ── -->
+    <color name="error_color">#CF6679</color>
+    <color name="success_color">#6DD08C</color>
+    <color name="warning_color">#FFAB40</color>
 
-        <!-- Navigation bar -->
-        <item name="android:navigationBarColor">@android:color/transparent</item>
+    <!-- ── Scrim ── -->
+    <color name="scrim_color">#99000000</color>
 
-        <!-- Elevation overlays in dark mode (Material3) -->
-        <item name="elevationOverlayEnabled">true</item>
-        <item name="elevationOverlayColor">@color/primary_button_color</item>
+    <!-- ── Surface ── -->
+    <color name="surface_card">#1A2A3E</color>
+    <color name="surface_elevated">#243650</color>
 
-        <!-- Default text appearance -->
-        <item name="android:fontFamily">@font/normal_text</item>
+    <!-- ── Divider ── -->
+    <color name="divider_color">#1F9CDFEA</color>
 
-        <!-- Color scheme tokens used by Material3 components -->
-        <item name="colorPrimary">@color/primary_button_color</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/secondary_color</item>
-        <item name="colorOnSecondary">@color/primary_text</item>
-        <item name="colorSurface">@color/surface_card</item>
-        <item name="colorOnSurface">@color/primary_text</item>
-        <item name="colorError">@color/error_color</item>
-        <item name="colorOnError">@color/white</item>
+    <!-- ── Timer warning ── -->
+    <color name="timer_warning_color">#FF5252</color>
+    <color name="timer_normal_color">#9CDFEA</color>
 
-        <!-- Ripple -->
-        <item name="colorControlHighlight">@color/primary_button_color</item>
-    </style>
+    <!-- ── Combo / streak ── -->
+    <color name="combo_color">#FFAB40</color>
+    <color name="streak_color">#FF5252</color>
 
-    <style name="Theme.SadaGuessGame" parent="Base.Theme.SadaGuessGame" />
+    <!-- ── Score card ── -->
+    <color name="score_card_a_start">#1D426F</color>
+    <color name="score_card_a_end">#2A5590</color>
+    <color name="score_card_b_start">#0F4C75</color>
+    <color name="score_card_b_end">#1B6CA8</color>
 
-    <!-- Splash: use the same theme so the background colour matches -->
-    <style name="Theme.SadaGuessGame.Splash" parent="Theme.SadaGuessGame">
-        <item name="android:windowBackground">@drawable/bg_linear_app_background_primary</item>
-    </style>
-
+    <!-- ── Hint ── -->
+    <color name="hint_available_color">#C5B8E8</color>
+    <color name="hint_exhausted_color">#546E7A</color>
 </resources>

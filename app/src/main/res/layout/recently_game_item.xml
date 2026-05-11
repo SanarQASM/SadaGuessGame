@@ -1,173 +1,221 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:layout_marginBottom="@dimen/secondary_size_layout"
-    android:background="@drawable/bg_category_unselected">
+    app:cardCornerRadius="@dimen/radius_card"
+    app:cardElevation="@dimen/elevation_card"
+    app:cardBackgroundColor="@color/surface_card">
 
-    <!-- Main row -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/secondary_size_layout"
-        android:gravity="center_vertical">
+        android:orientation="vertical"
+        android:padding="@dimen/secondary_size_layout">
 
-        <!-- Index number -->
-        <TextView
-            android:id="@+id/tvIndex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1 - "
-            android:fontFamily="@font/primary_font"
-            android:textColor="@color/primary_text"
-            android:textStyle="italic"
-            android:textSize="@dimen/buttons_size"/>
-
-        <!-- Groups column -->
+        <!-- ── Top row: index + difficulty badge + delete ── -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_weight="1">
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
-            <!-- Divider -->
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="?android:attr/listDivider"/>
-
-            <!-- Group A row -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tvIndex"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp">
+                android:fontFamily="@font/primary_font"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/normal_fond_size"
+                android:textStyle="italic" />
+
+            <!-- Difficulty badge -->
+            <TextView
+                android:id="@+id/tvGameDifficulty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/primary_size_layout"
+                android:background="@drawable/bg_category_selected"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:fontFamily="@font/subtext_font"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/normal_fond_size"
+                android:visibility="gone" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <!-- Round info -->
+            <TextView
+                android:id="@+id/tvGameRoundInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/subtext_font"
+                android:textColor="@color/primary_button_color"
+                android:textSize="@dimen/normal_fond_size"
+                android:visibility="gone" />
+
+            <!-- Delete button — min 48dp touch target -->
+            <ImageView
+                android:id="@+id/delete_game"
+                android:layout_width="@dimen/min_touch_target"
+                android:layout_height="@dimen/min_touch_target"
+                android:layout_marginStart="@dimen/primary_size_layout"
+                android:contentDescription="@string/content_desc_delete_game"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="8dp"
+                android:src="@drawable/delete"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- ── Divider ── -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginTop="@dimen/primary_size_layout"
+            android:layout_marginBottom="@dimen/primary_size_layout"
+            android:background="@color/divider_color" />
+
+        <!-- ── Score row ── -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:weightSum="2">
+
+            <!-- Group A -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/bg_score_card_a"
+                android:gravity="center"
+                android:padding="@dimen/secondary_size_layout"
+                android:layout_marginEnd="@dimen/primary_size_layout">
 
                 <TextView
                     android:id="@+id/groupAName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/group_a_color"
                     android:fontFamily="@font/secondary_font"
-                    android:textColor="@color/primary_text"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/normal_fond_size"
                     android:textStyle="bold"
-                    android:textSize="@dimen/sub_font_size"
-                    android:layout_marginStart="8dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" → "
-                    android:fontFamily="@font/primary_font"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="bold|italic"
-                    android:textSize="@dimen/sub_font_size"
-                    android:layout_marginStart="@dimen/primary_size_layout"
-                    android:layout_marginEnd="@dimen/primary_size_layout"/>
+                    android:ellipsize="end"
+                    android:maxLines="1" />
 
                 <TextView
                     android:id="@+id/groupAScore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/score_title"
-                    android:fontFamily="@font/subtext_font"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="italic"
-                    android:textSize="@dimen/sub_font_size"
-                    android:layout_marginStart="@dimen/primary_size_layout"/>
+                    android:fontFamily="@font/primary_font"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/secondary_size"
+                    android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- Group B row -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- VS -->
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/primary_size_layout">
+                android:text="@string/share_vs_separator"
+                android:fontFamily="@font/primary_font"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/sub_font_size"
+                android:textStyle="bold"
+                android:paddingHorizontal="@dimen/secondary_size_layout" />
+
+            <!-- Group B -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:background="@drawable/bg_score_card_b"
+                android:gravity="center"
+                android:padding="@dimen/secondary_size_layout"
+                android:layout_marginStart="@dimen/primary_size_layout">
 
                 <TextView
                     android:id="@+id/groupBName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/group_b_color"
                     android:fontFamily="@font/secondary_font"
-                    android:textColor="@color/primary_text"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/normal_fond_size"
                     android:textStyle="bold"
-                    android:textSize="@dimen/sub_font_size"
-                    android:layout_marginStart="8dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" → "
-                    android:fontFamily="@font/primary_font"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="bold|italic"
-                    android:textSize="@dimen/sub_font_size"
-                    android:layout_marginStart="@dimen/primary_size_layout"
-                    android:layout_marginEnd="@dimen/primary_size_layout"/>
+                    android:ellipsize="end"
+                    android:maxLines="1" />
 
                 <TextView
                     android:id="@+id/groupBScore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/score_title"
-                    android:fontFamily="@font/subtext_font"
-                    android:textColor="@color/primary_text"
-                    android:textStyle="italic"
-                    android:textSize="@dimen/sub_font_size"
-                    android:layout_marginStart="@dimen/primary_size_layout"/>
+                    android:fontFamily="@font/primary_font"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/secondary_size"
+                    android:textStyle="bold" />
             </LinearLayout>
-
         </LinearLayout>
 
-        <!-- Delete button -->
-        <ImageView
-            android:id="@+id/delete_game"
-            android:layout_width="@dimen/back_button_size"
-            android:layout_height="@dimen/back_button_size"
-            android:layout_gravity="end|center_vertical"
-            android:layout_margin="@dimen/primary_size_layout"
-            android:contentDescription="@string/content_desc_delete_game"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"
-            android:src="@drawable/delete"/>
-
-    </LinearLayout>
-
-    <!-- Winner badge row — shown at the bottom of each game card -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="@dimen/secondary_size_layout"
-        android:paddingEnd="@dimen/secondary_size_layout"
-        android:paddingBottom="@dimen/primary_size_layout"
-        android:gravity="center_vertical">
-
+        <!-- ── Streak summary ── -->
         <TextView
+            android:id="@+id/tvGameStreaks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/winner_badge_label"
+            android:layout_marginTop="@dimen/primary_size_layout"
             android:fontFamily="@font/subtext_font"
             android:textColor="@color/primary_button_color"
-            android:textSize="@dimen/normal_fond_size"/>
-
-        <TextView
-            android:id="@+id/tvWinnerBadge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="6dp"
-            android:background="@drawable/bg_category_selected"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="2dp"
-            android:fontFamily="@font/buttons_font"
-            android:textColor="@color/primary_text"
             android:textSize="@dimen/normal_fond_size"
-            android:textStyle="bold"
-            android:visibility="gone"/>
+            android:textStyle="italic"
+            android:visibility="gone" />
+
+        <!-- ── Divider ── -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/divider_height"
+            android:layout_marginTop="@dimen/primary_size_layout"
+            android:layout_marginBottom="@dimen/primary_size_layout"
+            android:background="@color/divider_color" />
+
+        <!-- ── Winner badge row ── -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/winner_badge_label"
+                android:fontFamily="@font/subtext_font"
+                android:textColor="@color/primary_button_color"
+                android:textSize="@dimen/normal_fond_size" />
+
+            <TextView
+                android:id="@+id/tvWinnerBadge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_category_selected"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="2dp"
+                android:fontFamily="@font/buttons_font"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/normal_fond_size"
+                android:textStyle="bold"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:visibility="gone" />
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
+</androidx.cardview.widget.CardView>

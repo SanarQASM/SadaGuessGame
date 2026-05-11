@@ -6,16 +6,15 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_linear_app_background_primary">
 
-    <!-- Card Container -->
     <androidx.cardview.widget.CardView
         android:id="@+id/winnerCard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="16dp"
+        android:layout_margin="@dimen/secondary_size_layout"
         android:clipChildren="false"
         android:clipToPadding="false"
-        app:cardCornerRadius="32dp"
-        app:cardElevation="12dp"
+        app:cardCornerRadius="@dimen/radius_xl"
+        app:cardElevation="@dimen/elevation_card"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,9 +32,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="start|center"
                 android:orientation="horizontal"
-                android:paddingStart="10dp"
-                android:paddingTop="5dp"
-                android:paddingEnd="10dp"
+                android:paddingStart="@dimen/secondary_size_layout"
+                android:paddingTop="@dimen/primary_size_layout"
+                android:paddingEnd="@dimen/secondary_size_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -47,21 +46,21 @@
                     android:contentDescription="@string/home_page"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:padding="8dp"
-                    android:src="@drawable/ic_back"/>
+                    android:src="@drawable/ic_back" />
 
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:layout_marginHorizontal="12dp"
-                    android:background="?android:attr/listDivider"/>
+                    android:layout_marginHorizontal="@dimen/secondary_size_layout"
+                    android:background="?android:attr/listDivider" />
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:layout_width="@dimen/image_size"
                     android:layout_height="@dimen/image_size"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/primary_size_layout"
                     android:scaleType="centerCrop"
                     android:src="@drawable/sada_guess_main_image"
-                    app:shapeAppearanceOverlay="@style/CircleImage"/>
+                    app:shapeAppearanceOverlay="@style/CircleImage" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -76,7 +75,7 @@
                         android:fontFamily="@font/primary_font"
                         android:text="@string/application_name"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/primary_size"/>
+                        android:textSize="@dimen/primary_size" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -84,7 +83,7 @@
                         android:fontFamily="@font/buttons_font"
                         android:text="@string/score_title"
                         android:textColor="@color/primary_text"
-                        android:textSize="@dimen/sub_font_size"/>
+                        android:textSize="@dimen/sub_font_size" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -131,7 +130,7 @@
                                 android:inputType="textCapSentences"
                                 android:maxLength="20"
                                 android:textColor="@color/primary_text"
-                                android:textColorHint="@color/primary_text"/>
+                                android:textColorHint="@color/primary_text" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -148,11 +147,11 @@
                                 android:inputType="textCapSentences"
                                 android:maxLength="20"
                                 android:textColor="@color/primary_text"
-                                android:textColorHint="@color/primary_text"/>
+                                android:textColorHint="@color/primary_text" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
-                    <!-- Color buttons -->
+                    <!-- Color buttons — show selected color as tint -->
                     <LinearLayout
                         android:id="@+id/colorButtonsContainer"
                         android:layout_width="wrap_content"
@@ -166,13 +165,17 @@
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/groupAColor"
                             style="@style/PrimaryButtonStyle"
-                            android:text="@string/group_a_color_btn"/>
+                            android:text="@string/group_a_color_btn"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/groupBColor"
                             style="@style/PrimaryButtonStyle"
                             android:layout_marginStart="@dimen/secondary_size_layout"
-                            android:text="@string/group_b_color_btn"/>
+                            android:text="@string/group_b_color_btn"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
                     </LinearLayout>
 
                     <!-- Score boards -->
@@ -206,7 +209,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center"
                                 android:orientation="vertical"
-                                android:padding="16dp">
+                                android:padding="@dimen/secondary_size_layout">
 
                                 <TextView
                                     android:id="@+id/tvGroupOneName"
@@ -214,11 +217,11 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/buttons_font"
                                     android:text="@string/group_a_color"
-                                    android:textColor="@color/primary_text"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/sub_font_size"
                                     android:textStyle="bold"
                                     android:ellipsize="end"
-                                    android:maxLines="1"/>
+                                    android:maxLines="1" />
 
                                 <TextView
                                     android:id="@+id/tvGroupOneScore"
@@ -226,18 +229,19 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/primary_font"
                                     android:text="0"
-                                    android:textColor="@color/primary_text"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/score_display_size"
-                                    android:textStyle="bold"/>
+                                    android:textStyle="bold" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/subtext_font"
                                     android:text="@string/tap_to_add_score"
-                                    android:textColor="@color/primary_text"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/normal_fond_size"
-                                    android:alpha="0.7"/>
+                                    android:alpha="0.8"
+                                    android:gravity="center" />
                             </LinearLayout>
                         </FrameLayout>
 
@@ -257,7 +261,7 @@
                                 android:layout_height="match_parent"
                                 android:gravity="center"
                                 android:orientation="vertical"
-                                android:padding="16dp">
+                                android:padding="@dimen/secondary_size_layout">
 
                                 <TextView
                                     android:id="@+id/tvGroupTwoName"
@@ -265,11 +269,11 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/buttons_font"
                                     android:text="@string/group_b_color"
-                                    android:textColor="@color/primary_text"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/sub_font_size"
                                     android:textStyle="bold"
                                     android:ellipsize="end"
-                                    android:maxLines="1"/>
+                                    android:maxLines="1" />
 
                                 <TextView
                                     android:id="@+id/tvGroupTwoScore"
@@ -277,18 +281,19 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/primary_font"
                                     android:text="0"
-                                    android:textColor="@color/primary_text"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/score_display_size"
-                                    android:textStyle="bold"/>
+                                    android:textStyle="bold" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/subtext_font"
                                     android:text="@string/tap_to_add_score"
-                                    android:textColor="@color/primary_text"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/normal_fond_size"
-                                    android:alpha="0.7"/>
+                                    android:alpha="0.8"
+                                    android:gravity="center" />
                             </LinearLayout>
                         </FrameLayout>
                     </LinearLayout>
@@ -300,6 +305,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/secondary_size_layout"
                         android:orientation="horizontal"
+                        android:gravity="center"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/scoreBoardContiner">
@@ -307,19 +313,25 @@
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/restartScore"
                             style="@style/PrimaryButtonStyle"
-                            android:text="@string/txt_restart"/>
+                            android:text="@string/txt_restart"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/undoButton"
                             style="@style/PrimaryButtonStyle"
                             android:layout_marginStart="@dimen/secondary_size_layout"
-                            android:text="@string/undo"/>
+                            android:text="@string/undo"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/historyButton"
                             style="@style/PrimaryButtonStyle"
                             android:layout_marginStart="@dimen/secondary_size_layout"
-                            android:text="@string/history"/>
+                            android:text="@string/history"
+                            android:maxLines="1"
+                            android:ellipsize="end" />
                     </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

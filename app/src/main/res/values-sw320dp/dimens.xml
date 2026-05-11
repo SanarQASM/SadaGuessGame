@@ -1,40 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Small phones: sw320dp (~4" – 4.7" screens) -->
+<!-- Small phones: sw320dp (~4"–4.7") -->
 <resources>
-    <dimen name="primary_size">24sp</dimen>
-    <dimen name="secondary_size">20sp</dimen>
-    <dimen name="buttons_size">16sp</dimen>
-    <dimen name="sub_font_size">13sp</dimen>
+    <dimen name="primary_size">22sp</dimen>
+    <dimen name="secondary_size">18sp</dimen>
+    <dimen name="buttons_size">14sp</dimen>
+    <dimen name="sub_font_size">12sp</dimen>
     <dimen name="normal_fond_size">10sp</dimen>
+    <dimen name="score_display_size">36sp</dimen>
 
-    <dimen name="back_button_size">44dp</dimen>
-    <dimen name="image_size">56dp</dimen>
+    <dimen name="back_button_size">48dp</dimen>
+    <dimen name="image_size">52dp</dimen>
+    <dimen name="image_get_started_size">200dp</dimen>
 
     <dimen name="primary_button_size_length">120dp</dimen>
     <dimen name="primary_button_size_height">44dp</dimen>
     <dimen name="big_button_height">48dp</dimen>
     <dimen name="big_button_min_width">130dp</dimen>
-    <dimen name="button_horizontal_padding">12dp</dimen>
-    <dimen name="button_horizontal_padding_large">16dp</dimen>
+    <dimen name="button_horizontal_padding">10dp</dimen>
+    <dimen name="button_horizontal_padding_large">14dp</dimen>
     <dimen name="button_horizontal_padding_small">6dp</dimen>
 
-    <dimen name="progress_bar_size">160dp</dimen>
-    <dimen name="image_get_started_size">220dp</dimen>
-
-    <dimen name="card_width">200dp</dimen>
-    <dimen name="card_height">290dp</dimen>
+    <dimen name="progress_bar_size">140dp</dimen>
+    <dimen name="card_width">180dp</dimen>
+    <dimen name="card_height">260dp</dimen>
+    <dimen name="card_name_height">32dp</dimen>
 
     <dimen name="game_icon_width">110dp</dimen>
-    <dimen name="game_icon_higth">150dp</dimen>
+    <dimen name="game_icon_higth">145dp</dimen>
 
-    <dimen name="tool_icon_width">76dp</dimen>
-    <dimen name="tool_icon_higth">100dp</dimen>
+    <dimen name="tool_icon_width">72dp</dimen>
+    <dimen name="tool_icon_higth">94dp</dimen>
 
-    <dimen name="category_width_size">52dp</dimen>
-    <dimen name="category_height_size">68dp</dimen>
+    <dimen name="category_width_size">48dp</dimen>
+    <dimen name="category_height_size">64dp</dimen>
 
-    <dimen name="text_input_length">190dp</dimen>
-    <dimen name="text_input_lenght">190dp</dimen>
+    <dimen name="text_input_length">180dp</dimen>
+    <dimen name="text_input_lenght">180dp</dimen>
+
+    <dimen name="score_card_height">120dp</dimen>
 
     <dimen name="small_size_layout">2dp</dimen>
     <dimen name="primary_size_layout">4dp</dimen>
@@ -42,6 +45,24 @@
     <dimen name="third_size_layout">12dp</dimen>
     <dimen name="fourth_size_layout">16dp</dimen>
     <dimen name="fifth_size_layout">20dp</dimen>
-    <dimen name="big_size_layout">40dp</dimen>
-    <dimen name="very_big_size_layout">52dp</dimen>
+    <dimen name="big_size_layout">36dp</dimen>
+    <dimen name="very_big_size_layout">48dp</dimen>
+
+    <dimen name="min_touch_target">48dp</dimen>
+    <dimen name="icon_touch_target">48dp</dimen>
+    <dimen name="bottom_nav_height">60dp</dimen>
+    <dimen name="bottom_nav_icon_size">22dp</dimen>
+
+    <dimen name="radius_small">6dp</dimen>
+    <dimen name="radius_medium">10dp</dimen>
+    <dimen name="radius_large">16dp</dimen>
+    <dimen name="radius_xl">22dp</dimen>
+    <dimen name="radius_card">12dp</dimen>
+
+    <dimen name="elevation_card">3dp</dimen>
+    <dimen name="elevation_dialog">6dp</dimen>
+    <dimen name="elevation_fab">4dp</dimen>
+
+    <dimen name="divider_height">1dp</dimen>
+    <dimen name="divider_thick">2dp</dimen>
 </resources>

@@ -26,7 +26,7 @@
             android:contentDescription="@string/back"
             android:src="@drawable/ic_back"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"/>
+            android:padding="8dp" />
 
         <TextView
             android:layout_width="0dp"
@@ -36,16 +36,95 @@
             android:fontFamily="@font/primary_font"
             android:text="@string/history"
             android:textColor="@color/primary_text"
-            android:textSize="@dimen/secondary_size"/>
+            android:textSize="@dimen/secondary_size" />
     </LinearLayout>
+
+    <!-- Divider -->
+    <View
+        android:id="@+id/divHeader"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider_color"
+        app:layout_constraintTop_toBottomOf="@id/historyHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Column headers -->
+    <LinearLayout
+        android:id="@+id/colHeaders"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/third_size_layout"
+        android:paddingEnd="@dimen/third_size_layout"
+        android:paddingTop="@dimen/secondary_size_layout"
+        android:paddingBottom="@dimen/primary_size_layout"
+        app:layout_constraintTop_toBottomOf="@id/divHeader"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Spacer for dot -->
+        <View android:layout_width="22dp" android:layout_height="1dp" />
+
+        <TextView
+            android:layout_width="32dp"
+            android:layout_height="wrap_content"
+            android:text="#"
+            android:fontFamily="@font/buttons_font"
+            android:textColor="@color/primary_button_color"
+            android:textSize="@dimen/normal_fond_size"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/leaderboard_col_name"
+            android:fontFamily="@font/buttons_font"
+            android:textColor="@color/primary_button_color"
+            android:textSize="@dimen/normal_fond_size"
+            android:textStyle="bold"
+            android:layout_marginStart="@dimen/primary_size_layout" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/score_added"
+            android:fontFamily="@font/buttons_font"
+            android:textColor="@color/primary_button_color"
+            android:textSize="@dimen/normal_fond_size"
+            android:textStyle="bold"
+            android:layout_marginEnd="@dimen/secondary_size_layout" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/total_label"
+            android:fontFamily="@font/buttons_font"
+            android:textColor="@color/primary_button_color"
+            android:textSize="@dimen/normal_fond_size"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/divCols"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/divider_height"
+        android:background="@color/divider_color"
+        android:layout_marginHorizontal="@dimen/third_size_layout"
+        app:layout_constraintTop_toBottomOf="@id/colHeaders"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Scrollable history list -->
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        android:contentDescription="@string/score_title"
-        app:layout_constraintTop_toBottomOf="@id/historyHeader"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/big_size_layout"
+        app:layout_constraintTop_toBottomOf="@id/divCols"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -55,7 +134,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="@dimen/third_size_layout"/>
+            android:paddingStart="@dimen/secondary_size_layout"
+            android:paddingEnd="@dimen/secondary_size_layout"
+            android:paddingTop="@dimen/primary_size_layout"
+            android:paddingBottom="@dimen/big_size_layout" />
 
     </ScrollView>
 

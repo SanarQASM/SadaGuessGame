@@ -1,126 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- ─────────── Image shapes ─────────── -->
-    <style name="CircleImage">
+    <!-- ══════════════════════════════════════════════════════
+         Base application theme
+    ══════════════════════════════════════════════════════ -->
+    <style name="Theme.SadaGuessGame" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary_button_color</item>
+        <item name="colorPrimaryVariant">@color/primary_color</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/secondary_color</item>
+        <item name="colorOnSecondary">@color/primary_text</item>
+        <item name="android:windowBackground">@color/primary_color</item>
+        <item name="android:textColor">@color/primary_text</item>
+        <item name="android:fontFamily">@font/normal_text</item>
+        <!-- Ensure ripple works on all API levels -->
+        <item name="colorControlHighlight">@color/primary_button_color</item>
+    </style>
+
+    <!-- ══════════════════════════════════════════════════════
+         Button styles — all prevent text clipping
+    ══════════════════════════════════════════════════════ -->
+
+    <!--
+        Primary button:
+        - minHeight 48dp (Material touch target)
+        - paddingHorizontal uses dimension token (never hardcoded)
+        - autoSizeTextType disabled — fixed size, no clipping
+        - ellipsize=none so text never clips silently
+    -->
+    <style name="PrimaryButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:minHeight">@dimen/primary_button_size_height</item>
+        <item name="android:paddingStart">@dimen/button_horizontal_padding</item>
+        <item name="android:paddingEnd">@dimen/button_horizontal_padding</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textSize">@dimen/buttons_size</item>
+        <item name="android:fontFamily">@font/buttons_font</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:ellipsize">none</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="backgroundTint">@color/primary_button_color</item>
+        <item name="cornerRadius">@dimen/radius_large</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="rippleColor">@color/white</item>
+    </style>
+
+    <!-- Secondary button: outlined style -->
+    <style name="SecondaryButtonStyle" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:minHeight">@dimen/primary_button_size_height</item>
+        <item name="android:paddingStart">@dimen/button_horizontal_padding</item>
+        <item name="android:paddingEnd">@dimen/button_horizontal_padding</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:textSize">@dimen/buttons_size</item>
+        <item name="android:fontFamily">@font/buttons_font</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/primary_button_color</item>
+        <item name="android:ellipsize">none</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="strokeColor">@color/primary_button_color</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="cornerRadius">@dimen/radius_large</item>
+        <item name="android:layout_margin">4dp</item>
+    </style>
+
+    <!-- Big CTA button (start game, get started) -->
+    <style name="BigButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:minHeight">@dimen/big_button_height</item>
+        <item name="android:minWidth">@dimen/big_button_min_width</item>
+        <item name="android:paddingStart">@dimen/button_horizontal_padding_large</item>
+        <item name="android:paddingEnd">@dimen/button_horizontal_padding_large</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">@dimen/buttons_size</item>
+        <item name="android:fontFamily">@font/buttons_font</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:ellipsize">none</item>
+        <item name="android:maxLines">1</item>
+        <item name="backgroundTint">@color/primary_button_color</item>
+        <item name="cornerRadius">@dimen/radius_xl</item>
+        <item name="android:layout_margin">8dp</item>
+    </style>
+
+    <!-- Small button (probability chips, score buttons) -->
+    <style name="SmallButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:paddingStart">@dimen/button_horizontal_padding_small</item>
+        <item name="android:paddingEnd">@dimen/button_horizontal_padding_small</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:textSize">@dimen/sub_font_size</item>
+        <item name="android:fontFamily">@font/buttons_font</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:ellipsize">none</item>
+        <item name="android:maxLines">1</item>
+        <item name="backgroundTint">@color/secondary_color</item>
+        <item name="cornerRadius">@dimen/radius_medium</item>
+        <item name="android:layout_margin">3dp</item>
+    </style>
+
+    <!-- Text-only button without background -->
+    <style name="ButtonWithoutBackground" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:minHeight">48dp</item>
+        <item name="android:paddingStart">@dimen/button_horizontal_padding</item>
+        <item name="android:paddingEnd">@dimen/button_horizontal_padding</item>
+        <item name="android:textSize">@dimen/buttons_size</item>
+        <item name="android:fontFamily">@font/buttons_font</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/primary_button_color</item>
+        <item name="android:ellipsize">none</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:layout_margin">4dp</item>
+    </style>
+
+    <!-- ══════════════════════════════════════════════════════
+         Image shapes
+    ══════════════════════════════════════════════════════ -->
+    <style name="CircleImage" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
 
-    <style name="RoundedCard">
+    <style name="RoundedCard" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">20dp</item>
+        <item name="cornerSize">@dimen/radius_card</item>
     </style>
 
-    <!-- ─────────── Primary Button ─────────────────────────────────────────
-         Use when the action is the single most important CTA on screen.
-         Touch target: layout_height is at least 48dp → meets Material 48×48dp minimum.
-    ─────────────────────────────────────────────────────────────────────── -->
-    <style name="PrimaryButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">@dimen/primary_button_size_height</item>
-        <item name="android:minWidth">@dimen/primary_button_size_length</item>
-        <item name="android:paddingStart">@dimen/button_horizontal_padding</item>
-        <item name="android:paddingEnd">@dimen/button_horizontal_padding</item>
-        <item name="android:textColor">@color/primary_button_color</item>
-        <item name="android:textSize">@dimen/sub_font_size</item>
-        <item name="android:letterSpacing">0.01</item>
-        <item name="android:elevation">4dp</item>
-        <item name="cornerRadius">12dp</item>
-        <item name="strokeColor">@color/primary_button_color</item>
-        <item name="strokeWidth">1.5dp</item>
-        <item name="backgroundTint">@color/secondary_color</item>
-        <item name="rippleColor">@color/primary_button_color</item>
+    <!-- ══════════════════════════════════════════════════════
+         TextInputLayout
+    ══════════════════════════════════════════════════════ -->
+    <style name="GameTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/primary_button_color</item>
+        <item name="hintTextColor">@color/primary_button_color</item>
+        <item name="android:textColorHint">@color/primary_text</item>
+        <item name="boxCornerRadiusTopStart">@dimen/radius_medium</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/radius_medium</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/radius_medium</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/radius_medium</item>
     </style>
 
-    <!-- ─────────── Secondary Button ─────────── -->
-    <style name="SecondaryButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">@dimen/primary_button_size_height</item>
-        <item name="android:paddingStart">@dimen/button_horizontal_padding</item>
-        <item name="android:paddingEnd">@dimen/button_horizontal_padding</item>
+    <!-- ══════════════════════════════════════════════════════
+         SwitchMaterial
+    ══════════════════════════════════════════════════════ -->
+    <style name="GameSwitch" parent="Widget.MaterialComponents.CompoundButton.Switch">
+        <item name="trackTint">@color/primary_text</item>
+        <item name="thumbTint">@color/secondary_color</item>
+    </style>
+
+    <!-- ══════════════════════════════════════════════════════
+         Dialog theme
+    ══════════════════════════════════════════════════════ -->
+    <style name="GameDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="colorPrimary">@color/primary_button_color</item>
+        <item name="colorSurface">@color/surface_card</item>
         <item name="android:textColor">@color/primary_text</item>
-        <item name="android:elevation">4dp</item>
-        <item name="cornerRadius">12dp</item>
-        <item name="strokeColor">@color/primary_button_color</item>
-        <item name="strokeWidth">1.5dp</item>
-        <item name="backgroundTint">@color/primary_color</item>
-        <item name="rippleColor">@color/primary_text</item>
     </style>
-
-    <!-- ─────────── Big / Hero Button ─────────── -->
-    <style name="BigButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">@dimen/big_button_height</item>
-        <item name="android:minWidth">@dimen/big_button_min_width</item>
-        <item name="android:paddingStart">@dimen/button_horizontal_padding_large</item>
-        <item name="android:paddingEnd">@dimen/button_horizontal_padding_large</item>
-        <item name="android:textColor">@color/primary_button_color</item>
-        <item name="android:textSize">@dimen/buttons_size</item>
-        <item name="android:letterSpacing">0.01</item>
-        <item name="android:elevation">6dp</item>
-        <item name="fontFamily">@font/primary_font</item>
-        <item name="cornerRadius">14dp</item>
-        <item name="strokeColor">@color/primary_button_color</item>
-        <item name="strokeWidth">2dp</item>
-        <item name="backgroundTint">@color/secondary_color</item>
-        <item name="rippleColor">@color/primary_button_color</item>
-    </style>
-
-    <!-- ─────────── Small / Inline Button ─────────── -->
-    <style name="SmallButtonStyle" parent="Widget.MaterialComponents.Button">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">@dimen/primary_button_size_height</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:paddingStart">@dimen/button_horizontal_padding_small</item>
-        <item name="android:paddingEnd">@dimen/button_horizontal_padding_small</item>
-        <item name="android:textColor">@color/primary_text</item>
-        <item name="android:elevation">4dp</item>
-        <item name="android:fontFamily">@font/buttons_font</item>
-        <item name="android:textSize">@dimen/sub_font_size</item>
-        <item name="cornerRadius">12dp</item>
-        <item name="strokeColor">@color/primary_button_color</item>
-        <item name="strokeWidth">1.5dp</item>
-        <item name="backgroundTint">@color/secondary_color</item>
-        <item name="rippleColor">@color/primary_button_color</item>
-    </style>
-
-    <!-- ─────────── Text-only Button (no background) ─────────── -->
-    <style name="ButtonWithoutBackground" parent="Widget.MaterialComponents.Button.TextButton">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">@dimen/primary_button_size_height</item>
-        <item name="android:textColor">@color/primary_button_color</item>
-        <item name="backgroundTint">@android:color/transparent</item>
-    </style>
-
-    <!-- ─────────── EditText ─────────── -->
-    <style name="AppEditTextStyle">
-        <item name="android:layout_width">@dimen/text_input_length</item>
-        <item name="android:layout_height">@dimen/primary_button_size_height</item>
-        <item name="android:paddingStart">@dimen/third_size_layout</item>
-        <item name="android:paddingEnd">@dimen/third_size_layout</item>
-        <item name="android:textSize">@dimen/sub_font_size</item>
-        <item name="android:textColor">@color/primary_text</item>
-        <item name="android:fontFamily">@font/subtext_font</item>
-        <item name="android:background">@drawable/bg_edit_text_selector</item>
-        <item name="android:enabled">true</item>
-        <item name="android:focusable">true</item>
-        <item name="android:focusableInTouchMode">true</item>
-        <item name="android:clickable">true</item>
-    </style>
-
-    <!-- ─────────── Primary legacy button (kept for compatibility) ─────────── -->
-    <style name="primary_button" parent="Widget.MaterialComponents.Button">
-        <item name="backgroundTint">@color/primary_color</item>
-        <item name="android:textColor">@color/primary_button_color</item>
-        <item name="cornerRadius">12dp</item>
-        <item name="android:layout_width">@dimen/primary_button_size_length</item>
-        <item name="android:layout_height">@dimen/primary_button_size_height</item>
-        <item name="android:layout_marginStart">@dimen/very_big_size_layout</item>
-        <item name="android:layout_marginEnd">@dimen/very_big_size_layout</item>
-        <item name="android:layout_marginTop">@dimen/fifth_size_layout</item>
-        <item name="android:layout_marginBottom">@dimen/fifth_size_layout</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
-
 </resources>
