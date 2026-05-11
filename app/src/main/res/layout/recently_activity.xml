@@ -194,6 +194,8 @@
             <!-- Continue Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnContinueGame"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 style="@style/PrimaryButtonStyle"
                 android:layout_marginTop="@dimen/secondary_size_layout"
                 android:text="@string/continue_game"
@@ -253,10 +255,15 @@
 
     </ScrollView>
 
+    <!-- ✅ FIXED: Added missing layout_width and layout_height -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/delete_all"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         style="@style/PrimaryButtonStyle"
         android:text="@string/txt_delete_all"
+        android:layout_marginStart="@dimen/third_size_layout"
+        android:layout_marginEnd="@dimen/third_size_layout"
         android:layout_marginBottom="@dimen/big_size_layout"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"

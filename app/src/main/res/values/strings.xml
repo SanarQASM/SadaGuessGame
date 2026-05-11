@@ -338,6 +338,7 @@
     <string name="learn_section_hints_title">Hints</string>
     <string name="learn_section_hints_desc">Each team gets a set number of hints per game. Tap the hint button (before revealing the card) to see the next unrevealed letter of the word. Each tap reveals the next letter. Use hints wisely — they don\'t refill!</string>
     <string name="learn_section_leaderboard_title">Leaderboard</string>
+    <string name="learn_section_leaderboard_desc">The Leaderboard tracks each team\'s wins, losses, draws, best win streak, win rate, and total points — across ALL games ever played on this device.</string>
     <string name="learn_section_voice_title">Voice Clue Mode</string>
     <string name="learn_section_voice_desc">Enable Voice Clue Mode when creating a game (or in Settings). When the card is revealed, the app reads the word aloud using text-to-speech.</string>
     <string name="learn_section_sudden_death_title">Sudden Death</string>

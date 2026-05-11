@@ -2,22 +2,6 @@
 <resources>
 
     <!-- ══════════════════════════════════════════════════════
-         Base application theme
-    ══════════════════════════════════════════════════════ -->
-    <style name="Theme.SadaGuessGame" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primary_button_color</item>
-        <item name="colorPrimaryVariant">@color/primary_color</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <item name="colorSecondary">@color/secondary_color</item>
-        <item name="colorOnSecondary">@color/primary_text</item>
-        <item name="android:windowBackground">@color/primary_color</item>
-        <item name="android:textColor">@color/primary_text</item>
-        <item name="android:fontFamily">@font/normal_text</item>
-        <!-- Ensure ripple works on all API levels -->
-        <item name="colorControlHighlight">@color/primary_button_color</item>
-    </style>
-
-    <!-- ══════════════════════════════════════════════════════
          Button styles — all prevent text clipping
     ══════════════════════════════════════════════════════ -->
 
@@ -153,12 +137,4 @@
         <item name="thumbTint">@color/secondary_color</item>
     </style>
 
-    <!-- ══════════════════════════════════════════════════════
-         Dialog theme
-    ══════════════════════════════════════════════════════ -->
-    <style name="GameDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="colorPrimary">@color/primary_button_color</item>
-        <item name="colorSurface">@color/surface_card</item>
-        <item name="android:textColor">@color/primary_text</item>
-    </style>
 </resources>

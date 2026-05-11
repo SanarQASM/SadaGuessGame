@@ -271,6 +271,4 @@ public class RecentlyFragment extends BaseFragment {
     private String safe(@Nullable String s) {
         return s != null ? s : "";
     }
-
-    private interface Nullable {}
 }
