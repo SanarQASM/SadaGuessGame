@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/bg_linear_app_background_primary">
 
-        <!-- 🔹 Header Container -->
+        <!-- Header Container -->
         <LinearLayout
             android:id="@+id/logo_name_container"
             android:layout_width="0dp"
@@ -57,11 +57,9 @@
                     android:text="@string/recently_page"
                     android:textColor="@color/primary_text"
                     android:textSize="@dimen/sub_font_size" />
-
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Title -->
         <TextView
             android:id="@+id/cardsTitle"
             android:layout_width="wrap_content"
@@ -75,7 +73,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- Divider -->
         <View
             android:id="@+id/div_under_title"
             android:layout_width="250dp"
@@ -86,7 +83,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- Card Container -->
         <FrameLayout
             android:id="@+id/frCardsContainer"
             android:layout_width="wrap_content"
@@ -110,7 +106,6 @@
                 app:shapeAppearanceOverlay="@style/RoundedCard"/>
         </FrameLayout>
 
-        <!-- Warning Tip -->
         <TextView
             android:id="@+id/warningSelecting"
             android:layout_width="wrap_content"
@@ -125,7 +120,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- Warning to Go Home -->
         <TextView
             android:id="@+id/warningToGoHome"
             android:layout_width="wrap_content"
@@ -140,9 +134,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <!-- Start Timer Button -->
+        <!-- ✅ FIXED: Added layout_width and layout_height -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNewGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             style="@style/PrimaryButtonStyle"
             android:text="@string/new_game"
             android:layout_marginTop="@dimen/third_size_layout"

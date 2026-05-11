@@ -141,8 +141,10 @@
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-        <View android:id="@+id/div1"
-            android:layout_width="0dp" android:layout_height="@dimen/divider_height"
+        <View
+            android:id="@+id/div1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/divider_height"
             android:background="@color/divider_color"
             android:layout_marginTop="@dimen/third_size_layout"
             android:layout_marginHorizontal="@dimen/third_size_layout"
@@ -178,8 +180,10 @@
                 android:padding="4dp" />
         </LinearLayout>
 
-        <View android:id="@+id/div2"
-            android:layout_width="0dp" android:layout_height="@dimen/divider_height"
+        <View
+            android:id="@+id/div2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/divider_height"
             android:background="@color/divider_color"
             android:layout_marginHorizontal="@dimen/third_size_layout"
             app:layout_constraintTop_toBottomOf="@id/categorySection"
@@ -214,28 +218,48 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_weight="1" android:layout_marginEnd="@dimen/primary_size_layout"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/primary_size_layout"
                 android:orientation="vertical">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:fontFamily="@font/subtext_font" android:text="@string/txt_select_round"
-                    android:textColor="@color/primary_text" android:textSize="@dimen/normal_fond_size" />
-                <Spinner android:id="@+id/item_spinner"
-                    android:layout_width="match_parent" android:layout_height="@dimen/primary_button_size_height"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/subtext_font"
+                    android:text="@string/txt_select_round"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/normal_fond_size" />
+                <Spinner
+                    android:id="@+id/item_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/primary_button_size_height"
                     android:layout_marginTop="4dp"
-                    android:background="@drawable/spinner_bg_with_arrow" android:spinnerMode="dropdown" />
+                    android:background="@drawable/spinner_bg_with_arrow"
+                    android:spinnerMode="dropdown" />
             </LinearLayout>
 
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_weight="1" android:layout_marginStart="@dimen/primary_size_layout"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/primary_size_layout"
                 android:orientation="vertical">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:fontFamily="@font/subtext_font" android:text="@string/txt_select_difficulty"
-                    android:textColor="@color/primary_text" android:textSize="@dimen/normal_fond_size" />
-                <Spinner android:id="@+id/difficultySpinner"
-                    android:layout_width="match_parent" android:layout_height="@dimen/primary_button_size_height"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/subtext_font"
+                    android:text="@string/txt_select_difficulty"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/normal_fond_size" />
+                <Spinner
+                    android:id="@+id/difficultySpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/primary_button_size_height"
                     android:layout_marginTop="4dp"
-                    android:background="@drawable/spinner_bg_with_arrow" android:spinnerMode="dropdown" />
+                    android:background="@drawable/spinner_bg_with_arrow"
+                    android:spinnerMode="dropdown" />
             </LinearLayout>
         </LinearLayout>
 
@@ -253,52 +277,81 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <!-- Hint count -->
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_weight="1" android:layout_marginEnd="@dimen/primary_size_layout"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/primary_size_layout"
                 android:orientation="vertical">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:fontFamily="@font/subtext_font" android:text="@string/hint_count_label"
-                    android:textColor="@color/primary_text" android:textSize="@dimen/normal_fond_size" />
-                <Spinner android:id="@+id/hintCountSpinner"
-                    android:layout_width="match_parent" android:layout_height="@dimen/primary_button_size_height"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/subtext_font"
+                    android:text="@string/hint_count_label"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/normal_fond_size" />
+                <Spinner
+                    android:id="@+id/hintCountSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/primary_button_size_height"
                     android:layout_marginTop="4dp"
-                    android:background="@drawable/spinner_bg_with_arrow" android:spinnerMode="dropdown" />
+                    android:background="@drawable/spinner_bg_with_arrow"
+                    android:spinnerMode="dropdown" />
             </LinearLayout>
 
-            <!-- Time picker — always LTR -->
-            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
-                android:layout_weight="1" android:layout_marginStart="@dimen/primary_size_layout"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/primary_size_layout"
                 android:orientation="vertical">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:fontFamily="@font/subtext_font" android:text="@string/txt_select_time"
-                    android:textColor="@color/primary_text" android:textSize="@dimen/normal_fond_size" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/subtext_font"
+                    android:text="@string/txt_select_time"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/normal_fond_size" />
 
-                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:orientation="horizontal" android:gravity="center"
-                    android:layoutDirection="ltr" android:layout_marginTop="4dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:layoutDirection="ltr"
+                    android:layout_marginTop="4dp">
 
-                    <NumberPicker android:id="@+id/minutePicker2"
+                    <NumberPicker
+                        android:id="@+id/minutePicker2"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/primary_button_size_length"
-                        android:layoutDirection="ltr" android:textDirection="ltr" />
+                        android:layoutDirection="ltr"
+                        android:textDirection="ltr" />
 
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:text="@string/colon_separator"
                         android:textColor="@color/primary_button_color"
-                        android:textSize="@dimen/buttons_size" android:textStyle="bold"
-                        android:paddingHorizontal="6dp" android:layout_gravity="center_vertical" />
+                        android:textSize="@dimen/buttons_size"
+                        android:textStyle="bold"
+                        android:paddingHorizontal="6dp"
+                        android:layout_gravity="center_vertical" />
 
-                    <NumberPicker android:id="@+id/secondPicker2"
+                    <NumberPicker
+                        android:id="@+id/secondPicker2"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/primary_button_size_length"
-                        android:layoutDirection="ltr" android:textDirection="ltr" />
+                        android:layoutDirection="ltr"
+                        android:textDirection="ltr" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
-        <View android:id="@+id/div3"
-            android:layout_width="0dp" android:layout_height="@dimen/divider_height"
+        <View
+            android:id="@+id/div3"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/divider_height"
             android:background="@color/divider_color"
             android:layout_marginTop="@dimen/third_size_layout"
             android:layout_marginHorizontal="@dimen/third_size_layout"
@@ -320,25 +373,42 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal" android:padding="@dimen/secondary_size_layout"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/secondary_size_layout"
                 android:gravity="center_vertical">
 
-                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight="1" android:orientation="vertical">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:fontFamily="@font/secondary_font" android:text="@string/voice_clue_mode"
-                        android:textColor="@color/primary_text" android:textSize="@dimen/sub_font_size"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/secondary_font"
+                        android:text="@string/voice_clue_mode"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/sub_font_size"
                         android:textStyle="bold" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:fontFamily="@font/subtext_font" android:text="@string/voice_clue_how_to_use"
-                        android:textColor="@color/primary_button_color" android:textSize="@dimen/normal_fond_size"
+                        android:fontFamily="@font/subtext_font"
+                        android:text="@string/voice_clue_how_to_use"
+                        android:textColor="@color/primary_button_color"
+                        android:textSize="@dimen/normal_fond_size"
                         android:textStyle="italic" />
                 </LinearLayout>
 
-                <Switch android:id="@+id/voiceClueSwitch"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                <!-- ✅ FIXED: MaterialSwitch replaces deprecated Switch -->
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/voiceClueSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/secondary_size_layout"
                     android:checked="false" />
             </LinearLayout>
@@ -358,24 +428,41 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                android:orientation="horizontal" android:padding="@dimen/secondary_size_layout"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/secondary_size_layout"
                 android:gravity="center_vertical">
 
-                <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
-                    android:layout_weight="1" android:orientation="vertical">
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                        android:fontFamily="@font/secondary_font" android:text="@string/word_packs_title"
-                        android:textColor="@color/primary_text" android:textSize="@dimen/sub_font_size"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/secondary_font"
+                        android:text="@string/word_packs_title"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/sub_font_size"
                         android:textStyle="bold" />
-                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:fontFamily="@font/subtext_font" android:text="@string/word_pack_in_game_desc"
-                        android:textColor="@color/primary_text" android:textSize="@dimen/normal_fond_size" />
+                        android:fontFamily="@font/subtext_font"
+                        android:text="@string/word_pack_in_game_desc"
+                        android:textColor="@color/primary_text"
+                        android:textSize="@dimen/normal_fond_size" />
                 </LinearLayout>
 
+                <!-- ✅ FIXED: Added missing layout_height -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSelectWordPack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     style="@style/PrimaryButtonStyle"
                     android:layout_marginStart="@dimen/secondary_size_layout"
                     android:text="@string/btn_select_word_pack"
@@ -384,9 +471,11 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Start Game Button -->
+        <!-- ✅ FIXED: Added missing layout_width and layout_height -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNext"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             style="@style/BigButtonStyle"
             android:layout_marginHorizontal="@dimen/third_size_layout"
             android:layout_marginTop="@dimen/third_size_layout"

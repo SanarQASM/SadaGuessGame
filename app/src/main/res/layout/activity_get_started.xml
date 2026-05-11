@@ -11,7 +11,6 @@
         android:layout_height="match_parent"
         android:background="@drawable/bg_linear_app_background_primary">
 
-        <!-- 🔹 Logo -->
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/logo"
             android:layout_width="@dimen/image_get_started_size"
@@ -25,7 +24,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- 🔹 Title -->
         <TextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
@@ -40,7 +38,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- 🔹 Description -->
         <TextView
             android:id="@+id/descText"
             android:layout_width="0dp"
@@ -59,9 +56,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- 🔹 Button -->
+        <!-- ✅ FIXED: Added layout_width and layout_height -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/getStarted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             style="@style/BigButtonStyle"
             android:text="@string/txt_get_start"
             app:layout_constraintTop_toBottomOf="@id/descText"
