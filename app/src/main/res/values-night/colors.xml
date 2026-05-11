@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base -->
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- App icon -->
+    <color name="app_icon_background">#FBFDFC</color>
+
+    <!-- Dark-mode palette -->
+    <color name="primary_color">#0F2137</color>
+    <color name="secondary_color">#162D4A</color>
+    <color name="primary_text">#9CDFEA</color>
+    <color name="primary_button_color">#C5B8E8</color>
+
+    <!-- Semantic -->
+    <color name="error_color">#CF6679</color>
+    <color name="success_color">#6DD08C</color>
+    <color name="warning_color">#FFAB40</color>
+
+    <!-- Scrim -->
+    <color name="scrim_color">#99000000</color>
+
+    <!-- Surface -->
+    <color name="surface_card">#1A2A3E</color>
+    <color name="surface_elevated">#243650</color>
+
+    <!-- Divider -->
+    <color name="divider_color">#1F9CDFEA</color>
+
+    <!-- Timer -->
+    <color name="timer_warning_color">#FF5252</color>
+    <color name="timer_normal_color">#9CDFEA</color>
+
+    <!-- Combo / streak -->
+    <color name="combo_color">#FFAB40</color>
+    <color name="streak_color">#FF5252</color>
+
+    <!-- Score card -->
+    <color name="score_card_a_start">#1D426F</color>
+    <color name="score_card_a_end">#2A5590</color>
+    <color name="score_card_b_start">#0F4C75</color>
+    <color name="score_card_b_end">#1B6CA8</color>
+
+    <!-- Hint -->
+    <color name="hint_available_color">#C5B8E8</color>
+    <color name="hint_exhausted_color">#546E7A</color>
+</resources>

@@ -8,31 +8,42 @@
     <!-- App icon -->
     <color name="app_icon_background">#FBFDFC</color>
 
-    <!--
-        Light-mode palette
-        primary_color       = soft purple  (backgrounds, cards, secondary surfaces)
-        secondary_color     = sky blue     (accents, highlights, indicators)
-        primary_text        = deep navy    (readable on light backgrounds, ≥ 7:1 on white)
-        primary_button_color= mid navy/teal (buttons & interactive elements)
-    -->
+    <!-- Light-mode palette -->
     <color name="primary_color">#B2A2D0</color>
     <color name="secondary_color">#9CDFEA</color>
     <color name="primary_text">#0F2137</color>
     <color name="primary_button_color">#1D426F</color>
 
-    <!-- Semantic / status colours -->
+    <!-- Semantic -->
     <color name="error_color">#B00020</color>
     <color name="success_color">#1B7D3A</color>
     <color name="warning_color">#E65100</color>
 
-    <!-- Scrim for dialogs / overlays -->
+    <!-- Scrim -->
     <color name="scrim_color">#80000000</color>
 
-    <!-- Surface tones -->
+    <!-- Surface -->
     <color name="surface_card">#F4F0FA</color>
     <color name="surface_elevated">#ECEAF6</color>
 
     <!-- Divider -->
     <color name="divider_color">#1F0F2137</color>
-    
+
+    <!-- Timer -->
+    <color name="timer_warning_color">#FF5252</color>
+    <color name="timer_normal_color">#1D426F</color>
+
+    <!-- Combo / streak -->
+    <color name="combo_color">#E65100</color>
+    <color name="streak_color">#B00020</color>
+
+    <!-- Score card -->
+    <color name="score_card_a_start">#1D426F</color>
+    <color name="score_card_a_end">#2A5590</color>
+    <color name="score_card_b_start">#0F4C75</color>
+    <color name="score_card_b_end">#1B6CA8</color>
+
+    <!-- Hint -->
+    <color name="hint_available_color">#1D426F</color>
+    <color name="hint_exhausted_color">#90A4AE</color>
 </resources>
