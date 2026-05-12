@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_linear_app_background_primary">
 
-    <!-- Lightning title -->
     <TextView
         android:id="@+id/sdTitle"
         android:layout_width="wrap_content"
@@ -21,7 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Group turn label -->
     <TextView
         android:id="@+id/sdGroupTurn"
         android:layout_width="wrap_content"
@@ -36,7 +34,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Countdown timer -->
     <TextView
         android:id="@+id/sdTimeDisplay"
         android:layout_width="wrap_content"
@@ -51,7 +48,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Progress bar -->
     <ProgressBar
         android:id="@+id/sdProgressBar"
         style="?android:attr/progressBarStyleHorizontal"
@@ -67,7 +63,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Card container -->
     <LinearLayout
         android:id="@+id/sdCardContainer"
         android:layout_width="wrap_content"
@@ -102,7 +97,6 @@
             android:paddingTop="4dp"/>
     </LinearLayout>
 
-    <!-- Tap tip -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -115,7 +109,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Found / Not found buttons -->
     <LinearLayout
         android:id="@+id/sdButtonContainer"
         android:layout_width="wrap_content"
@@ -129,13 +122,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintVertical_bias="1.0">
 
+        <!-- ✅ FIXED: Added layout_width and layout_height -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSdFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             style="@style/PrimaryButtonStyle"
             android:text="@string/yes_button"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSdNotFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             style="@style/PrimaryButtonStyle"
             android:layout_marginStart="16dp"
             android:text="@string/no_button"/>

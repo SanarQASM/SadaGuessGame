@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_linear_app_background_primary"
+        android:paddingBottom="@dimen/big_size_layout">
+
+        <!-- Header -->
+        <LinearLayout
+            android:id="@+id/header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/secondary_size_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/back_home_activity_button"
+                android:layout_width="@dimen/back_button_size"
+                android:layout_height="@dimen/back_button_size"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/back"
+                android:padding="8dp"
+                android:src="@drawable/ic_back" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="32dp"
+                android:layout_marginHorizontal="@dimen/secondary_size_layout"
+                android:background="?android:attr/listDivider" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:layout_width="@dimen/image_size"
+                android:layout_height="@dimen/image_size"
+                android:scaleType="centerCrop"
+                android:src="@drawable/sada_guess_main_image"
+                app:shapeAppearanceOverlay="@style/CircleImage" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/secondary_size_layout"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/primary_font"
+                    android:text="@string/application_name"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/primary_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/buttons_font"
+                    android:text="@string/spinner_title"
+                    android:textColor="@color/primary_button_color"
+                    android:textSize="@dimen/sub_font_size" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Spinner wheel image -->
+        <ImageView
+            android:id="@+id/ivSpinner"
+            android:layout_width="@dimen/image_get_started_size"
+            android:layout_height="@dimen/image_get_started_size"
+            android:layout_marginTop="@dimen/secondary_size_layout"
+            android:contentDescription="@string/spinner_title"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_spinner_wheel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/header" />
+
+        <!-- Instruction -->
+        <TextView
+            android:id="@+id/tvSpinInstruction"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/third_size_layout"
+            android:layout_marginTop="@dimen/primary_size_layout"
+            android:fontFamily="@font/subtext_font"
+            android:gravity="center"
+            android:textColor="@color/primary_button_color"
+            android:textSize="@dimen/sub_font_size"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivSpinner" />
+
+        <!-- Input row -->
+        <LinearLayout
+            android:id="@+id/inputRow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/third_size_layout"
+            android:layout_marginTop="@dimen/secondary_size_layout"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvSpinInstruction">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/secondary_size_layout"
+                android:layout_weight="1"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etMemberName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/spinner_name_hint"
+                    android:imeOptions="actionDone"
+                    android:inputType="textCapWords|textPersonName"
+                    android:maxLength="20"
+                    android:textColor="@color/primary_text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnAddMember"
+                style="@style/PrimaryButtonStyle"
+                android:text="@string/spinner_add_btn"
+                app:icon="@drawable/ic_add"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <!-- Chip group for members -->
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupMembers"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/third_size_layout"
+            android:layout_marginTop="@dimen/secondary_size_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/inputRow" />
+
+        <!-- Spin button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSpin"
+            style="@style/BigButtonStyle"
+            android:layout_marginHorizontal="@dimen/third_size_layout"
+            android:layout_marginTop="@dimen/secondary_size_layout"
+            android:text="@string/spinner_spin_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/chipGroupMembers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Result card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/resultCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/third_size_layout"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/surface_card"
+            app:cardCornerRadius="@dimen/radius_card"
+            app:cardElevation="@dimen/elevation_card"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSpin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/secondary_size_layout">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="@font/primary_font"
+                    android:text="@string/spinner_result_title"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/secondary_size"
+                    android:textStyle="bold" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/divider_height"
+                    android:layout_marginVertical="@dimen/secondary_size_layout"
+                    android:background="@color/divider_color" />
+
+                <!-- Two teams side by side -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <!-- Group A column -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/primary_size_layout"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_score_card_a"
+                        android:orientation="vertical"
+                        android:padding="@dimen/secondary_size_layout">
+
+                        <TextView
+                            android:id="@+id/tvGroupATitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/secondary_font"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sub_font_size"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/layoutGroupA"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/primary_size_layout"
+                            android:orientation="vertical" />
+                    </LinearLayout>
+
+                    <!-- Group B column -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/primary_size_layout"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_score_card_b"
+                        android:orientation="vertical"
+                        android:padding="@dimen/secondary_size_layout">
+
+                        <TextView
+                            android:id="@+id/tvGroupBTitle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/secondary_font"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sub_font_size"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:id="@+id/layoutGroupB"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/primary_size_layout"
+                            android:orientation="vertical" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Use Teams button (select mode only) -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnUseTeams"
+                    style="@style/PrimaryButtonStyle"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/secondary_size_layout"
+                    android:text="@string/spinner_use_teams"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

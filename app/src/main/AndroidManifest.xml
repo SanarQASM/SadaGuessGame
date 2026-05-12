@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ══════════════════════════════════════════════════════════════════════════
+  UPDATED AndroidManifest.xml
+  Only the ADDITIONS for the 6 new features are listed here.
+  Merge these blocks into your existing AndroidManifest.xml:
+
+  1. New permissions  (paste inside <manifest> before <application>)
+  2. AdMob meta-data  (paste inside <application>)
+  3. TeamSpinnerActivity declaration (paste inside <application> with other activities)
+  ══════════════════════════════════════════════════════════════════════════
+-->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.sadaguessgame">
 
+    <!-- ══ EXISTING permissions ══ -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <!-- ══ Feature 6: Notifications (required on Android 13+) ══ -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+    <!-- ══ Feature 4: Ads network state (optional but recommended by AdMob) ══ -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".MyApplication"
@@ -16,10 +34,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SadaGuessGame">
 
-        <!-- ── Existing activities ── -->
+        <!--
+          ══ Feature 4: AdMob App ID ══
+          Replace the placeholder with your real AdMob App ID from the console.
+          This meta-data tag is REQUIRED even when ads are in test mode.
+        -->
+<!--        <meta-data-->
+<!--            android:name="com.google.android.gms.ads.APPLICATION_ID"-->
+<!--            android:value="@string/admob_app_id"/>-->
+
+        <!--
+          ══ Feature 6: Firebase Cloud Messaging (FCM) for push notifications ══
+          Add this ONLY after you integrate the Firebase SDK:
+          <service
+              android:name=".service.SadaGuessFirebaseMessagingService"
+              android:exported="false">
+              <intent-filter>
+                  <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+              </intent-filter>
+          </service>
+        -->
+
+        <!-- ══ Existing activities (unchanged) ══ -->
 
         <activity
-            android:name="com.example.sadaguessgame.activities.SplashActivity"
+            android:name=".activities.SplashActivity"
             android:exported="true"
             android:configChanges="orientation|screenSize|layoutDirection|locale">
             <intent-filter>
@@ -28,86 +67,31 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="com.example.sadaguessgame.ui.GetStarted"
-            android:exported="false"
-            android:configChanges="orientation|screenSize|layoutDirection|locale"/>
+        <activity android:name=".ui.GetStarted"              android:exported="false" android:configChanges="orientation|screenSize|layoutDirection|locale"/>
+        <activity android:name=".ui.NavigationActivity"      android:exported="false" android:configChanges="orientation|screenSize|layoutDirection|locale"/>
+        <activity android:name=".activities.MainActivity"    android:exported="false" android:configChanges="orientation|screenSize|layoutDirection|locale"/>
+        <activity android:name=".activities.CreateNewGameActivity" android:exported="false" android:configChanges="orientation|screenSize|layoutDirection|locale" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".activities.CardsActivity"   android:exported="false" android:configChanges="orientation|screenSize|layoutDirection|locale"/>
+        <activity android:name=".activities.GameScoreActivity" android:exported="false" android:configChanges="orientation|screenSize|layoutDirection|locale"/>
+        <activity android:name=".activities.WinnerActivity"  android:exported="false" android:configChanges="orientation|screenSize|layoutDirection|locale"/>
+        <activity android:name=".activities.TimerActivity"   android:exported="false" android:configChanges="orientation|screenSize|layoutDirection|locale"/>
+        <activity android:name=".activities.ScoreBoardActivity" android:exported="false" android:configChanges="orientation|screenSize|layoutDirection|locale"/>
+        <activity android:name=".activities.DiceActivity"    android:exported="false" android:configChanges="orientation|screenSize|layoutDirection|locale"/>
+        <activity android:name=".activities.PrivacyPolicyActivity" android:exported="false" android:configChanges="orientation|screenSize|layoutDirection|locale"/>
+        <activity android:name=".activities.SuddenDeathActivity" android:exported="false" android:configChanges="orientation|screenSize|layoutDirection|locale"/>
+        <activity android:name=".activities.WordPackActivity" android:exported="false" android:configChanges="orientation|screenSize|layoutDirection|locale" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".activities.LearnGameActivity" android:exported="false" android:configChanges="orientation|screenSize|layoutDirection|locale"/>
+        <activity android:name=".activities.ScoreBoardHistoryActivity" android:exported="false" android:configChanges="orientation|screenSize|layoutDirection|locale"/>
+        <activity android:name=".activities.DrawActivity"    android:exported="false" android:configChanges="orientation|screenSize|layoutDirection|locale"/>
 
+        <!-- ══ Feature 1: Team Spinner Activity (NEW) ══ -->
         <activity
-            android:name="com.example.sadaguessgame.ui.NavigationActivity"
-            android:exported="false"
-            android:configChanges="orientation|screenSize|layoutDirection|locale"/>
-
-        <activity
-            android:name="com.example.sadaguessgame.activities.MainActivity"
-            android:exported="false"
-            android:configChanges="orientation|screenSize|layoutDirection|locale"/>
-
-        <activity
-            android:name="com.example.sadaguessgame.activities.CreateNewGameActivity"
-            android:exported="false"
-            android:configChanges="orientation|screenSize|layoutDirection|locale"
-            android:windowSoftInputMode="adjustResize"/>
-
-        <activity
-            android:name="com.example.sadaguessgame.activities.CardsActivity"
-            android:exported="false"
-            android:configChanges="orientation|screenSize|layoutDirection|locale"/>
-
-        <activity
-            android:name="com.example.sadaguessgame.activities.GameScoreActivity"
-            android:exported="false"
-            android:configChanges="orientation|screenSize|layoutDirection|locale"/>
-
-        <activity
-            android:name="com.example.sadaguessgame.activities.WinnerActivity"
-            android:exported="false"
-            android:configChanges="orientation|screenSize|layoutDirection|locale"/>
-
-        <activity
-            android:name="com.example.sadaguessgame.activities.TimerActivity"
-            android:exported="false"
-            android:configChanges="orientation|screenSize|layoutDirection|locale"/>
-
-        <activity
-            android:name="com.example.sadaguessgame.activities.ScoreBoardActivity"
-            android:exported="false"
-            android:configChanges="orientation|screenSize|layoutDirection|locale"/>
-
-        <activity
-            android:name="com.example.sadaguessgame.activities.DiceActivity"
-            android:exported="false"
-            android:configChanges="orientation|screenSize|layoutDirection|locale"/>
-
-        <activity
-            android:name="com.example.sadaguessgame.activities.PrivacyPolicyActivity"
-            android:exported="false"
-            android:configChanges="orientation|screenSize|layoutDirection|locale"/>
-
-        <!-- ── NEW activities (v2) ── -->
-
-        <activity
-            android:name="com.example.sadaguessgame.activities.SuddenDeathActivity"
-            android:exported="false"
-            android:configChanges="orientation|screenSize|layoutDirection|locale"/>
-
-        <activity
-            android:name="com.example.sadaguessgame.activities.WordPackActivity"
+            android:name=".activities.TeamSpinnerActivity"
             android:exported="false"
             android:configChanges="orientation|screenSize|layoutDirection|locale"
             android:windowSoftInputMode="adjustResize"/>
 
-        <activity
-            android:name="com.example.sadaguessgame.activities.LearnGameActivity"
-            android:exported="false"
-            android:configChanges="orientation|screenSize|layoutDirection|locale"/>
-
-        <activity
-            android:name="com.example.sadaguessgame.activities.ScoreBoardHistoryActivity"
-            android:exported="false"
-            android:configChanges="orientation|screenSize|layoutDirection|locale"/>
-
-        <!-- ── FileProvider for sharing summary images ── -->
+        <!-- FileProvider for sharing summary images -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

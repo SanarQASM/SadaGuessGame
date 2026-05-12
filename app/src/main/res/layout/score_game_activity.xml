@@ -167,7 +167,9 @@
                             style="@style/PrimaryButtonStyle"
                             android:text="@string/group_a_color_btn"
                             android:maxLines="1"
-                            android:ellipsize="end" />
+                            android:ellipsize="end"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/groupBColor"
@@ -175,7 +177,9 @@
                             android:layout_marginStart="@dimen/secondary_size_layout"
                             android:text="@string/group_b_color_btn"
                             android:maxLines="1"
-                            android:ellipsize="end" />
+                            android:ellipsize="end"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
                     </LinearLayout>
 
                     <!-- Score boards -->
@@ -313,6 +317,8 @@
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/restartScore"
                             style="@style/PrimaryButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:text="@string/txt_restart"
                             android:maxLines="1"
                             android:ellipsize="end" />
@@ -320,6 +326,8 @@
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/undoButton"
                             style="@style/PrimaryButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/secondary_size_layout"
                             android:text="@string/undo"
                             android:maxLines="1"
@@ -328,6 +336,8 @@
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/historyButton"
                             style="@style/PrimaryButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/secondary_size_layout"
                             android:text="@string/history"
                             android:maxLines="1"

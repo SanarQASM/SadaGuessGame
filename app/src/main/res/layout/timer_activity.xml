@@ -6,7 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/bg_linear_app_background_primary">
 
-    <!-- FIXED HEADER -->
     <LinearLayout
         android:id="@+id/logo_name_container"
         android:layout_width="0dp"
@@ -40,8 +39,6 @@
             android:layout_height="@dimen/image_size"
             android:layout_margin="@dimen/primary_size_layout"
             android:elevation="20dp"
-            android:outlineAmbientShadowColor="@color/black"
-            android:outlineSpotShadowColor="@color/black"
             android:scaleType="centerCrop"
             android:src="@drawable/sada_guess_main_image"
             app:shapeAppearanceOverlay="@style/CircleImage" />
@@ -71,7 +68,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- SCROLLABLE CONTENT -->
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"
@@ -91,7 +87,6 @@
                 android:id="@+id/timerAnimation"
                 android:layout_width="@dimen/image_get_started_size"
                 android:layout_height="@dimen/image_get_started_size"
-                android:layout_gravity="center"
                 android:layout_marginTop="@dimen/secondary_size_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -100,10 +95,6 @@
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/timer" />
 
-            <!--
-                Select Time — always LTR layout so min:sec pickers are never reversed
-                regardless of app language direction.
-            -->
             <LinearLayout
                 android:id="@+id/select_time"
                 android:layout_width="0dp"
@@ -112,7 +103,6 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:layoutDirection="ltr"
-                android:textDirection="ltr"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/timerAnimation">
@@ -134,10 +124,8 @@
                     android:layout_marginEnd="@dimen/secondary_size_layout"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:layoutDirection="ltr"
-                    android:textDirection="ltr">
+                    android:layoutDirection="ltr">
 
-                    <!-- Minute picker — always LTR -->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -160,11 +148,9 @@
                             android:textColor="@color/primary_button_color"
                             android:gravity="center"
                             android:textSize="@dimen/normal_fond_size"
-                            android:layoutDirection="ltr"
-                            android:textDirection="ltr" />
+                            android:layoutDirection="ltr" />
                     </LinearLayout>
 
-                    <!-- Colon separator -->
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -175,7 +161,6 @@
                         android:textStyle="bold"
                         android:layout_gravity="center_vertical" />
 
-                    <!-- Second picker — always LTR -->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -198,13 +183,11 @@
                             android:textColor="@color/primary_button_color"
                             android:gravity="center"
                             android:textSize="@dimen/normal_fond_size"
-                            android:layoutDirection="ltr"
-                            android:textDirection="ltr" />
+                            android:layoutDirection="ltr" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Timer display + control buttons row -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/timerContainer"
                 android:layout_width="wrap_content"
@@ -230,10 +213,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
-                <!--
-                    Time display: ALWAYS LTR — layout + text direction forced.
-                    This prevents Kurdish RTL from showing "30 : 01" as "10 : 30".
-                -->
                 <TextView
                     android:id="@+id/timeDisplay"
                     android:layout_width="match_parent"
@@ -267,7 +246,7 @@
                     android:layout_margin="@dimen/primary_size_layout" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <!-- Control buttons -->
+            <!-- ✅ FIXED: Added layout_width and layout_height to all buttons -->
             <LinearLayout
                 android:id="@+id/controlButtonsContainer"
                 android:layout_width="wrap_content"
@@ -280,24 +259,31 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/startTimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     style="@style/PrimaryButtonStyle"
                     android:text="@string/txt_start" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/stopTimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     style="@style/PrimaryButtonStyle"
                     android:layout_marginTop="5dp"
                     android:text="@string/txt_stop" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/restartTimer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     style="@style/PrimaryButtonStyle"
                     android:layout_marginTop="5dp"
                     android:text="@string/txt_restart" />
 
-                <!-- Sound toggle -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/timerSoundToggleBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     style="@style/SecondaryButtonStyle"
                     android:layout_marginTop="5dp"
                     android:text="@string/timer_sound_enabled"

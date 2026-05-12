@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_linear_app_background_primary">
 
-    <!-- Header Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/headerCard"
         android:layout_width="0dp"
@@ -27,7 +26,6 @@
             android:orientation="vertical"
             android:padding="12dp">
 
-            <!-- Title -->
             <TextView
                 android:id="@+id/gameTitle"
                 android:layout_width="wrap_content"
@@ -39,7 +37,6 @@
                 android:textSize="@dimen/secondary_size"
                 android:textStyle="bold" />
 
-            <!-- Round info -->
             <TextView
                 android:id="@+id/tvRoundInfo"
                 android:layout_width="wrap_content"
@@ -51,7 +48,6 @@
                 android:textSize="@dimen/sub_font_size"
                 android:textStyle="italic" />
 
-            <!-- Live score totals -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -59,7 +55,6 @@
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
-                <!-- Group A -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -93,7 +88,6 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-                <!-- VS -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -105,7 +99,6 @@
                     android:textSize="@dimen/sub_font_size"
                     android:textStyle="bold" />
 
-                <!-- Group B -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -142,7 +135,6 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <!-- Score Table Card -->
     <androidx.cardview.widget.CardView
         android:id="@+id/tableCard"
         android:layout_width="0dp"
@@ -172,7 +164,7 @@
         </ScrollView>
     </androidx.cardview.widget.CardView>
 
-    <!-- Bottom Buttons — Continue | End | Share (NEW) -->
+    <!-- ✅ FIXED: Added layout_width and layout_height to all buttons -->
     <LinearLayout
         android:id="@+id/buttonContainer"
         android:layout_width="wrap_content"
@@ -185,17 +177,23 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnContinueGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             style="@style/PrimaryButtonStyle"
             android:text="@string/txt_continue_game" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEndGame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             style="@style/PrimaryButtonStyle"
             android:layout_marginStart="@dimen/secondary_size_layout"
             android:text="@string/txt_end_game" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnShareResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             style="@style/PrimaryButtonStyle"
             android:layout_marginStart="@dimen/secondary_size_layout"
             android:text="@string/share_result"

@@ -32,7 +32,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_linear_app_background_secondary">
 
-                <!-- Celebration + title -->
                 <FrameLayout
                     android:id="@+id/congratulationTitle"
                     android:layout_width="match_parent"
@@ -62,7 +61,6 @@
                         android:textSize="@dimen/secondary_size" />
                 </FrameLayout>
 
-                <!-- "Winner is:" -->
                 <TextView
                     android:id="@+id/winnerIs"
                     android:layout_width="wrap_content"
@@ -76,7 +74,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/congratulationTitle" />
 
-                <!-- Winner group name -->
                 <TextView
                     android:id="@+id/groupWinnerName"
                     android:layout_width="wrap_content"
@@ -91,7 +88,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/winnerIs" />
 
-                <!-- Confetti left -->
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/confettiAnimation"
                     android:layout_width="@dimen/game_icon_higth"
@@ -105,7 +101,6 @@
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/confetti" />
 
-                <!-- Trophy -->
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/trophyAnimation"
                     android:layout_width="@dimen/game_icon_width"
@@ -119,7 +114,6 @@
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/trophy" />
 
-                <!-- Streak summary (NEW — was missing) -->
                 <TextView
                     android:id="@+id/streakSummary"
                     android:layout_width="wrap_content"
@@ -134,7 +128,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/trophyAnimation" />
 
-                <!-- Score cards -->
                 <LinearLayout
                     android:id="@+id/score_name_container"
                     android:layout_width="match_parent"
@@ -155,7 +148,6 @@
                         android:layout_weight="1"
                         app:cardCornerRadius="16dp"
                         app:cardElevation="8dp">
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -163,7 +155,6 @@
                             android:gravity="center"
                             android:orientation="vertical"
                             android:padding="16dp">
-
                             <TextView
                                 android:id="@+id/groupOneName"
                                 android:layout_width="wrap_content"
@@ -173,7 +164,6 @@
                                 android:textColor="@color/primary_text"
                                 android:textSize="@dimen/sub_font_size"
                                 android:textStyle="bold" />
-
                             <TextView
                                 android:id="@+id/groupOneScore"
                                 android:layout_width="wrap_content"
@@ -193,7 +183,6 @@
                         android:layout_weight="1"
                         app:cardCornerRadius="16dp"
                         app:cardElevation="8dp">
-
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -201,7 +190,6 @@
                             android:gravity="center"
                             android:orientation="vertical"
                             android:padding="16dp">
-
                             <TextView
                                 android:id="@+id/groupTwoName"
                                 android:layout_width="wrap_content"
@@ -211,7 +199,6 @@
                                 android:textColor="@color/primary_text"
                                 android:textSize="@dimen/sub_font_size"
                                 android:textStyle="bold" />
-
                             <TextView
                                 android:id="@+id/groupTwoScore"
                                 android:layout_width="wrap_content"
@@ -225,7 +212,6 @@
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
 
-                <!-- Fireworks -->
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/fireworksAnimation"
                     android:layout_width="match_parent"
@@ -241,7 +227,7 @@
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/fireworks" />
 
-                <!-- Action buttons — Home | Play Again | Share (NEW) -->
+                <!-- ✅ FIXED: Added layout_width and layout_height to all buttons -->
                 <LinearLayout
                     android:id="@+id/colorButtonsContainer"
                     android:layout_width="wrap_content"
@@ -256,17 +242,23 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnHomePage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         style="@style/PrimaryButtonStyle"
                         android:text="@string/txt_home_page" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnPlayAgain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         style="@style/PrimaryButtonStyle"
                         android:layout_marginStart="@dimen/secondary_size_layout"
                         android:text="@string/txt_play_again" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnShareWinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         style="@style/PrimaryButtonStyle"
                         android:layout_marginStart="@dimen/secondary_size_layout"
                         android:text="@string/share_result"

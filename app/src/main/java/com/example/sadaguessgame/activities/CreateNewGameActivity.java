@@ -11,9 +11,12 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
+
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.sadaguessgame.R;
+import com.example.sadaguessgame.activities.TeamSpinnerActivity;
 import com.example.sadaguessgame.data.GameState;
 import com.example.sadaguessgame.data.ScoreStorage;
 import com.example.sadaguessgame.data.WordPack;
@@ -24,12 +27,22 @@ import com.example.sadaguessgame.enums.DifficultyLevel;
 import com.example.sadaguessgame.helper.Category;
 import com.example.sadaguessgame.helper.CategoryAdapter;
 import com.google.android.material.button.MaterialButton;
+
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * CreateNewGameActivity (updated for Feature 1).
+ *
+ * Change vs original:
+ *  • "Split my team" button launches TeamSpinnerActivity in SELECT_MODE.
+ *    When the user picks teams there the names are pre-filled here.
+ */
 public class CreateNewGameActivity extends BaseActivity {
 
-    // ─── Views ───────────────────────────────────────────────────────────────
+    private static final int REQ_SPINNER = 5001;
+
+    // ─── Views ────────────────────────────────────────────────────────────────
     private NumberPicker    secondPicker, minutePicker;
     private EditText        groupNameOne, groupNameTwo;
     private Spinner         roundSpinner, difficultySpinner, hintCountSpinner;
@@ -37,14 +50,13 @@ public class CreateNewGameActivity extends BaseActivity {
     private Switch          voiceClueSwitch;
     private CategoryAdapter categoryAdapter;
     private MaterialButton  btnWordPack;
+    private MaterialButton  btnSplitTeam;   // Feature 1
     private View            categorySection;
 
-    // ─── State ───────────────────────────────────────────────────────────────
+    // ─── State ────────────────────────────────────────────────────────────────
     private GameState newGame;
     private long      selectedWordPackId = -1L;
     private int       selectedHintCount  = GameState.DEFAULT_HINT_COUNT;
-
-    // ─────────────────────────────────────────────────────────────────────────
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,17 +73,65 @@ public class CreateNewGameActivity extends BaseActivity {
         initGroupInputs();
         initVoiceClueSwitch();
         initWordPackButton();
+        initSplitTeamButton();   // Feature 1
         initBackButton();
     }
 
-    // ─── Back ────────────────────────────────────────────────────────────────
+    // ─── Back ─────────────────────────────────────────────────────────────────
 
     private void initBackButton() {
         ImageView btn = findViewById(R.id.back_home_activity_button);
         if (btn != null) btn.setOnClickListener(v -> finish());
     }
 
-    // ─── Pickers ─────────────────────────────────────────────────────────────
+    // ─── Feature 1: Split-team helper ─────────────────────────────────────────
+
+    private void initSplitTeamButton() {
+        btnSplitTeam = findViewById(R.id.btnSplitTeam);
+        if (btnSplitTeam == null) return;
+        btnSplitTeam.setOnClickListener(v -> {
+            Intent intent = new Intent(this, TeamSpinnerActivity.class);
+            intent.putExtra(TeamSpinnerActivity.EXTRA_SELECT_MODE, true);
+            startActivityForResult(intent, REQ_SPINNER);
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Feature 1: pre-fill group names from spinner result
+        if (requestCode == REQ_SPINNER && resultCode == RESULT_OK && data != null) {
+            String teamA = data.getStringExtra(TeamSpinnerActivity.EXTRA_GROUP_A);
+            String teamB = data.getStringExtra(TeamSpinnerActivity.EXTRA_GROUP_B);
+            if (groupNameOne != null && teamA != null && !teamA.isEmpty())
+                groupNameOne.setText(teamA);
+            if (groupNameTwo != null && teamB != null && !teamB.isEmpty())
+                groupNameTwo.setText(teamB);
+            return;
+        }
+
+        // Word pack selection (unchanged)
+        if (requestCode == WordPackActivity.REQ_SELECT_PACK
+                && resultCode == RESULT_OK && data != null) {
+            selectedWordPackId = data.getLongExtra(WordPackActivity.RESULT_PACK_ID, -1L);
+            if (selectedWordPackId >= 0) {
+                WordPack pack = WordPackStorage.getInstance(this).getPackById(selectedWordPackId);
+                if (pack != null) {
+                    btnWordPack.setText(pack.name);
+                    if (categorySection != null)
+                        categorySection.setVisibility(View.GONE);
+                }
+            } else {
+                selectedWordPackId = -1L;
+                btnWordPack.setText(R.string.btn_select_word_pack);
+                if (categorySection != null)
+                    categorySection.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    // ─── Pickers ──────────────────────────────────────────────────────────────
 
     private void initPickers() {
         minutePicker = findViewById(R.id.minutePicker2);
@@ -84,12 +144,11 @@ public class CreateNewGameActivity extends BaseActivity {
         minutePicker.setValue(1);
         secondPicker.setValue(0);
 
-        // Always LTR regardless of app language
         minutePicker.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         secondPicker.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
     }
 
-    // ─── Round spinner ───────────────────────────────────────────────────────
+    // ─── Round spinner ────────────────────────────────────────────────────────
 
     private void initRoundSpinner() {
         roundSpinner = findViewById(R.id.item_spinner);
@@ -98,7 +157,7 @@ public class CreateNewGameActivity extends BaseActivity {
                 android.R.layout.simple_spinner_item, roundsStr);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         roundSpinner.setAdapter(adapter);
-        roundSpinner.setSelection(2); // default 10
+        roundSpinner.setSelection(2);
         roundSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override public void onItemSelected(AdapterView<?> p, View v, int pos, long id) {
                 try { newGame.totalRounds = Integer.parseInt(roundsStr[pos]); }
@@ -123,7 +182,7 @@ public class CreateNewGameActivity extends BaseActivity {
                 android.R.layout.simple_spinner_item, labels);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         difficultySpinner.setAdapter(adapter);
-        difficultySpinner.setSelection(1); // default Medium
+        difficultySpinner.setSelection(1);
         difficultySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override public void onItemSelected(AdapterView<?> p, View v, int pos, long id) {
                 switch (pos) {
@@ -136,7 +195,7 @@ public class CreateNewGameActivity extends BaseActivity {
         });
     }
 
-    // ─── Hint count spinner (NEW) ─────────────────────────────────────────────
+    // ─── Hint count spinner ───────────────────────────────────────────────────
 
     private void initHintCountSpinner() {
         hintCountSpinner = findViewById(R.id.hintCountSpinner);
@@ -147,7 +206,6 @@ public class CreateNewGameActivity extends BaseActivity {
                 android.R.layout.simple_spinner_item, options);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         hintCountSpinner.setAdapter(adapter);
-        // Default: index 2 = "2"
         hintCountSpinner.setSelection(GameState.DEFAULT_HINT_COUNT);
         selectedHintCount = GameState.DEFAULT_HINT_COUNT;
 
@@ -162,7 +220,7 @@ public class CreateNewGameActivity extends BaseActivity {
         });
     }
 
-    // ─── Voice clue switch ───────────────────────────────────────────────────
+    // ─── Voice clue switch ────────────────────────────────────────────────────
 
     @SuppressWarnings("deprecation")
     private void initVoiceClueSwitch() {
@@ -184,28 +242,6 @@ public class CreateNewGameActivity extends BaseActivity {
             intent.putExtra(WordPackActivity.EXTRA_SELECT_MODE, true);
             startActivityForResult(intent, WordPackActivity.REQ_SELECT_PACK);
         });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == WordPackActivity.REQ_SELECT_PACK
-                && resultCode == RESULT_OK && data != null) {
-            selectedWordPackId = data.getLongExtra(WordPackActivity.RESULT_PACK_ID, -1L);
-            if (selectedWordPackId >= 0) {
-                WordPack pack = WordPackStorage.getInstance(this).getPackById(selectedWordPackId);
-                if (pack != null) {
-                    btnWordPack.setText(pack.name);
-                    if (categorySection != null)
-                        categorySection.setVisibility(View.GONE);
-                }
-            } else {
-                selectedWordPackId = -1L;
-                btnWordPack.setText(R.string.btn_select_word_pack);
-                if (categorySection != null)
-                    categorySection.setVisibility(View.VISIBLE);
-            }
-        }
     }
 
     // ─── Group name inputs ────────────────────────────────────────────────────
@@ -235,10 +271,9 @@ public class CreateNewGameActivity extends BaseActivity {
                 roundSpinner.getSelectedItem().toString());
         newGame.wordPackId   = selectedWordPackId;
 
-        // Set configurable hint count
-        newGame.hintCount        = selectedHintCount;
-        newGame.hintsRemainingA  = selectedHintCount;
-        newGame.hintsRemainingB  = selectedHintCount;
+        newGame.hintCount       = selectedHintCount;
+        newGame.hintsRemainingA = selectedHintCount;
+        newGame.hintsRemainingB = selectedHintCount;
 
         if (selectedWordPackId < 0) {
             newGame.categories = categoryAdapter.getSelectedCategoryNames();
@@ -253,7 +288,7 @@ public class CreateNewGameActivity extends BaseActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    // ─── Validation ──────────────────────────────────────────────────────────
+    // ─── Validation ───────────────────────────────────────────────────────────
 
     private boolean validateGroupNames() {
         String n1 = groupNameOne.getText().toString().trim();
@@ -279,7 +314,7 @@ public class CreateNewGameActivity extends BaseActivity {
         return valid;
     }
 
-    // ─── Defaults ────────────────────────────────────────────────────────────
+    // ─── Defaults ─────────────────────────────────────────────────────────────
 
     private void applyDefaultsIfNeeded() {
         if (newGame.wordPackId < 0 &&
@@ -293,7 +328,7 @@ public class CreateNewGameActivity extends BaseActivity {
         }
     }
 
-    // ─── Recycler ────────────────────────────────────────────────────────────
+    // ─── Recycler ─────────────────────────────────────────────────────────────
 
     private void initRecycler() {
         RecyclerView recycler = findViewById(R.id.recyclerCategory);

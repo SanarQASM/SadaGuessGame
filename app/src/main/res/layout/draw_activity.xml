@@ -31,7 +31,6 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_linear_app_background_secondary">
 
-                <!-- Draw Animation -->
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/drawAnimation"
                     android:layout_width="match_parent"
@@ -44,7 +43,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
-                <!-- Draw Title -->
                 <TextView
                     android:id="@+id/drawTitle"
                     android:layout_width="wrap_content"
@@ -59,7 +57,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
-                <!-- Draw subtitle -->
                 <TextView
                     android:id="@+id/drawSubtitle"
                     android:layout_width="wrap_content"
@@ -74,7 +71,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
-                <!-- Handshake / draw icon (Lottie) -->
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/trophyAnimation"
                     android:layout_width="@dimen/game_icon_width"
@@ -87,7 +83,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
-                <!-- Score Cards -->
                 <LinearLayout
                     android:id="@+id/score_name_container"
                     android:layout_width="match_parent"
@@ -101,7 +96,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
 
-                    <!-- Group A Card -->
                     <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -140,7 +134,6 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <!-- Group B Card -->
                     <androidx.cardview.widget.CardView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -181,7 +174,7 @@
 
                 </LinearLayout>
 
-                <!-- Action Buttons -->
+                <!-- ✅ FIXED: Added layout_width and layout_height to all buttons -->
                 <LinearLayout
                     android:id="@+id/colorButtonsContainer"
                     android:layout_width="wrap_content"
@@ -196,11 +189,15 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnHomePage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         style="@style/PrimaryButtonStyle"
                         android:text="@string/txt_home_page" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnPlayAgain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         style="@style/PrimaryButtonStyle"
                         android:layout_marginStart="@dimen/secondary_size_layout"
                         android:text="@string/txt_play_again" />

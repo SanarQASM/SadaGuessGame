@@ -35,14 +35,35 @@
                 android:src="@drawable/sada_guess_main_image"
                 app:shapeAppearanceOverlay="@style/CircleImage" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_marginStart="15dp"
-                android:fontFamily="@font/primary_font"
-                android:text="@string/application_name"
-                android:textColor="@color/primary_text"
-                android:textSize="@dimen/primary_size" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/primary_font"
+                    android:text="@string/application_name"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/primary_size" />
+
+                <!-- Feature 2: Live user count -->
+                <TextView
+                    android:id="@+id/tvHomeLiveCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:background="@drawable/bg_category_selected"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:fontFamily="@font/subtext_font"
+                    android:textColor="@color/primary_text"
+                    android:textSize="@dimen/normal_fond_size"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
 
         <!-- TextSwitcher -->
@@ -83,7 +104,6 @@
                     android:layout_width="@dimen/game_icon_width"
                     android:layout_height="@dimen/game_icon_higth"
                     app:cardCornerRadius="10dp">
-
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -121,7 +141,6 @@
                     android:layout_width="@dimen/game_icon_width"
                     android:layout_height="@dimen/game_icon_higth"
                     app:cardCornerRadius="10dp">
-
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -170,17 +189,16 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="8dp" />
 
-            <!-- ✅ FIXED: Added layout_width and layout_height -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/learnPlay"
+                style="@style/PrimaryButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/PrimaryButtonStyle"
                 android:layout_gravity="center_vertical"
                 android:text="@string/learn_button" />
         </LinearLayout>
 
-        <!-- Tools Section -->
+        <!-- Tools Section label -->
         <LinearLayout
             android:id="@+id/toolsContainer"
             android:layout_width="0dp"
@@ -225,8 +243,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- Timer / Dice / Score Section -->
+        <!-- Tools Row 1: Timer / Dice / Score -->
         <LinearLayout
+            android:id="@+id/toolsRow1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -252,7 +271,6 @@
                     android:layout_width="@dimen/tool_icon_width"
                     android:layout_height="@dimen/tool_icon_higth"
                     app:cardCornerRadius="10dp">
-
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -288,7 +306,6 @@
                     android:layout_width="@dimen/tool_icon_width"
                     android:layout_height="@dimen/tool_icon_higth"
                     app:cardCornerRadius="10dp">
-
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -324,7 +341,6 @@
                     android:layout_width="@dimen/tool_icon_width"
                     android:layout_height="@dimen/tool_icon_higth"
                     app:cardCornerRadius="10dp">
-
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -344,6 +360,58 @@
                     android:textStyle="bold"
                     android:paddingTop="2dp"/>
             </LinearLayout>
+        </LinearLayout>
+
+        <!-- Tools Row 2: Feature 1 - Team Spinner -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layoutDirection="locale"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintTop_toBottomOf="@id/toolsRow1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- Team Spinner -->
+            <LinearLayout
+                android:id="@+id/SpinnerContiner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/bg_category_selected">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="@dimen/tool_icon_width"
+                    android:layout_height="@dimen/tool_icon_higth"
+                    app:cardCornerRadius="10dp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:contentDescription="@string/spinner_title"
+                        android:src="@drawable/ic_spinner_wheel"
+                        android:scaleType="centerInside"
+                        android:padding="8dp"
+                        android:background="@color/primary_color"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/spinner_title"
+                    android:gravity="center"
+                    android:textSize="@dimen/sub_font_size"
+                    android:fontFamily="@font/subtext_font"
+                    android:textColor="@color/primary_color"
+                    android:textStyle="bold"
+                    android:paddingTop="2dp"/>
+            </LinearLayout>
+
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

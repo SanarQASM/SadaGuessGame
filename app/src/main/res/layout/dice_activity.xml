@@ -25,7 +25,6 @@
             android:layout_height="match_parent"
             android:background="@drawable/bg_linear_app_background_secondary">
 
-            <!-- FIXED HEADER -->
             <LinearLayout
                 android:id="@+id/logo_name_container"
                 android:layout_width="0dp"
@@ -87,7 +86,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- SCROLLABLE CONTENT -->
             <ScrollView
                 android:id="@+id/scrollView"
                 android:layout_width="0dp"
@@ -103,7 +101,6 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/big_size_layout">
 
-                    <!-- Dice count title -->
                     <TextView
                         android:id="@+id/selectDice"
                         android:layout_width="0dp"
@@ -118,7 +115,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
 
-                    <!-- 1 or 2 dice selector -->
+                    <!-- ✅ FIXED: Added layout_width and layout_height -->
                     <LinearLayout
                         android:id="@+id/colorButtonsContainer"
                         android:layout_width="wrap_content"
@@ -131,17 +128,20 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn1Dice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             style="@style/PrimaryButtonStyle"
                             android:text="@string/dice1"/>
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn2Dice"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             style="@style/PrimaryButtonStyle"
                             android:layout_marginStart="@dimen/secondary_size_layout"
                             android:text="@string/dice2"/>
                     </LinearLayout>
 
-                    <!-- Double probability label -->
                     <TextView
                         android:id="@+id/probability_double"
                         android:layout_width="wrap_content"
@@ -156,7 +156,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/colorButtonsContainer"/>
 
-                    <!-- Probability buttons -->
                     <LinearLayout
                         android:id="@+id/btn_container"
                         android:layout_width="match_parent"
@@ -171,33 +170,36 @@
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn0"
-                            style="@style/SmallButtonStyle"
                             android:layout_width="56dp"
+                            android:layout_height="wrap_content"
+                            style="@style/SmallButtonStyle"
                             android:text="@string/prob_0"/>
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_1"
-                            style="@style/SmallButtonStyle"
                             android:layout_width="56dp"
+                            android:layout_height="wrap_content"
+                            style="@style/SmallButtonStyle"
                             android:layout_marginStart="12dp"
                             android:text="@string/prob_25"/>
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_2"
-                            style="@style/SmallButtonStyle"
                             android:layout_width="56dp"
+                            android:layout_height="wrap_content"
+                            style="@style/SmallButtonStyle"
                             android:layout_marginStart="12dp"
                             android:text="@string/prob_50"/>
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_3"
-                            style="@style/SmallButtonStyle"
                             android:layout_width="56dp"
+                            android:layout_height="wrap_content"
+                            style="@style/SmallButtonStyle"
                             android:layout_marginStart="12dp"
                             android:text="@string/prob_75"/>
                     </LinearLayout>
 
-                    <!-- Dice display area — FIXED SIZE container -->
                     <FrameLayout
                         android:id="@+id/diceContainer"
                         android:layout_width="@dimen/image_get_started_size"
@@ -255,7 +257,6 @@
                             android:visibility="gone"/>
                     </FrameLayout>
 
-                    <!-- Result text — shows roll outcome clearly -->
                     <TextView
                         android:id="@+id/tvDiceResult"
                         android:layout_width="wrap_content"
@@ -271,7 +272,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/diceContainer"/>
 
-                    <!-- Skip animation -->
                     <CheckBox
                         android:id="@+id/checkboxSkipAnimation"
                         android:layout_width="wrap_content"
@@ -286,14 +286,15 @@
                         app:layout_constraintTop_toBottomOf="@+id/tvDiceResult"
                         app:layout_constraintEnd_toEndOf="parent"/>
 
-                    <!-- Roll button -->
+                    <!-- ✅ FIXED: Added layout_width and layout_height -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/startRollDice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         style="@style/PrimaryButtonStyle"
                         android:layout_marginTop="@dimen/secondary_size_layout"
                         android:layout_marginBottom="@dimen/secondary_size_layout"
                         android:text="@string/start_roll_dice"
-                        android:layout_width="wrap_content"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/checkboxSkipAnimation"/>

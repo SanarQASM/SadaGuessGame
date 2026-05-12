@@ -12,32 +12,47 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
+
 import com.example.sadaguessgame.R;
 import com.example.sadaguessgame.activities.CardsActivity;
 import com.example.sadaguessgame.activities.CreateNewGameActivity;
 import com.example.sadaguessgame.activities.DiceActivity;
 import com.example.sadaguessgame.activities.LearnGameActivity;
 import com.example.sadaguessgame.activities.ScoreBoardActivity;
+import com.example.sadaguessgame.activities.TeamSpinnerActivity;
 import com.example.sadaguessgame.activities.TimerActivity;
 import com.example.sadaguessgame.data.GameState;
 import com.example.sadaguessgame.data.ScoreStorage;
+import com.example.sadaguessgame.manager.LiveUserCountManager;
 import com.google.android.material.button.MaterialButton;
 
+/**
+ * HomeFragment (updated for Features 1 & 2).
+ *
+ * Changes vs original:
+ *  • Spinner tile added in the Tools section (Feature 1)
+ *  • Live user count shown below the app title (Feature 2)
+ */
 public class HomeFragment extends BaseFragment {
 
     private LinearLayout  continueGameContainer;
     private TextSwitcher  textSwitcher;
+    private TextView      tvLiveCount;
     private String[]      texts;
 
-    private static final int SWITCHER_DELAY_MS = 3000;
+    private static final int  SWITCHER_DELAY_MS = 3000;
     private int      textIndex   = 0;
     private final Handler  handler     = new Handler(Looper.getMainLooper());
     private Runnable textRunnable;
     private boolean  hasPreviousGame;
+
+    // Feature 2
+    private LiveUserCountManager liveCountManager;
 
     @Nullable
     @Override
@@ -51,12 +66,15 @@ public class HomeFragment extends BaseFragment {
         LinearLayout timerContainer    = view.findViewById(R.id.Timer);
         LinearLayout diceContainer     = view.findViewById(R.id.DiceContiner);
         LinearLayout scoreContainer    = view.findViewById(R.id.scoreBoardContiner);
+        LinearLayout spinnerContainer  = view.findViewById(R.id.SpinnerContiner);   // Feature 1
         MaterialButton learnPlay       = view.findViewById(R.id.learnPlay);
         textSwitcher                   = view.findViewById(R.id.home_text_switcher);
+        tvLiveCount                    = view.findViewById(R.id.tvHomeLiveCount);   // Feature 2
         texts = getResources().getStringArray(R.array.home_texts);
 
         setupTextSwitcher();
         refreshContinueButton();
+        setupLiveCount(); // Feature 2
 
         if (newGameContainer != null) {
             newGameContainer.setOnClickListener(v ->
@@ -73,7 +91,6 @@ public class HomeFragment extends BaseFragment {
             });
         }
 
-        // Both Home and Settings "Learn" buttons open the SAME LearnGameActivity
         if (learnPlay != null) {
             learnPlay.setOnClickListener(v ->
                     startActivity(new Intent(requireContext(), LearnGameActivity.class)));
@@ -94,8 +111,45 @@ public class HomeFragment extends BaseFragment {
                     startActivity(new Intent(requireContext(), ScoreBoardActivity.class)));
         }
 
+        // Feature 1: Team Spinner tile
+        if (spinnerContainer != null) {
+            spinnerContainer.setOnClickListener(v ->
+                    startActivity(new Intent(requireContext(), TeamSpinnerActivity.class)));
+        }
+
         return view;
     }
+
+    // ─── Feature 2: Live user count ───────────────────────────────────────────
+
+    private void setupLiveCount() {
+        liveCountManager = LiveUserCountManager.getInstance(requireContext());
+        if (tvLiveCount != null) {
+            tvLiveCount.setText(
+                    getString(R.string.live_users_format, liveCountManager.getCurrentCount()));
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshContinueButton();
+        if (liveCountManager != null) {
+            liveCountManager.start(count -> {
+                if (tvLiveCount != null && isAdded()) {
+                    tvLiveCount.setText(getString(R.string.live_users_format, count));
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (liveCountManager != null) liveCountManager.stop();
+    }
+
+    // ─── Text switcher ────────────────────────────────────────────────────────
 
     private void setupTextSwitcher() {
         if (textSwitcher == null || !isAdded()) return;
@@ -129,11 +183,6 @@ public class HomeFragment extends BaseFragment {
         handler.post(textRunnable);
     }
 
-    @Override public void onResume() {
-        super.onResume();
-        refreshContinueButton();
-    }
-
     @Override public void onDestroyView() {
         super.onDestroyView();
         if (textRunnable != null) {
@@ -141,6 +190,7 @@ public class HomeFragment extends BaseFragment {
             textRunnable = null;
         }
         textSwitcher = null;
+        tvLiveCount  = null;
     }
 
     private void refreshContinueButton() {

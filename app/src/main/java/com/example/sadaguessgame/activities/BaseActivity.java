@@ -6,15 +6,28 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+
+import com.example.sadaguessgame.manager.NavigationStateManager;
+import com.example.sadaguessgame.manager.ThemeManager;
+
 import java.util.Locale;
 
+/**
+ * BaseActivity (updated for Features 3 & 5).
+ *
+ * Changes vs original:
+ *  • onResume  → persists last-visited screen name (Feature 3)
+ *  • onCreate  → applies theme status-bar tint (Feature 5)
+ */
 public class BaseActivity extends AppCompatActivity {
 
-    private static final String PREFS_NAME  = "settings_prefs";
+    private static final String PREFS_NAME   = "settings_prefs";
     private static final String KEY_LANGUAGE = "language";
-    private static final String KEY_DARK_MODE = "dark_mode";
+    private static final String KEY_DARK_MODE= "dark_mode";
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -25,12 +38,34 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         applyDarkMode();
         super.onCreate(savedInstanceState);
+        applyThemeStatusBar();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        forceLayoutDirection();
+        // Feature 3 — save the last visited screen so the app can restore it
+        NavigationStateManager.getInstance(this)
+                .saveLastScreen(getClass().getSimpleName());
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         forceLayoutDirection();
+    }
+
+    // ─── Feature 5: tint status bar with current theme color ─────────────────
+
+    private void applyThemeStatusBar() {
+        try {
+            ThemeManager tm = ThemeManager.getInstance(this);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(tm.getPrimaryColor());
+        } catch (Exception ignored) {
+            // Non-critical; some older devices don't support this
+        }
     }
 
     // ─── Locale ───────────────────────────────────────────────────────────────
@@ -79,10 +114,6 @@ public class BaseActivity extends AppCompatActivity {
         return lang.equals("ku") || lang.equals("kmr");
     }
 
-    /**
-     * Force RTL/LTR direction on entire view hierarchy — call after setContentView()
-     * or in onStart() to ensure locale change applies immediately.
-     */
     protected void forceLayoutDirection() {
         View root = findViewById(android.R.id.content);
         if (root == null) return;

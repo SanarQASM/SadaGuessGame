@@ -39,6 +39,9 @@ android {
             )
         }
     }
+    buildFeatures {
+        viewBinding = true
+    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -76,4 +79,19 @@ dependencies {
     // Instrumented Tests
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    // ── Feature 4: AdMob ───────────────────────────────────────────────────
+    // Uncomment when you have your AdMob account and App ID ready:
+    // implementation 'com.google.android.gms:play-services-ads:23.1.0'
+
+    // ── Feature 4 & 6: Firebase (required for FCM push + optional Analytics) ─
+    // Add google-services.json first, then uncomment:
+    // implementation platform('com.google.firebase:firebase-bom:33.0.0')
+    // implementation 'com.google.firebase:firebase-messaging'
+    // implementation 'com.google.firebase:firebase-analytics'   // optional
+
+    // ── Feature 1: AmbilWarna colour picker (already used in ScoreBoardActivity) ──
+    // Already in your project. No change needed.
+
+    // ── Feature 6: WorkManager (optional — for scheduled "Did you know?" notifs) ──
+    // implementation 'androidx.work:work-runtime:2.9.0'
 }

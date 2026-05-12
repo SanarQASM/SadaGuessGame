@@ -16,29 +16,49 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
+
 import com.example.sadaguessgame.R;
 import com.example.sadaguessgame.activities.LearnGameActivity;
 import com.example.sadaguessgame.activities.MainActivity;
 import com.example.sadaguessgame.activities.PrivacyPolicyActivity;
+import com.example.sadaguessgame.activities.TeamSpinnerActivity;
 import com.example.sadaguessgame.activities.WordPackActivity;
+import com.example.sadaguessgame.enums.AppTheme;
 import com.example.sadaguessgame.enums.SoundTheme;
+import com.example.sadaguessgame.manager.LiveUserCountManager;
 import com.example.sadaguessgame.manager.SoundManager;
+import com.example.sadaguessgame.manager.ThemeManager;
 import com.example.sadaguessgame.manager.VoiceClueManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 
+/**
+ * SettingFragment (updated for Features 1, 2, 5, 6).
+ *
+ * New additions:
+ *  • Live user count badge (Feature 2)
+ *  • Theme picker RadioGroup (Feature 5)
+ *  • Quick-access button for Team Spinner tool (Feature 1)
+ */
 public class SettingFragment extends BaseFragment {
 
+    // ── Views ─────────────────────────────────────────────────────────────────
     private SwitchMaterial darkModeSwitch;
     private SwitchMaterial voiceClueSwitch;
     private Spinner        languageSpinner;
     private RadioGroup     soundThemeGroup;
     private RadioButton    rbClassic, rbDabke, rbSilent;
+    private RadioGroup     appThemeGroup;
+    private RadioButton    rbOcean, rbSunset, rbForest, rbGalaxy, rbRose, rbMidnight;
     private TextView       appVersion;
-    private MaterialButton learnPlay, privacyPolicyBtn, manageWordPacksBtn;
+    private TextView       tvLiveCount;
+    private MaterialButton learnPlay, privacyPolicyBtn, manageWordPacksBtn, btnSpinnerTool;
 
     private SharedPreferences prefs;
     private boolean           spinnerInitialized = false;
+
+    // ── Live count ────────────────────────────────────────────────────────────
+    private LiveUserCountManager liveCountManager;
 
     public SettingFragment() {}
 
@@ -55,15 +75,41 @@ public class SettingFragment extends BaseFragment {
         setupDarkMode();
         setupLanguageSpinner();
         setupSoundTheme();
+        setupAppTheme();          // Feature 5
         setupVoiceClue();
         setupWordPacks();
+        setupSpinnerTool();       // Feature 1
         setupAppVersion();
         setupPrivacyPolicy();
+        setupLiveUserCount();     // Feature 2
 
         return view;
     }
 
-    // ─── Bind ────────────────────────────────────────────────────────────────
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Feature 2: start/resume live count updates
+        if (liveCountManager != null) {
+            liveCountManager.start(count -> {
+                if (tvLiveCount != null) {
+                    tvLiveCount.setText(
+                            getString(R.string.live_users_format, count));
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        // Feature 2: pause updates when fragment not visible
+        if (liveCountManager != null) {
+            liveCountManager.stop();
+        }
+    }
+
+    // ─── Bind ─────────────────────────────────────────────────────────────────
 
     private void bindViews(View view) {
         darkModeSwitch     = view.findViewById(R.id.customSwitch);
@@ -73,40 +119,97 @@ public class SettingFragment extends BaseFragment {
         rbClassic          = view.findViewById(R.id.rbClassic);
         rbDabke            = view.findViewById(R.id.rbDabke);
         rbSilent           = view.findViewById(R.id.rbSilent);
+        appThemeGroup      = view.findViewById(R.id.appThemeGroup);   // Feature 5
+        rbOcean            = view.findViewById(R.id.rbOcean);
+        rbSunset           = view.findViewById(R.id.rbSunset);
+        rbForest           = view.findViewById(R.id.rbForest);
+        rbGalaxy           = view.findViewById(R.id.rbGalaxy);
+        rbRose             = view.findViewById(R.id.rbRose);
+        rbMidnight         = view.findViewById(R.id.rbMidnight);
+        tvLiveCount        = view.findViewById(R.id.tvLiveUsersCount);  // Feature 2
         appVersion         = view.findViewById(R.id.appVersion);
         learnPlay          = view.findViewById(R.id.learnPlay);
         privacyPolicyBtn   = view.findViewById(R.id.privacyPolicyBtn);
         manageWordPacksBtn = view.findViewById(R.id.btnManageWordPacks);
+        btnSpinnerTool     = view.findViewById(R.id.btnSpinnerTool);    // Feature 1
+    }
+
+    // ─── Feature 1: Team spinner quick access ─────────────────────────────────
+
+    private void setupSpinnerTool() {
+        if (btnSpinnerTool != null) {
+            btnSpinnerTool.setOnClickListener(v ->
+                    startActivity(new Intent(requireContext(), TeamSpinnerActivity.class)));
+        }
+    }
+
+    // ─── Feature 2: Live user count ───────────────────────────────────────────
+
+    private void setupLiveUserCount() {
+        liveCountManager = LiveUserCountManager.getInstance(requireContext());
+        if (tvLiveCount != null) {
+            // Show current value immediately while waiting for first update
+            tvLiveCount.setText(
+                    getString(R.string.live_users_format, liveCountManager.getCurrentCount()));
+        }
+    }
+
+    // ─── Feature 5: App theme picker ─────────────────────────────────────────
+
+    private void setupAppTheme() {
+        if (appThemeGroup == null) return;
+
+        ThemeManager tm = ThemeManager.getInstance(requireContext());
+        AppTheme current = tm.getCurrentTheme();
+
+        // Pre-select the saved theme
+        switch (current) {
+            case SUNSET:   if (rbSunset   != null) rbSunset.setChecked(true);   break;
+            case FOREST:   if (rbForest   != null) rbForest.setChecked(true);   break;
+            case GALAXY:   if (rbGalaxy   != null) rbGalaxy.setChecked(true);   break;
+            case ROSE:     if (rbRose     != null) rbRose.setChecked(true);     break;
+            case MIDNIGHT: if (rbMidnight != null) rbMidnight.setChecked(true); break;
+            default:       if (rbOcean    != null) rbOcean.setChecked(true);    break;
+        }
+
+        appThemeGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            AppTheme chosen;
+            if      (checkedId == R.id.rbSunset)   chosen = AppTheme.SUNSET;
+            else if (checkedId == R.id.rbForest)   chosen = AppTheme.FOREST;
+            else if (checkedId == R.id.rbGalaxy)   chosen = AppTheme.GALAXY;
+            else if (checkedId == R.id.rbRose)     chosen = AppTheme.ROSE;
+            else if (checkedId == R.id.rbMidnight) chosen = AppTheme.MIDNIGHT;
+            else                                    chosen = AppTheme.OCEAN;
+
+            boolean changed = tm.setTheme(chosen);
+            if (changed && getActivity() != null) {
+                // Recreate so all views pick up the new status-bar colour etc.
+                getActivity().recreate();
+            }
+        });
     }
 
     // ─── Learn / Privacy / Word packs ─────────────────────────────────────────
 
-    /**
-     * Both Settings and Home page "Learn" buttons open the SAME LearnGameActivity.
-     * No duplication — single source of truth.
-     */
     private void setupLearnPlay() {
-        if (learnPlay != null) {
+        if (learnPlay != null)
             learnPlay.setOnClickListener(v ->
                     startActivity(new Intent(requireContext(), LearnGameActivity.class)));
-        }
     }
 
     private void setupPrivacyPolicy() {
-        if (privacyPolicyBtn != null) {
+        if (privacyPolicyBtn != null)
             privacyPolicyBtn.setOnClickListener(v ->
                     startActivity(new Intent(requireContext(), PrivacyPolicyActivity.class)));
-        }
     }
 
     private void setupWordPacks() {
-        if (manageWordPacksBtn != null) {
+        if (manageWordPacksBtn != null)
             manageWordPacksBtn.setOnClickListener(v ->
                     startActivity(new Intent(requireContext(), WordPackActivity.class)));
-        }
     }
 
-    // ─── Dark mode ───────────────────────────────────────────────────────────
+    // ─── Dark mode ────────────────────────────────────────────────────────────
 
     private void setupDarkMode() {
         if (darkModeSwitch == null) return;
@@ -122,7 +225,7 @@ public class SettingFragment extends BaseFragment {
         });
     }
 
-    // ─── Language ────────────────────────────────────────────────────────────
+    // ─── Language ─────────────────────────────────────────────────────────────
 
     private void setupLanguageSpinner() {
         if (languageSpinner == null) return;
@@ -164,7 +267,7 @@ public class SettingFragment extends BaseFragment {
         requireActivity().finish();
     }
 
-    // ─── Sound theme ─────────────────────────────────────────────────────────
+    // ─── Sound theme ──────────────────────────────────────────────────────────
 
     private void setupSoundTheme() {
         if (soundThemeGroup == null) return;
@@ -186,7 +289,7 @@ public class SettingFragment extends BaseFragment {
         });
     }
 
-    // ─── Voice clue ──────────────────────────────────────────────────────────
+    // ─── Voice clue ───────────────────────────────────────────────────────────
 
     private void setupVoiceClue() {
         if (voiceClueSwitch == null) return;
@@ -198,7 +301,7 @@ public class SettingFragment extends BaseFragment {
         });
     }
 
-    // ─── App version ─────────────────────────────────────────────────────────
+    // ─── App version ──────────────────────────────────────────────────────────
 
     @SuppressLint("SetTextI18n")
     private void setupAppVersion() {

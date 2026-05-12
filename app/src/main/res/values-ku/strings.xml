@@ -310,7 +310,7 @@
 
     <!-- ── Learn how to play ── -->
     <string name="learn_game_page_title">چۆنیەتی یاری کردن</string>
-    <string name="learn_section_overview_title">سەدە گێس چییە؟</string>
+    <string name="learn_section_overview_title">Sada Guess چییە؟</string>
     <string name="learn_section_overview_desc">سەدە گێس یارییەکی بەکۆمەڵە. بەسەر دوو تیمدا دابەش دەبن، نۆرە دەگرن لە هەڵگرتنی کارت، و وشەکە دەنوێنن یان وەسفی دەکەن — بێ ئەوەی وشەکە خۆی بڵێن! ئەو تیمەی زۆرترین وشە مەزندە بکات دەباتەوە.</string>
     <string name="learn_section_new_game_title">دەستپێکردنی یاری نوێ</string>
     <string name="learn_section_new_game_desc">لە پەڕەی سەرەکی دەست بنێ بە "یاری نوێ". ناوی تیمەکان بنووسە، جۆری وشەکان دیاری بکە، ژمارەی خولەکان و ئاستی یاری و کاتەکە ڕێکبخە. پاشان دەست بنێ بە "دەستپێکردنی یاری".</string>
@@ -420,4 +420,50 @@
     <string name="card_reveal_accessibility">بۆ بینینی وشەی سەر کارتەکە دەست لێ بدە</string>
     <string name="score_card_accessibility_a">تەختەی خاڵی گروپی A. دەست لێ بدە بۆ زیادکردنی خاڵ.</string>
     <string name="score_card_accessibility_b">تەختەی خاڵی گروپی B. دەست لێ بدە بۆ زیادکردنی خاڵ.</string>
+
+    <string name="learn_section_leaderboard_desc">ڕیزبەندی پێشەنگەکان بردنەوە، دۆڕان، یەکسانبوون، باشترین زنجیرە بردنەوە، ڕێژەی بردنەوە، و کۆی خاڵەکانی هەر تیمێک تۆمار دەکات — بۆ تەواوی ئەو یارییانەی لەسەر ئەم ئامێرە ئەنجامدراون.</string>
+
+    <string name="spinner_title">خولێنەری تیم</string>
+    <string name="spinner_subtitle">بە شێوەیەکی هەڕەمەکی کەسەکان دابەش بکە بۆ دوو تیم</string>
+    <string name="spinner_open_btn">بیکەرەوە</string>
+    <string name="spinner_name_hint">ناوێک بنووسە...</string>
+    <string name="spinner_add_btn">زیادکردن</string>
+    <string name="spinner_spin_btn">🎰 بخولێنەوە!</string>
+    <string name="spinner_result_title">🎉 تیمەکان ئامادەن!</string>
+    <string name="spinner_use_teams">ئەم تیمانە بەکاربهێنە</string>
+    <string name="spinner_add_min">بۆ خولاندنەوە، لانی کەم %1$d کەس زیاد بکە</string>
+    <string name="spinner_ready">%1$d کەس زیادکراوە — کلیک لە خولاندنەوە بکە!</string>
+    <string name="spinner_member_duplicate">ئەم ناوە پێشتر لە لیستەکەدا هەیە</string>
+    <string name="spinner_team_a_title">تیم: %1$s</string>
+    <string name="spinner_team_b_title">تیم: %1$s</string>
+    <string name="learn_section_spinner_title">خولێنەری تیم</string>
+    <string name="learn_section_spinner_desc">نازانیت چۆن گروپەکەت دابەش بکەیت؟ خولێنەری تیم بەکاربهێنە — ناوی هەمووان بنووسە و کلیک لە "بخوولێنەوە" بکە! بە شێوەیەکی هەڕەمەکی ئەندامەکان بۆ دوو تیمی هاوسەنگ دابەش دەکات. هەروەها دەتوانیت ئەنجامەکە بەکاربهێنیت بۆ دیاریکردنی ناوی گروپەکان لە یارییەکی نوێدا.</string>
+
+    <string name="live_users_format">🟢 %1$d ئێستا یاری دەکەن</string>
+
+    <string name="app_theme_title">ڕووکاری ئەپ 🎨</string>
+    <string name="app_theme_desc">ڕەنگێک بۆ تەواوی ئەپەکە هەڵبژێرە</string>
+    <string name="theme_ocean">🌊 زەریا (سەرەکی)</string>
+    <string name="theme_sunset">🌅 ئاوابوونی خۆر</string>
+    <string name="theme_forest">🌿 دارستان</string>
+    <string name="theme_galaxy">🌌 گەلەئەستێرە</string>
+    <string name="theme_rose">🌸 گوڵەباخ</string>
+    <string name="theme_midnight">🌙 نیوەشەو</string>
+
+    <string name="notif_channel_game_name">ڕووداوەکانی یاری</string>
+    <string name="notif_channel_news_name">هەواڵ و نوێکارییەکان</string>
+    <string name="notif_channel_promo_name">پڕۆمۆشنەکان</string>
+    <string name="notif_channel_promo_desc">ئۆفەرە تایبەتەکان و ڕاگەیەندراوەکان</string>
+
+    <string name="notif_streak_title">🔥 دەستکەوتی زنجیرەیی!</string>
+    <string name="notif_streak_body">تۆ لە زنجیرەی %1$d کارتدایت. بەردەوام بە!</string>
+    <string name="notif_combo_title">⚡ ریکۆردی کۆمبۆ!</string>
+    <string name="notif_combo_body">تۆ گەیشتیتە %1$s کۆمبۆ — سەرسوڕهێنەرە!</string>
+    <string name="notif_update_title">📦 نوێکاری SadaGuess</string>
+
+    <string name="notif_permission_rationale_title">ئاگاداربە</string>
+    <string name="notif_permission_rationale_body">ڕێگە بدە SadaGuess نوێکارییەکانی یاری و هەواڵەکانت بۆ بنێرێت. دەتوانیت لە هەر کاتێکدا بێت لە ڕێکخستنەکان ئەمە بکوژێنیتەوە.</string>
+    <string name="notif_permission_allow">ڕێپێدان</string>
+    <string name="notif_permission_deny">ئێستا نا</string>
+
 </resources>

@@ -1,0 +1,55 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:tint="@color/primary_button_color"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Outer circle -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:pathData="M54,54 m-46,0 a46,46 0 1,0 92,0 a46,46 0 1,0 -92,0"
+        android:strokeColor="@color/primary_button_color"
+        android:strokeWidth="4" />
+
+    <!-- 8 spokes (like a wheel) -->
+    <path android:fillColor="@color/primary_button_color"
+        android:pathData="M54,8 L56,50 L52,50 Z" />
+    <path android:fillColor="@color/primary_button_color"
+        android:pathData="M100,54 L58,56 L58,52 Z" />
+    <path android:fillColor="@color/primary_button_color"
+        android:pathData="M54,100 L52,58 L56,58 Z" />
+    <path android:fillColor="@color/primary_button_color"
+        android:pathData="M8,54 L50,52 L50,56 Z" />
+    <path android:fillColor="@color/primary_button_color"
+        android:pathData="M87.5,20.5 L57,51 L55,49 Z" />
+    <path android:fillColor="@color/primary_button_color"
+        android:pathData="M87.5,87.5 L57,57 L59,55 Z" />
+    <path android:fillColor="@color/primary_button_color"
+        android:pathData="M20.5,87.5 L51,57 L53,59 Z" />
+    <path android:fillColor="@color/primary_button_color"
+        android:pathData="M20.5,20.5 L51,51 L49,53 Z" />
+
+    <!-- Center circle -->
+    <path
+        android:fillColor="@color/primary_button_color"
+        android:pathData="M54,54 m-8,0 a8,8 0 1,0 16,0 a8,8 0 1,0 -16,0" />
+
+    <!-- Pie segments colored alternately -->
+    <path
+        android:fillColor="#9CDFEA"
+        android:fillAlpha="0.35"
+        android:pathData="M54,54 L54,8 A46,46 0 0,1 100,54 Z" />
+    <path
+        android:fillColor="#C5B8E8"
+        android:fillAlpha="0.35"
+        android:pathData="M54,54 L100,54 A46,46 0 0,1 54,100 Z" />
+    <path
+        android:fillColor="#9CDFEA"
+        android:fillAlpha="0.35"
+        android:pathData="M54,54 L54,100 A46,46 0 0,1 8,54 Z" />
+    <path
+        android:fillColor="#C5B8E8"
+        android:fillAlpha="0.35"
+        android:pathData="M54,54 L8,54 A46,46 0 0,1 54,8 Z" />
+</vector>

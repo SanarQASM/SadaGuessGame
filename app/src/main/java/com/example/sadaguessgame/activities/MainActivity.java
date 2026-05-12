@@ -4,22 +4,24 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
 import androidx.fragment.app.Fragment;
+
 import com.example.sadaguessgame.R;
-import com.example.sadaguessgame.data.GameState;
-import com.example.sadaguessgame.data.ScoreStorage;
 import com.example.sadaguessgame.fragments.HomeFragment;
 import com.example.sadaguessgame.fragments.LeaderboardFragment;
 import com.example.sadaguessgame.fragments.RecentlyFragment;
 import com.example.sadaguessgame.fragments.SettingFragment;
-import java.util.List;
+import com.example.sadaguessgame.manager.AdsManager;
+import com.example.sadaguessgame.manager.NavigationStateManager;
 
 /**
- * Host activity for all bottom-nav fragments.
+ * MainActivity (updated for Features 1, 2, 3, 4).
  *
- * v2 changes:
- *  • Added 4th tab: Leaderboard (Hall of Fame).
- *  • Indicator animation updated for 4 tabs.
+ * Changes vs original:
+ *  • onCreate restores the last-saved tab (Feature 3)
+ *  • AdsManager.resetSessionCap() so a new game can show an ad (Feature 4)
+ *  • Tab index is saved on every selection (Feature 3)
  */
 public class MainActivity extends BaseActivity {
 
@@ -28,6 +30,12 @@ public class MainActivity extends BaseActivity {
     private ImageView   icHome, icRecently, icLeaderboard, icSetting;
     private ImageView[] allIcons;
 
+    // Maps tab-index → fragment factory
+    private static final int TAB_HOME        = 0;
+    private static final int TAB_RECENTLY    = 1;
+    private static final int TAB_LEADERBOARD = 2;
+    private static final int TAB_SETTING     = 3;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,60 +43,84 @@ public class MainActivity extends BaseActivity {
 
         initViews();
         setupTabs();
-        findViewById(android.R.id.content).post(this::setDefaultTab);
+
+        // Feature 3: restore the last tab the user was on
+        int lastTab = NavigationStateManager.getInstance(this).getLastTab();
+        selectTabByIndex(lastTab);
+
+        // Feature 4: a new session means a new ad impression is allowed
+        AdsManager.getInstance(this).resetSessionCap();
     }
 
-    // ─── Init ────────────────────────────────────────────────────────────────
+    // ─── Init ─────────────────────────────────────────────────────────────────
 
     private void initViews() {
-        indicator      = findViewById(R.id.indicator);
+        indicator     = findViewById(R.id.indicator);
+        frHome        = findViewById(R.id.frHomeFragment);
+        frRecently    = findViewById(R.id.frRecentlyFragment);
+        frLeaderboard = findViewById(R.id.frLeaderboardFragment);
+        frSetting     = findViewById(R.id.frSettingFragment);
 
-        frHome         = findViewById(R.id.frHomeFragment);
-        frRecently     = findViewById(R.id.frRecentlyFragment);
-        frLeaderboard  = findViewById(R.id.frLeaderboardFragment);
-        frSetting      = findViewById(R.id.frSettingFragment);
-
-        icHome         = findViewById(R.id.btnHomeFragment);
-        icRecently     = findViewById(R.id.btnRecentlyFragment);
-        icLeaderboard  = findViewById(R.id.btnLeaderboardFragment);
-        icSetting      = findViewById(R.id.btnSettingFragment);
+        icHome        = findViewById(R.id.btnHomeFragment);
+        icRecently    = findViewById(R.id.btnRecentlyFragment);
+        icLeaderboard = findViewById(R.id.btnLeaderboardFragment);
+        icSetting     = findViewById(R.id.btnSettingFragment);
 
         allIcons = new ImageView[]{icHome, icRecently, icLeaderboard, icSetting};
     }
 
-    // ─── Tab setup ───────────────────────────────────────────────────────────
+    // ─── Tab setup ────────────────────────────────────────────────────────────
 
     private void setupTabs() {
-        if (frHome != null)
-            frHome.setOnClickListener(v ->
-                    selectTab(v, icHome, new HomeFragment()));
-
-        if (frRecently != null)
-            frRecently.setOnClickListener(v ->
-                    selectTab(v, icRecently, new RecentlyFragment()));
-
-        if (frLeaderboard != null)
-            frLeaderboard.setOnClickListener(v ->
-                    selectTab(v, icLeaderboard, new LeaderboardFragment()));
-
-        if (frSetting != null)
-            frSetting.setOnClickListener(v ->
-                    selectTab(v, icSetting, new SettingFragment()));
+        if (frHome        != null) frHome.setOnClickListener(v        -> onTabClicked(TAB_HOME));
+        if (frRecently    != null) frRecently.setOnClickListener(v    -> onTabClicked(TAB_RECENTLY));
+        if (frLeaderboard != null) frLeaderboard.setOnClickListener(v -> onTabClicked(TAB_LEADERBOARD));
+        if (frSetting     != null) frSetting.setOnClickListener(v     -> onTabClicked(TAB_SETTING));
     }
 
-    private void setDefaultTab() {
-        loadFragment(new HomeFragment());
-        setIconSelected(icHome);
-        moveIndicator(frHome);
+    private void onTabClicked(int tabIndex) {
+        selectTabByIndex(tabIndex);
+        // Feature 3: persist selection
+        NavigationStateManager.getInstance(this).saveLastTab(tabIndex);
     }
 
-    // ─── Helpers ─────────────────────────────────────────────────────────────
+    private void selectTabByIndex(int tabIndex) {
+        Fragment fragment;
+        ImageView icon;
+        View      tabView;
 
-    private void selectTab(View tabView, ImageView icon, Fragment fragment) {
+        switch (tabIndex) {
+            case TAB_RECENTLY:
+                fragment = new RecentlyFragment();
+                icon     = icRecently;
+                tabView  = frRecently;
+                break;
+            case TAB_LEADERBOARD:
+                fragment = new LeaderboardFragment();
+                icon     = icLeaderboard;
+                tabView  = frLeaderboard;
+                break;
+            case TAB_SETTING:
+                fragment = new SettingFragment();
+                icon     = icSetting;
+                tabView  = frSetting;
+                break;
+            default: // TAB_HOME
+                fragment = new HomeFragment();
+                icon     = icHome;
+                tabView  = frHome;
+                break;
+        }
+
         loadFragment(fragment);
         setIconSelected(icon);
-        moveIndicator(tabView);
+        // Indicator animation requires the view to be laid out first
+        if (tabView != null) {
+            tabView.post(() -> moveIndicator(tabView));
+        }
     }
+
+    // ─── Helpers ──────────────────────────────────────────────────────────────
 
     private void setIconSelected(ImageView selected) {
         for (ImageView ic : allIcons) {
@@ -98,11 +130,12 @@ public class MainActivity extends BaseActivity {
     }
 
     private void loadFragment(Fragment fragment) {
-        if (fragment != null)
+        if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragmentContainer, fragment)
                     .commit();
+        }
     }
 
     private void moveIndicator(View target) {

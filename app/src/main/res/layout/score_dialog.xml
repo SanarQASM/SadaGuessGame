@@ -8,7 +8,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <!-- Title -->
     <TextView
         android:id="@+id/dialogTitle"
         android:layout_width="wrap_content"
@@ -22,7 +21,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Streak badge (NEW) — shown only when streak >= 2 -->
     <TextView
         android:id="@+id/tvStreakBadge"
         android:layout_width="wrap_content"
@@ -41,7 +39,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Score buttons -->
     <LinearLayout
         android:id="@+id/btn_container"
         android:layout_width="wrap_content"
@@ -55,21 +52,24 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_1"
-            style="@style/SecondaryButtonStyle"
             android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            style="@style/SecondaryButtonStyle"
             android:text="1"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_2"
-            style="@style/SecondaryButtonStyle"
             android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            style="@style/SecondaryButtonStyle"
             android:layout_marginStart="15dp"
             android:text="2"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_3"
-            style="@style/SecondaryButtonStyle"
             android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            style="@style/SecondaryButtonStyle"
             android:layout_marginStart="15dp"
             android:text="3"/>
 

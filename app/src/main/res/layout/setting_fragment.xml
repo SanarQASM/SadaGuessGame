@@ -18,13 +18,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
+    <!-- Feature 2: Live user count badge -->
+    <TextView
+        android:id="@+id/tvLiveUsersCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/bg_category_selected"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="3dp"
+        android:fontFamily="@font/subtext_font"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/normal_fond_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/setting_title"/>
+
     <View
         android:id="@+id/div_under_title"
         android:layout_width="250dp"
         android:layout_height="2dp"
         android:background="?android:attr/listDivider"
         android:layout_marginTop="3dp"
-        app:layout_constraintTop_toBottomOf="@id/setting_title"
+        app:layout_constraintTop_toBottomOf="@id/tvLiveUsersCount"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -77,18 +94,61 @@
                     android:textSize="@dimen/buttons_size"
                     android:textStyle="bold"/>
 
-                <!-- ✅ FIXED: Added missing layout_height -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/learnPlay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     style="@style/PrimaryButtonStyle"
-                    android:text="@string/learn_button"/>
+                    android:layout_width="wrap_content"
+                    android:text="@string/learn_button"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
-            <View
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:layout_marginHorizontal="@dimen/third_size_layout"/>
+
+            <!-- ── Feature 1: Team Spinner ── -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="@dimen/third_size_layout"
+                android:gravity="center_vertical"
+                android:layoutDirection="locale">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/spinner_title"
+                        android:textColor="@color/primary_text"
+                        android:fontFamily="@font/buttons_font"
+                        android:textSize="@dimen/buttons_size"
+                        android:textStyle="bold"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/spinner_subtitle"
+                        android:textColor="@color/primary_text"
+                        android:fontFamily="@font/subtext_font"
+                        android:textSize="@dimen/normal_fond_size"
+                        android:layout_marginTop="2dp"/>
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSpinnerTool"
+                    style="@style/PrimaryButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:text="@string/spinner_open_btn"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp"
                 android:background="?android:attr/listDivider"
                 android:layout_marginHorizontal="@dimen/third_size_layout"/>
 
@@ -116,14 +176,99 @@
                     android:id="@+id/customSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/dark_mode"
                     app:trackTint="@color/primary_text"
                     app:thumbTint="@color/secondary_color"
                     android:checked="false"/>
             </LinearLayout>
 
-            <View
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                android:layout_marginHorizontal="@dimen/third_size_layout"/>
+
+            <!-- ── Feature 5: App Theme ── -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="@dimen/third_size_layout">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_theme_title"
+                    android:textColor="@color/primary_text"
+                    android:fontFamily="@font/buttons_font"
+                    android:textSize="@dimen/buttons_size"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_theme_desc"
+                    android:textColor="@color/primary_text"
+                    android:fontFamily="@font/subtext_font"
+                    android:textSize="@dimen/normal_fond_size"
+                    android:layout_marginTop="2dp"/>
+
+                <RadioGroup
+                    android:id="@+id/appThemeGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="8dp">
+
+                    <RadioButton android:id="@+id/rbOcean"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/theme_ocean"
+                        android:textColor="@color/primary_text"
+                        android:fontFamily="@font/subtext_font"
+                        android:textSize="@dimen/sub_font_size"
+                        android:checked="true"/>
+
+                    <RadioButton android:id="@+id/rbSunset"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/theme_sunset"
+                        android:textColor="@color/primary_text"
+                        android:fontFamily="@font/subtext_font"
+                        android:textSize="@dimen/sub_font_size"
+                        android:layout_marginTop="4dp"/>
+
+                    <RadioButton android:id="@+id/rbForest"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/theme_forest"
+                        android:textColor="@color/primary_text"
+                        android:fontFamily="@font/subtext_font"
+                        android:textSize="@dimen/sub_font_size"
+                        android:layout_marginTop="4dp"/>
+
+                    <RadioButton android:id="@+id/rbGalaxy"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/theme_galaxy"
+                        android:textColor="@color/primary_text"
+                        android:fontFamily="@font/subtext_font"
+                        android:textSize="@dimen/sub_font_size"
+                        android:layout_marginTop="4dp"/>
+
+                    <RadioButton android:id="@+id/rbRose"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/theme_rose"
+                        android:textColor="@color/primary_text"
+                        android:fontFamily="@font/subtext_font"
+                        android:textSize="@dimen/sub_font_size"
+                        android:layout_marginTop="4dp"/>
+
+                    <RadioButton android:id="@+id/rbMidnight"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="@string/theme_midnight"
+                        android:textColor="@color/primary_text"
+                        android:fontFamily="@font/subtext_font"
+                        android:textSize="@dimen/sub_font_size"
+                        android:layout_marginTop="4dp"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp"
                 android:background="?android:attr/listDivider"
                 android:layout_marginHorizontal="@dimen/third_size_layout"/>
 
@@ -165,14 +310,13 @@
                     android:id="@+id/voiceClueSettingSwitch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/voice_clue_mode"
                     app:trackTint="@color/primary_text"
                     app:thumbTint="@color/secondary_color"
                     android:checked="false"/>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
+            <View android:layout_width="match_parent" android:layout_height="1dp"
                 android:background="?android:attr/listDivider"
                 android:layout_marginHorizontal="@dimen/third_size_layout"/>
 
@@ -199,10 +343,8 @@
                     android:orientation="horizontal"
                     android:layout_marginTop="6dp">
 
-                    <RadioButton
-                        android:id="@+id/rbClassic"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <RadioButton android:id="@+id/rbClassic"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:text="@string/sound_theme_classic"
                         android:textColor="@color/primary_text"
                         android:fontFamily="@font/subtext_font"
@@ -210,20 +352,16 @@
                         android:checked="true"
                         android:layout_marginEnd="12dp"/>
 
-                    <RadioButton
-                        android:id="@+id/rbDabke"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <RadioButton android:id="@+id/rbDabke"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:text="@string/sound_theme_dabke"
                         android:textColor="@color/primary_text"
                         android:fontFamily="@font/subtext_font"
                         android:textSize="@dimen/sub_font_size"
                         android:layout_marginEnd="12dp"/>
 
-                    <RadioButton
-                        android:id="@+id/rbSilent"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <RadioButton android:id="@+id/rbSilent"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
                         android:text="@string/sound_theme_silent"
                         android:textColor="@color/primary_text"
                         android:fontFamily="@font/subtext_font"
@@ -231,9 +369,7 @@
                 </RadioGroup>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
+            <View android:layout_width="match_parent" android:layout_height="1dp"
                 android:background="?android:attr/listDivider"
                 android:layout_marginHorizontal="@dimen/third_size_layout"/>
 
@@ -257,21 +393,16 @@
                     android:textSize="@dimen/buttons_size"
                     android:textStyle="bold"/>
 
-                <!-- ✅ FIXED: min 48dp width satisfies Material touch target requirement -->
                 <Spinner
                     android:id="@+id/languageSpinner"
-                    android:layout_width="120dp"
-                    android:layout_height="@dimen/min_touch_target"
+                    android:layout_width="@dimen/tool_icon_width"
+                    android:layout_height="@dimen/big_size_layout"
                     android:layout_marginStart="15dp"
                     android:background="@drawable/spinner_bg_with_arrow"
-                    android:spinnerMode="dropdown"
-                    android:minWidth="@dimen/min_touch_target"
-                    android:padding="4dp"/>
+                    android:spinnerMode="dropdown"/>
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
+            <View android:layout_width="match_parent" android:layout_height="1dp"
                 android:background="?android:attr/listDivider"
                 android:layout_marginHorizontal="@dimen/third_size_layout"/>
 
@@ -294,18 +425,15 @@
                     android:textSize="@dimen/buttons_size"
                     android:textStyle="bold"/>
 
-                <!-- ✅ FIXED: Added missing layout_height -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnManageWordPacks"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     style="@style/PrimaryButtonStyle"
-                    android:text="@string/word_packs_title"/>
+                    android:layout_width="wrap_content"
+                    android:text="@string/word_packs_title"
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
+            <View android:layout_width="match_parent" android:layout_height="1dp"
                 android:background="?android:attr/listDivider"
                 android:layout_marginHorizontal="@dimen/third_size_layout"/>
 
@@ -357,16 +485,15 @@
                     android:textSize="@dimen/sub_font_size"
                     android:layout_marginTop="@dimen/secondary_size_layout"/>
 
-                <!-- ✅ FIXED: Added missing layout_height -->
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/privacyPolicyBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     style="@style/PrimaryButtonStyle"
+                    android:layout_width="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/secondary_size_layout"
                     android:layout_marginBottom="@dimen/secondary_size_layout"
-                    android:text="@string/privacy_policy"/>
+                    android:text="@string/privacy_policy"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
         </LinearLayout>
