@@ -69,6 +69,8 @@ dependencies {
     // AmbilWarna color picker
     implementation("com.github.yukuku:ambilwarna:2.0.1")
 
+    implementation ("com.google.android.gms:play-services-ads:23.1.0")
+
     // Unit Tests
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.robolectric:robolectric:4.13")
@@ -79,9 +81,6 @@ dependencies {
     // Instrumented Tests
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    // ── Feature 4: AdMob ───────────────────────────────────────────────────
-    // Uncomment when you have your AdMob account and App ID ready:
-    // implementation 'com.google.android.gms:play-services-ads:23.1.0'
 
     // ── Feature 4 & 6: Firebase (required for FCM push + optional Analytics) ─
     // Add google-services.json first, then uncomment:

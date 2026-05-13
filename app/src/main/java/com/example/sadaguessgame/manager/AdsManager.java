@@ -22,46 +22,39 @@ import androidx.annotation.Nullable;
  *           android:name="com.google.android.gms.ads.APPLICATION_ID"
  *           android:value="@string/admob_app_id"/>
  *
- *  3. Add your real IDs to strings.xml (DO NOT hardcode them here):
- *       <string name="admob_app_id">ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX</string>
- *       <string name="ad_banner_home">ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX</string>
- *       <string name="ad_interstitial_game_end">ca-app-pub-XXXXXXXXXXXXXXXX/XXXXXXXXXX</string>
+ *  3. Add your real IDs to strings.xml:
+ *       <string name="admob_app_id">ca-app-pub-5078144066640392~6274693528</string>
+ *       <string name="ad_banner_home">ca-app-pub-5078144066640392/5807789662</string>
+ *       <string name="ad_interstitial_game_end">ca-app-pub-5078144066640392/1673103539</string>
  *
- *  4. Un-comment the ADMOB_ENABLED flag below, and un-comment the import
- *     blocks + implementation bodies.
+ *  4. In your MyApplication.java, call once:
+ *       AdsManager.getInstance(this).initialize();
  *
- *  Until you complete the above steps the manager compiles and runs in
- *  "ads-disabled" mode (all public methods are no-ops).
- *
- *  PLACEMENT STRATEGY (following Google best practices):
- *  • Banner  → Home fragment, bottom of screen
+ *  PLACEMENT STRATEGY:
+ *  • Banner       → Home fragment, bottom of screen
  *  • Interstitial → After game ends (WinnerActivity / DrawActivity)
  *  • Show at most ONE interstitial per game session
  * ──────────────────────────────────────────────────────────────────────────────
  */
 
-// ── Toggle this to true once AdMob SDK is added ───────────────────────────────
-// private static final boolean ADMOB_ENABLED = true;
-// ─────────────────────────────────────────────────────────────────────────────
-
-// UNCOMMENT these imports when ADMOB_ENABLED = true:
-// import com.google.android.gms.ads.AdListener;
-// import com.google.android.gms.ads.AdRequest;
-// import com.google.android.gms.ads.AdSize;
-// import com.google.android.gms.ads.AdView;
-// import com.google.android.gms.ads.FullScreenContentCallback;
-// import com.google.android.gms.ads.LoadAdError;
-// import com.google.android.gms.ads.MobileAds;
-// import com.google.android.gms.ads.interstitial.InterstitialAd;
-// import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.RequestConfiguration;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 import com.example.sadaguessgame.R;
 
 /**
  * Centralised wrapper for all AdMob ad placements.
+ * Handles: Banner, Interstitial
  *
- * All public methods are safe to call regardless of whether ads are enabled.
- * The manager handles null-safety, load retries and per-session frequency caps.
+ * All public methods are safe to call — null-safe and session-capped.
  */
 public class AdsManager {
 
@@ -82,12 +75,12 @@ public class AdsManager {
 
     // ─── State ────────────────────────────────────────────────────────────────
     private final Context appContext;
-    private boolean       initialized    = false;
+    private boolean       initialized                  = false;
     private boolean       interstitialShownThisSession = false;
 
-    // When AdMob is enabled, store the loaded ads here:
-    // private AdView       bannerAdView;
-    // private InterstitialAd interstitialAd;
+    // Ad objects
+    private AdView         bannerAdView;
+    private InterstitialAd interstitialAd;
 
     private AdsManager(@NonNull Context ctx) {
         this.appContext = ctx;
@@ -96,104 +89,124 @@ public class AdsManager {
     // ─── Initialisation ───────────────────────────────────────────────────────
 
     /**
-     * Initialise the AdMob SDK.  Call once from MyApplication.onCreate().
+     * Initialise the AdMob SDK.
+     * Call once from MyApplication.onCreate():
      *
-     * Replace the body with the real init once the SDK is added:
-     *   MobileAds.initialize(appContext, initializationStatus -> {
-     *       initialized = true;
-     *       preloadInterstitial();
-     *   });
+     *   AdsManager.getInstance(this).initialize();
      */
     public void initialize() {
-        // STUB — replace with MobileAds.initialize(…) when SDK is present
-        initialized = false;
-        Log.d(TAG, "AdsManager: ads disabled (SDK not yet added). "
-                + "Follow the setup instructions in AdsManager.java.");
+
+        // Block inappropriate ad categories
+        MobileAds.setRequestConfiguration(
+                new RequestConfiguration.Builder()
+                        .setMaxAdContentRating(RequestConfiguration.MAX_AD_CONTENT_RATING_G)
+                        .build()
+        );
+
+        MobileAds.initialize(appContext, initializationStatus -> {
+            initialized = true;
+            Log.d(TAG, "AdMob SDK initialised.");
+            preloadInterstitial();
+        });
     }
 
     // ─── Banner ads ───────────────────────────────────────────────────────────
 
     /**
-     * Loads and attaches a banner ad to {@code container}.
-     *
-     * When ads are enabled replace the body with:
-     *   AdView adView = new AdView(activity);
-     *   adView.setAdSize(AdSize.BANNER);
-     *   adView.setAdUnitId(activity.getString(R.string.ad_banner_home));
-     *   container.addView(adView);
-     *   adView.loadAd(new AdRequest.Builder().build());
+     * Loads and attaches a banner ad to the given container.
+     * Call from your HomeFragment / MainActivity after the layout is ready.
      *
      * @param activity  The host Activity.
-     * @param container The ViewGroup to inject the banner into.
+     * @param container The ViewGroup (e.g. a FrameLayout at the bottom of screen).
      */
     public void showBanner(@NonNull Activity activity, @NonNull ViewGroup container) {
         if (!initialized) {
-            Log.d(TAG, "showBanner: ads not initialised, skipping.");
+            Log.d(TAG, "showBanner: SDK not initialised yet, skipping.");
             return;
         }
-        // TODO: un-comment AdView code above when SDK is added
+
+        bannerAdView = new AdView(activity);
+        bannerAdView.setAdSize(AdSize.BANNER);
+        bannerAdView.setAdUnitId(activity.getString(R.string.ad_banner_home));
+        bannerAdView.setAdListener(new AdListener() {
+            @Override public void onAdFailedToLoad(@NonNull LoadAdError error) {
+                Log.w(TAG, "Banner failed to load: " + error.getMessage());
+            }
+        });
+        container.removeAllViews();
+        container.addView(bannerAdView);
+        bannerAdView.loadAd(new AdRequest.Builder().build());
+        Log.d(TAG, "Banner ad loading...");
     }
 
-    /** Hides and destroys a previously attached banner to free resources. */
+    /** Call from onDestroy() of the host Activity/Fragment to free memory. */
     public void destroyBanner() {
-        // if (bannerAdView != null) { bannerAdView.destroy(); bannerAdView = null; }
+        if (bannerAdView != null) {
+            bannerAdView.destroy();
+            bannerAdView = null;
+            Log.d(TAG, "Banner destroyed.");
+        }
     }
 
     // ─── Interstitial ads ─────────────────────────────────────────────────────
 
     /**
-     * Pre-loads an interstitial ad so it's ready when needed.
-     * Call after initialization and after each display.
-     *
-     * When enabled replace body with:
-     *   InterstitialAd.load(appContext,
-     *       appContext.getString(R.string.ad_interstitial_game_end),
-     *       new AdRequest.Builder().build(),
-     *       new InterstitialAdLoadCallback() {
-     *           @Override public void onAdLoaded(@NonNull InterstitialAd ad) {
-     *               interstitialAd = ad;
-     *           }
-     *           @Override public void onAdFailedToLoad(@NonNull LoadAdError e) {
-     *               interstitialAd = null;
-     *           }
-     *       });
+     * Pre-loads an interstitial ad in the background.
+     * Called automatically after init and after each display.
      */
     public void preloadInterstitial() {
         if (!initialized) return;
-        // TODO: un-comment load code above
+
+        InterstitialAd.load(
+                appContext,
+                appContext.getString(R.string.ad_interstitial_game_end),
+                new AdRequest.Builder().build(),
+                new InterstitialAdLoadCallback() {
+                    @Override public void onAdLoaded(@NonNull InterstitialAd ad) {
+                        interstitialAd = ad;
+                        Log.d(TAG, "Interstitial loaded.");
+                    }
+                    @Override public void onAdFailedToLoad(@NonNull LoadAdError error) {
+                        interstitialAd = null;
+                        Log.w(TAG, "Interstitial failed: " + error.getMessage());
+                    }
+                }
+        );
     }
 
     /**
-     * Shows the interstitial if loaded and not yet shown this session.
-     * Call from WinnerActivity / DrawActivity after game ends.
-     *
-     * When enabled replace body with:
-     *   if (!initialized || interstitialShownThisSession || interstitialAd == null) return;
-     *   interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-     *       @Override public void onAdDismissedFullScreenContent() {
-     *           interstitialAd = null;
-     *           preloadInterstitial();
-     *       }
-     *   });
-     *   interstitialAd.show(activity);
-     *   interstitialShownThisSession = true;
-     *   if (callback != null) callback.onAdShown();
+     * Shows the interstitial if ready. Shows at most once per game session.
+     * Call from WinnerActivity / DrawActivity after the game ends.
      *
      * @param activity The host Activity.
-     * @param callback Optional callback fired after the ad is dismissed.
+     * @param callback Runs after ad is dismissed (or immediately if not ready).
      */
     public void showInterstitialIfReady(@NonNull Activity activity,
                                         @Nullable Runnable callback) {
-        if (!initialized) {
-            // Ads not enabled — just fire the callback immediately
+        if (!initialized || interstitialShownThisSession || interstitialAd == null) {
+            Log.d(TAG, "Interstitial skipped (not ready or already shown).");
             if (callback != null) callback.run();
             return;
         }
-        // TODO: un-comment show code above; for now just execute callback
-        if (callback != null) callback.run();
+
+        interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+            @Override public void onAdDismissedFullScreenContent() {
+                interstitialAd = null;
+                preloadInterstitial();
+                if (callback != null) callback.run();
+            }
+            @Override public void onAdFailedToShowFullScreenContent(@NonNull com.google.android.gms.ads.AdError error) {
+                interstitialAd = null;
+                if (callback != null) callback.run();
+            }
+        });
+
+        interstitialAd.show(activity);
+        interstitialShownThisSession = true;
+        Log.d(TAG, "Interstitial shown.");
     }
 
-    /** Resets the per-session flag so a new game can show one more interstitial. */
+    /** Call at the start of each new game to allow one more interstitial. */
     public void resetSessionCap() {
         interstitialShownThisSession = false;
     }

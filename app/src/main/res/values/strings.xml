@@ -458,12 +458,14 @@
          DO NOT commit real ad-unit IDs to public source control.
          ══════════════════════════════════════════════════════════ -->
     <!-- AdMob App ID — replace with your real ID before publishing -->
-    <string name="admob_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
-    <!-- Test banner unit ID (safe to use during development) -->
-    <string name="ad_banner_home" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
-    <!-- Test interstitial unit ID -->
-    <string name="ad_interstitial_game_end" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <!-- Real App ID — from your screenshot -->
+    <string name="admob_app_id" translatable="false">ca-app-pub-5078144066640392~6274693528</string>
 
+    <!-- Real Banner ID -->
+    <string name="ad_banner_home" translatable="false">ca-app-pub-5078144066640392/5807789662</string>
+
+    <!-- Real Interstitial ID -->
+    <string name="ad_interstitial_game_end" translatable="false">ca-app-pub-5078144066640392/1673103539</string>
     <!-- ══════════════════════════════════════════════════════════
          Feature 5 — App Themes
          ══════════════════════════════════════════════════════════ -->

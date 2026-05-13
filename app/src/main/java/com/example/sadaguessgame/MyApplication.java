@@ -34,7 +34,7 @@ public class MyApplication extends Application {
         // ── Feature 2 & 3: Live count + nav-state warm-up (no-ops until used) ─
         LiveUserCountManager.getInstance(this);
         NavigationStateManager.getInstance(this);
-
+        AdsManager.getInstance(this).initialize();
         // ── Feature 5: Theme warm-up ───────────────────────────────────────
         ThemeManager.getInstance(this);
     }

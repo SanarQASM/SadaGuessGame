@@ -39,9 +39,9 @@
           Replace the placeholder with your real AdMob App ID from the console.
           This meta-data tag is REQUIRED even when ads are in test mode.
         -->
-<!--        <meta-data-->
-<!--            android:name="com.google.android.gms.ads.APPLICATION_ID"-->
-<!--            android:value="@string/admob_app_id"/>-->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admob_app_id"/>
 
         <!--
           ══ Feature 6: Firebase Cloud Messaging (FCM) for push notifications ══
